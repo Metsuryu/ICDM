@@ -15,7 +15,7 @@ body {
 * element that contains the map. */
 #map {
 	height: 100%;
-	width: 400px;
+	width: 100%;
 	height: 300px;
 }
 
@@ -37,14 +37,14 @@ Chat:
 
 form { 
 	background: #4980F5; 
-	padding: 3px; 
-	bottom: 0px;
+	padding: .12em; 
+	bottom: -0.1%;
 	width: 100%;
 	position: relative;
 }
+
 form input { 
-	border: 0; 
-	padding: 2px; 
+	padding: .1em; 
 	width: 100%; 
 }
 
@@ -82,7 +82,7 @@ form input {
 	color: white;
 	font-weight: bold;
 	font-size: 1.1em;
-	padding: 3px;
+	padding: 0.2em;
 }
 
 .chatCloseButton {
@@ -97,7 +97,7 @@ form input {
 }
 
 #chatUserName {
-
+	cursor: text;
 }
 
 #contactsBox {
@@ -109,10 +109,29 @@ form input {
 	height: 50%;
 	padding-left: 0px;
 	padding-top: 0px;
-	position: absolute;
+	position: fixed;
 	right: 0;
-	top: 50%;
+	bottom: 0%;
 }
+
+#contactsHandle {
+	cursor: pointer;
+	background-color: #4980F4;
+	padding-bottom: .3em;
+	text-align: center;
+}
+
+#contactsHandle:hover {
+    background-color: #286dff;
+}
+
+#contactsSpan {
+	color: white;
+	font-weight: bold;
+	font-size: 1.1em;
+	padding: .1em;
+}
+
 
 /*
 #contactsBox li {
@@ -128,13 +147,16 @@ form input {
 }
 
 #contactsBox li {
-  padding-left: 1em; 
-  text-indent: -.7em;
-  margin:.1em;
-  cursor: pointer;
+	padding-left: 1em; 
+  	text-indent: -.7em;
+  	margin:.1em;
+  	cursor: pointer;
+ 	background-color: #f4f4f4;
+  	color: black;
+}
 
-  background-color: #A7CDF2;
-  color: black;
+#contactsBox li:hover {
+	background-color: #A7CDF2;
 }
 
 #contactsBox li::before {
@@ -150,4 +172,10 @@ form input {
 	background-color: #4980F4;
 	color: white;
 	font-weight: bold;
+	padding: .1em;
 }
+
+.tab:hover {
+    background-color: #286dff;
+}
+

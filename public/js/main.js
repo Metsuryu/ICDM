@@ -2,6 +2,24 @@
 const openChatWindowsLimit = 4; //TODO: Adjust depending on screen size.
 let openChatWindows = 0;
 
+function minimizeChatWindow (parentChatWindow) {
+	parentChatWindow.animate({
+		height: "2em",
+	}, 100, function() {
+		// Animation complete.
+		parentChatWindow.attr("data-min","true");
+	});
+}
+
+function maximizeChatWindow (parentChatWindow) {
+	parentChatWindow.animate({
+		height: "340px",
+	}, 100, function() {
+		// Animation complete.
+		parentChatWindow.attr("data-min","false");
+	});
+}
+
 function positionChatWindow (sourceChatWindow, openChatWindowsContextual) {
 	const chatWidth = 260;
     const contactBoxWidth = 200;
@@ -44,7 +62,7 @@ function openNewChatWindow (targetName, targetID, focusInput) {
 	//TODO: Adjust attributes
 	//TODO: Transpile with babel to allow backtick (`)
 	let sourceChatWindow = $(`
-<div id="" class="chatWindow">
+<div id="" class="chatWindow" data-min="">
     <div class="chatWindowHeader">
         <span id="chatUserName">User</span>
         <span class="chatCloseButton">x</span>
@@ -59,22 +77,15 @@ function openNewChatWindow (targetName, targetID, focusInput) {
 	sourceChatWindow.find("#chatForm").attr("data-pmid", targetID);
 	sourceChatWindow.find(".messages").attr("id",targetID);
 	sourceChatWindow.attr("id",thisChatWindow);
+	sourceChatWindow.attr("data-min","false");
 
-    //Allow only one chatWindow per contact
-    //Check if chat with targetID is already open
-    if ( isChatAlreadyOpen(targetID) ) {
-    	if (focusInput) {
-    		$("#"+targetID).parent().find("input").focus();
-    	};
-    }else{
-    	//Open new window here
-    	positionChatWindow(sourceChatWindow, openChatWindows);
-    	$("body").append(sourceChatWindow);
-    	if (focusInput) {
-    		sourceChatWindow.find("input").focus();
-    	};
-    	openChatWindows += 1;
+    //Open new window here
+    positionChatWindow(sourceChatWindow, openChatWindows);
+    $("body").append(sourceChatWindow);
+    if (focusInput) {
+    	sourceChatWindow.find("input").focus();
     };
+    openChatWindows += 1;
 }
 
 let app = angular.module("ICDM", []);
@@ -105,9 +116,7 @@ app.controller("ctrl", function($scope, $http, $interval) {
 
 $(document).ready(function(){
 	//Open chat window when clicking on contact
-	$("#showOnlineContacts").on("click", ".contactClass", function(event){
-		//TODO: Open additional chat windows in a list contained on a small element, like in facebook.
-		if (openChatWindows >= openChatWindowsLimit) {console.log("Too many chats."); return;};
+	$("#showOnlineContacts").on("click", ".contactClass", function(event){		
 		let targetAttrs = event.target;
 		let targetName = targetAttrs.innerText;
 		//Private chat to this ID
@@ -118,8 +127,28 @@ $(document).ready(function(){
 		//Display this email if public && !empty
 		//console.log(targetAttrs.getAttribute("data-contactEmail"));
 
-		//TODO: Optimize: Check if chatWindow is already open and if not call openNewChatWindow
-		openNewChatWindow(targetName, targetID, true);
+		
+		//Allow only one chatWindow per contact
+    	//Check if chatWindow is already open and if not call openNewChatWindow
+    	if ( isChatAlreadyOpen(targetID) ) {
+    		let chatWinPar = $("#"+targetID).parent();
+    		let isMin = chatWinPar.attr("data-min");
+    		//If maximized, just focus
+    		if (isMin === "false" ) {
+    			chatWinPar.find("input").focus();
+    		} else if (isMin === "true") {
+    			//Maximize and focus
+    			maximizeChatWindow(chatWinPar);
+    			chatWinPar.find("input").focus();
+    		}
+    	}else{
+    		//Open new window and focus
+    		//TODO: Open additional chat windows in a list contained on a small element, like in facebook.
+    		if (openChatWindows >= openChatWindowsLimit) {console.log("Too many chats."); return;};
+    		openNewChatWindow(targetName, targetID, true);
+    	};
+
+		
 	});
 
 	//Closes chat window, and slide remaining windows in proper position.
@@ -138,5 +167,46 @@ $(document).ready(function(){
     		slideChatWindows(thisWindowID);
     	}
 	});
+
+	//TODO: If minimized, maximize window when trying to open it, instead of focusing input
+	//Min/max chat window
+	$("body").on("click", ".chatWindowHeader", function(event){
+		//Parent of chatWindowHeader is chatWindow
+		let parentChatWindow = $(event.target).parent();
+		let thisWindowID = parentChatWindow.attr("id");
+		let isMin = parentChatWindow.attr("data-min");
+
+		//Note: isMin is a string
+		if (isMin === "false") {
+			minimizeChatWindow (parentChatWindow);
+		}else if (isMin === "true") {
+			maximizeChatWindow (parentChatWindow);
+		};
+		
+	});
+
+
+	//Minimize and maximize contactsBox
+	let contactsMinimized = false;
+	$( "#contactsHandle" ).click(function() {
+		if (!contactsMinimized) {
+			$( "#contactsBox" ).animate({
+				height: "1.5em",
+			}, 100, function() {
+				// Animation complete.
+				contactsMinimized = true;
+			});
+		}else{
+			$( "#contactsBox" ).animate({
+				height: "50%",
+			}, 100, function() {
+				// Animation complete.
+				contactsMinimized = false;
+			});
+		}
+	});
+
+
+
 
 });

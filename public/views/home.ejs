@@ -43,6 +43,15 @@ var user = <%- JSON.stringify(user) %>;
 
 	<div class="row">
 
+
+    <!-- MAP -->
+    <div id="map"></div>
+    <script type="text/javascript" src="/js/map.js"></script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCa0eg5dlngFtHj19frzBL-3tPDaz67g-U&callback=initMap">
+    </script>
+
+
     <!--TODO: Make actual profile page with settings-->
 
 		<!--TODO: Remove FACEBOOK INFORMATION -->
@@ -81,17 +90,13 @@ var user = <%- JSON.stringify(user) %>;
         </div>
         <% } %>
         
-        <!-- MAP -->
-        <div id="map"></div>
-        <script type="text/javascript" src="/js/map.js"></script>
-        <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCa0eg5dlngFtHj19frzBL-3tPDaz67g-U&callback=initMap">
-        </script>
+
 
 	</div>
 
     <!--Contacts TODO: Have green or Grey circle for Online/Offline status before names-->
     <div id="contactsBox">
+        <div id="contactsHandle"> <span id="contactsSpan">Contacts</span> </div>
         <div><p class="tab" id="onlineTab">Online Contacts</p> 
             <div id="showOnlineContacts">
                 <!--Contacts here-->
