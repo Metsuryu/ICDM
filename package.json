@@ -1,15 +1,14 @@
 {
   "name": "ICecchiniDelMare",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "I Cecchini Del Mare",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "build": "babel --presets es2015 src -d outputbuild"
   },
   "author": "Mario Cannistrà",
   "license": "MIT",
   "dependencies": {
-    "bcrypt": "latest",
     "body-parser": "latest",
     "connect-flash": "latest",
     "cookie-parser": "latest",
@@ -21,10 +20,7 @@
     "passport": "latest",
     "passport-facebook": "latest",
     "passport-google-oauth": "latest",
-    "passport-local": "latest",
     "pusher": "^1.5.1",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
     "socket.io": "^1.7.3"
   },
   "devDependencies": {

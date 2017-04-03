@@ -4,6 +4,9 @@ let infoWindow;
 const defaultLat = 42.733;
 const defaultLng = 13.304;
 
+let usersOnline = [];
+let markersOnMap = [];
+
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: {lat: defaultLat, lng: defaultLng}, 
@@ -182,3 +185,75 @@ function broadcastLocation(){
       handleLocationError(false, infoWindow, map.getCenter());
     }
 }
+
+
+$(document).ready(function(){
+
+  //TODO1: Maybe remove the style element when the marker is removed to free memory. See TODO2
+  //If I decide to remove it, give it an "id" on creation, so I can remove it by "id".
+  function styleMarker (markerPicture) {
+    //Select any element with picSrc and style it
+    let picSrc = markerPicture;
+    let style = document.createElement("style");
+    style.type = "text/css";
+    //Using backtick with picSrc in expression. TODO: Compile with babel
+    style.innerHTML = `
+    * [src="${picSrc}"] {
+      border-radius:30px; 
+      border:1px solid #000 !important; 
+    }`;
+    document.getElementsByTagName("head")[0].appendChild(style);
+  }
+
+  //TODO2: See TODO1
+  function removeMarker (markerToRemove) {
+    //Remove the marker from the map: 
+    markerToRemove.setMap(null);
+    //Delete marker:
+    markerToRemove = null;
+  }
+
+  let australiaPos = {lat: -25.363, lng: 131.044};
+  let itaPos = {lat: defaultLat, lng: defaultLng};
+
+
+  //TODO: Pass user as argument
+  function addMarker (newMarker) {
+
+    styleMarker(newMarker.picture);
+
+    let thisMarker = new google.maps.Marker({
+      position: newMarker.latLng,
+      map: map,
+      title: newMarker.name,
+      icon: newMarker.picture,
+      opacity: 1,
+      //Make it a discreet DOM element accessible by css:
+      optimized:false
+    });
+
+    //TODO: Remove this example, and open chatWindow instead.
+    thisMarker.addListener("click", function() {
+      map.setZoom(8);
+      map.setCenter(thisMarker.getPosition());
+    });
+  }
+
+  //TODO: Add markers only if they are not already on the map
+  function updateMarkersOnMap () {
+    if (usersOnline.length > 0) {
+
+      let newMarker = usersOnline[0];
+      newMarker.latLng = {lat: defaultLat, lng: defaultLng}; //TODO: Test, change
+      //console.log(newMarker);
+      addMarker(newMarker)
+      //console.log("Updating...");
+    };
+  }
+  let mapUpdateLoop =  setInterval(updateMarkersOnMap, 1000); //TODO: Set to 5000 or 10000
+
+
+
+
+
+})

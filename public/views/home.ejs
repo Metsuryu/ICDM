@@ -2,7 +2,12 @@
 <!doctype html>
 <html>
 <head>
-    <html lang="it">
+
+<style type="text/css">
+    
+</style>
+
+    <html lang="en"> <!--TODO: Change to it, and set to en when translated-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -94,26 +99,37 @@ var user = <%- JSON.stringify(user) %>;
 
 	</div>
 
-    <!--Contacts TODO: Have green or Grey circle for Online/Offline status before names-->
+    <!--Contacts TODO: Maybe have green or Grey circle for Online/Offline status before names-->
+    <!--TODO: Only show friends in online and offline contacts, and everyone else in nearby-->
     <div id="contactsBox">
         <div id="contactsHandle"> <span id="contactsSpan">Contacts</span> </div>
         <div><p class="tab" id="onlineTab">Online Contacts</p> 
             <div id="showOnlineContacts">
-                <!--Contacts here-->
-                <!--Angular-->
+                <!--Online-->
+                <!--ng-repeat-->
                 <ul class="contactsUL">
-                <li data-ng-repeat="contact in contactsListGET | filter:searchNG | filter:'!'+ssID" class="contactClass" data-contactID="{{contact.id}}" data-contactPicture="{{contact.picture}}" data-contactEmail="{{contact.email}}"> {{contact.name}} </li>
+                <li data-ng-repeat="contact in contactsListGET | filter:searchNG | filter:'!'+ssID | isContact:localContacts:true" class="contactClass" data-contactID="{{contact.id}}" data-contactPicture="{{contact.picture}}" data-contactEmail="{{contact.email}}"> {{contact.name}} </li>
                 </ul>
             </div>
         </div>
         <div><p class="tab" id="offlineTab">Offline Contacts</p> 
             <div id="showOfflineContacts">
-                <!--Contacts here-->
+                <!--Offline TODO: Remove this section from here and put it in a separate "contacts" tab, like in fb-->
+                <!--ng-repeat-->
+                <ul class="contactsUL">
+                <li data-ng-repeat="contact in localContacts | filter:searchNG | filter:'!'+ssID | isContact:contactsListGET:false" class="contactClass" data-contactID="{{contact.id}}" data-contactPicture="{{contact.picture}}" data-contactEmail="{{contact.email}}"> {{contact.name}} </li>
+                </ul>
+
+                
             </div>
         </div>
         <div><p class="tab" id="nearbyTab">People Nearby</p> 
             <div id="showNearby">
-                <!--Contacts here-->
+                <!--Nearby-->
+                <!--ng-repeat-->
+                <ul class="contactsUL">
+                <li data-ng-repeat="contact in contactsListGET | filter:searchNG | filter:'!'+ssID | isContact:localContacts:false" class="contactClass" data-contactID="{{contact.id}}" data-contactPicture="{{contact.picture}}" data-contactEmail="{{contact.email}}"> {{contact.name}} </li>
+                </ul>
             </div>
         </div>
     <input id="searchField" type="text" name="search" placeholder="&#128269; Search" data-ng-model="searchNG"/>

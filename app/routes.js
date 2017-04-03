@@ -37,11 +37,16 @@ module.exports = function(app, passport, Contact){
 		const userID = req.body.userID;
 		const newLat = req.body.lat;
 		const newLng = req.body.lng;
+		//TODO: contacts test, remove
+		const contactsTest = [
+		{"id":"2jhtRobmdDUFZhCtAAAF","name":"Mario Cannistrà","picture":"https://lh5.googleusercontent.com/","email":"bagea@gmail.com"},
+		{"id":"2jhtRobmdAAAZhCtAAAF","name":"Orlumbus Rorar","picture":"https://something.com","email":"fuusx@gmail.com"}
+		]
 
 		User.update(
 			{ "_id" : userID },
 			{
-			$set: {	lat: newLat, lng: newLng },
+			$set: {	lat: newLat, lng: newLng, contacts:contactsTest }, //TODO: contacts test, remove
 			}, function(err, results) {
 				if (err) {console.log(err);};
 				});

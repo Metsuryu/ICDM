@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const userSchema = mongoose.Schema({
 	lat: Number,
 	lng: Number,
+	contacts: [mongoose.Schema.Types.Mixed], //Array of Objects
 
 	facebook: {
 		id: String,

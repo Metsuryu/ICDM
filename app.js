@@ -15,6 +15,12 @@ const flash = require("connect-flash");
 const randSecret = require("crypto").randomBytes(8).toString("hex");
 const path = require("path");
 const configDB = require("./config/database.js");
+
+//To fix the deprecated promise issue use native promises here, like so:
+// Can't use it on Cloudnode, global.Promise only supported in ES6
+mongoose.Promise = global.Promise; 
+
+
 mongoose.connect(configDB.url);
 require("./config/passport")(passport);
 //TODO: Remove morgan on release
@@ -62,12 +68,15 @@ function addOnlineContact (userData) {
 
 function removeOnlineContact (socket) {
 	const idToRemove = socket.id;
+	//Add users to online by using userID, and remove them by userEmail, to avoid duplicates
 	Contact.findOne({"userID": idToRemove}, function(err, contact){
 		if(err)
 			return err;
 		if(contact){
-			//remove contact from online
-			Contact.findOneAndRemove({userID: idToRemove}, function(err, results){
+			/*Remove contact from online by email, to remove all
+			potential duplicates with same email but different sessionID
+			that can remain when the server is restarted*/
+			Contact.remove({"userEmail": contact.userEmail}, function(err, results){
 				if (err) {
 					console.log(err); 
 					return;

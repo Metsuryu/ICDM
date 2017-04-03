@@ -88,14 +88,70 @@ function openNewChatWindow (targetName, targetID, focusInput) {
     openChatWindows += 1;
 }
 
-let app = angular.module("ICDM", []);
+function isEmailInArray (inputArray, email) {
+
+	for (let i = inputArray.length - 1; i >= 0; i--) {
+		if (inputArray[i].email === email) {
+			return true;
+		}
+	}
+	return false;
+}
+
+let app = angular.module("ICDM", [])
+.filter("isContact", function() {
+	return function(input,contactsArray,polarity) {
+		input = input || "";
+		contactsArray = contactsArray || [];
+		var out = [];
+		angular.forEach(input, function (value, key) {
+			//Returns -1 if the item is not in the array
+			//If the polarity is true, it returns all the items that are in both arrays
+			//console.log(isEmailInArray( contactsArray, value.email ));
+			if (polarity === true) {
+				if ( isEmailInArray( contactsArray, value.email ) ) {
+					out.push(value);
+				}
+			/*
+				if ( contactsArray.indexOf( input[key].email ) != -1) {
+					console.log(value);
+					out.push(value);
+					}
+			*/		
+			//If the polarity is false, it returns all the items that are only in one array
+			}else if (polarity === false) {
+				if ( ! isEmailInArray( contactsArray, value.email ) ) {
+					out.push(value);
+				}
+				/*
+				if ( contactsArray.indexOf( input[key].email ) === -1) {
+					console.log(value);
+					out.push(value);
+					}
+				*/
+				};
+		});
+		//Array of items in input that are also in contactsArray
+		return out;
+  };
+});
+
 
 app.controller("ctrl", function($scope, $http, $interval) {
+	function setLocalContacts () {
+		$scope.localContacts = user.contacts;
+	}
+	if (user.contacts) {
+		setLocalContacts();
+	}else{
+		$interval(setLocalContacts, 1000);
+	}
+
 	function setSessionID () {
 		$scope.ssID = sessionID;
 	}
 	if (sessionID) {
-		$scope.ssID = sessionID;
+		setSessionID();
 	}else{
 		$interval(setSessionID, 1000);
 	}
@@ -107,6 +163,7 @@ app.controller("ctrl", function($scope, $http, $interval) {
 			method: "GET"
 		}).then(function (response) {
 			$scope.contactsListGET = response.data;
+			usersOnline = $scope.contactsListGET;
 		});
 	}
 	updateContactsList();
@@ -116,7 +173,7 @@ app.controller("ctrl", function($scope, $http, $interval) {
 
 $(document).ready(function(){
 	//Open chat window when clicking on contact
-	$("#showOnlineContacts").on("click", ".contactClass", function(event){		
+	$("#contactsBox").on("click", ".contactClass", function(event){		
 		let targetAttrs = event.target;
 		let targetName = targetAttrs.innerText;
 		//Private chat to this ID
@@ -162,7 +219,8 @@ $(document).ready(function(){
     	If the closed window wasn't the last one open and there are still open windows
     	and slide remaining windows if any.
     	*/
-    	//TODO: Also check if there are other "minimized" windows that need to be added to the chatBar when implemented
+    	/*TODO: Also check if there are other "minimized" windows that 
+    	need to be added to the chatBar when implemented*/
     	if ( (openChatWindows + 1)  > thisWindowID) {
     		slideChatWindows(thisWindowID);
     	}
