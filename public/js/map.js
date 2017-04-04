@@ -227,15 +227,37 @@ $(document).ready(function(){
       map: map,
       title: newMarker.name,
       icon: newMarker.picture,
-      opacity: 1,
       //Make it a discreet DOM element accessible by css:
       optimized:false
     });
 
     //TODO: Remove this example, and open chatWindow instead.
     thisMarker.addListener("click", function() {
-      map.setZoom(8);
+      //map.setZoom(8);
       map.setCenter(thisMarker.getPosition());
+
+      //TODO3: Make a single function of this and use it in all places where it is used 
+      //Check if chatWindow is already open and if not call openNewChatWindow
+      let targetID = newMarker.id;
+      let targetName = newMarker.name;
+      if ( isChatAlreadyOpen(targetID) ) {
+        let chatWinPar = $("#"+targetID).parent();
+        let isMin = chatWinPar.attr("data-min");
+        //If maximized, just focus
+        if (isMin === "false" ) {
+          chatWinPar.find("input").focus();
+        } else if (isMin === "true") {
+          //Maximize and focus
+          maximizeChatWindow(chatWinPar);
+          chatWinPar.find("input").focus();
+        }
+      }else{
+        //Open new window and focus
+        //TODO: Open additional chat windows in a list contained on a small element, like in facebook.
+        if (openChatWindows >= openChatWindowsLimit) {console.log("Too many chats."); return;};
+        openNewChatWindow(targetName, targetID, true);
+      };
+
     });
   }
 
@@ -250,10 +272,6 @@ $(document).ready(function(){
       //console.log("Updating...");
     };
   }
-  let mapUpdateLoop =  setInterval(updateMarkersOnMap, 1000); //TODO: Set to 5000 or 10000
-
-
-
-
+  let mapUpdateLoop =  setInterval(updateMarkersOnMap, 5000); //TODO: Set to 5000 or 10000
 
 })

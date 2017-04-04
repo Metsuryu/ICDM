@@ -48,7 +48,14 @@ let userEmail = getUserEmail();
     socket.on("sessionID", function (session) {
       if (session.id) {
         sessionID = session.id;
-        socket.emit("updateOnline", {name: userName, picture: userPicture, email: userEmail, socketID: sessionID});
+        socket.emit("updateOnline", {
+          name: userName, 
+          picture: userPicture, 
+          email: userEmail, 
+          socketID: sessionID, 
+          lat: user.lat,
+          lng: user.lng
+        });
       }else{
         //TODO: Handle error better
         console.log("Error: Could not retrive ID");
@@ -84,6 +91,7 @@ let userEmail = getUserEmail();
     socket.on("PMsg", function(msg, sender){
       //TODO: Use "<img src=" + sender.picture + ">" for sender icon
 
+      //TODO3: see map.js
       //If chatWindow is not already open, openNewChatWindow
       if (!isChatAlreadyOpen(sender.id) ) {
         //Open new window, don't focus on input

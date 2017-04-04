@@ -56,6 +56,8 @@ function addOnlineContact (userData) {
 			newContact.userName = userData.name;
 			newContact.userPicture = userData.picture;
 			newContact.userEmail = userData.email;
+			newContact.lat = userData.lat;
+			newContact.lng = userData.lng;
 
 			newContact.save(function(err){
 				if(err) { console.log(err); }

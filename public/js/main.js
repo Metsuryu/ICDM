@@ -184,7 +184,7 @@ $(document).ready(function(){
 		//Display this email if public && !empty
 		//console.log(targetAttrs.getAttribute("data-contactEmail"));
 
-		
+		//TODO3: see on map.js
 		//Allow only one chatWindow per contact
     	//Check if chatWindow is already open and if not call openNewChatWindow
     	if ( isChatAlreadyOpen(targetID) ) {

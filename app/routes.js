@@ -66,7 +66,9 @@ module.exports = function(app, passport, Contact){
     				id: contact.userID,
     				name: contact.userName,
     				picture: contact.userPicture,
-    				email: contact.userEmail
+    				email: contact.userEmail,
+    				lat: contact.lat,
+    				lng: contact.lng
     				});
     			});
     		res.json( contactsArray );

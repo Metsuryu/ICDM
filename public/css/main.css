@@ -178,3 +178,21 @@ form input {
 .tab:hover {
     background-color: #286dff;
 }
+
+#header {
+	background-color: #4980F4;
+	color: white;
+	font-weight: bold;
+	font-size: 2em;
+	text-align: center;
+}
+
+#footer {
+	background-color: #4980F4;
+	color: white;
+	font-size: 1em;
+	padding-left: 1em;
+	width: 100%;
+	position: fixed;
+	bottom: 0%;
+}

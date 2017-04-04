@@ -65,7 +65,10 @@ var user = <%- JSON.stringify(user) %>;
             <div class="well">
                 <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
 
-                <p>
+                <p> 
+                <!--
+                TODO: The src here doesn't match the css rule because of the spaces
+                at the start and at the end-->
                 	<strong>Picture in img</strong>: <img src=" <%= user.facebook.picture %> "> <br> 
                     <strong>id</strong>: <%= user.facebook.id %><br>
                     <strong>token</strong>: <%= user.facebook.token %><br>
