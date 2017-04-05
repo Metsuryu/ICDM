@@ -90,15 +90,7 @@ let userEmail = getUserEmail();
     //Receive PM
     socket.on("PMsg", function(msg, sender){
       //TODO: Use "<img src=" + sender.picture + ">" for sender icon
-
-      //TODO3: see map.js
-      //If chatWindow is not already open, openNewChatWindow
-      if (!isChatAlreadyOpen(sender.id) ) {
-        //Open new window, don't focus on input
-        //TODO: Open additional chat windows in a list contained on a small element, like in facebook.
-        if (openChatWindows >= openChatWindowsLimit) {console.log("Too many chats."); return;};
-        openNewChatWindow(sender.name, sender.id, false);
-      };
+      openChatWindow(sender.name, sender.id, false);
       //TODO: Notification sound
 
       let targetChatWindow = $("#" + sender.id);

@@ -1,4 +1,4 @@
-//TODO: Limit number of chat windows to how many fit in browser window (3 on fb on my pc)
+//TODO: Limit number of chat windows to how many fit in browser window (3 on fb 4 here on my pc)
 const openChatWindowsLimit = 4; //TODO: Adjust depending on screen size.
 let openChatWindows = 0;
 
@@ -45,9 +45,7 @@ function slideChatWindows (windowClosed) {
 	};
 }
 
-//TODO: Optimize, check if chat is already open before calling openNewChatWindow
-//And don't use isChatAlreadyOpen in openNewChatWindow
-//Check if chat with targetID is already open
+//Check if chat with targetID is already on DOM
 function isChatAlreadyOpen (targetID) {
 	if ($("#"+targetID).length) {
 		return true;
@@ -60,6 +58,7 @@ function isChatAlreadyOpen (targetID) {
 function openNewChatWindow (targetName, targetID, focusInput) {
 	let thisChatWindow = openChatWindows + 1;
 	//TODO: Adjust attributes
+	//TODO: Add "options" gear on header, to add/remove/block contact, etc... 
 	//TODO: Transpile with babel to allow backtick (`)
 	let sourceChatWindow = $(`
 <div id="" class="chatWindow" data-min="">
@@ -86,6 +85,33 @@ function openNewChatWindow (targetName, targetID, focusInput) {
     	sourceChatWindow.find("input").focus();
     };
     openChatWindows += 1;
+}
+
+//Allow only one chatWindow per contact
+//Checks if chatWindow is already open and if not call openNewChatWindow, 
+//if focusInput is true, puts the cursor on the chat input.
+function openChatWindow(targetName, targetID, focusInput) {
+    if ( isChatAlreadyOpen(targetID) ) {
+    	if (focusInput) {
+    		let chatWinPar = $("#"+targetID).parent();
+    		//If maximized, just focus
+    		let isMin = chatWinPar.attr("data-min");
+    		if (isMin === "false" ) {
+    			chatWinPar.find("input").focus();
+    		} 
+    		else if (isMin === "true") {
+    		//Maximize and focus
+    		maximizeChatWindow(chatWinPar);
+    		chatWinPar.find("input").focus();
+    		};
+    	};
+	}else{
+    	//Open new window
+    	//TODO: Open additional chat windows in a list contained on a small element, like in facebook.
+    	//For now, just return
+    	if (openChatWindows >= openChatWindowsLimit) {console.log("Too many chats."); return;};
+    	openNewChatWindow(targetName, targetID, focusInput);
+    };
 }
 
 function isEmailInArray (inputArray, email) {
@@ -178,34 +204,12 @@ $(document).ready(function(){
 		let targetName = targetAttrs.innerText;
 		//Private chat to this ID
 		let targetID = targetAttrs.getAttribute("data-contactid");
-		//console.log(targetAttrs.getAttribute("data-contactid"));
 		//Use this picture in chat
 		//console.log(targetAttrs.getAttribute("data-contactPicture"));
 		//Display this email if public && !empty
 		//console.log(targetAttrs.getAttribute("data-contactEmail"));
 
-		//TODO3: see on map.js
-		//Allow only one chatWindow per contact
-    	//Check if chatWindow is already open and if not call openNewChatWindow
-    	if ( isChatAlreadyOpen(targetID) ) {
-    		let chatWinPar = $("#"+targetID).parent();
-    		let isMin = chatWinPar.attr("data-min");
-    		//If maximized, just focus
-    		if (isMin === "false" ) {
-    			chatWinPar.find("input").focus();
-    		} else if (isMin === "true") {
-    			//Maximize and focus
-    			maximizeChatWindow(chatWinPar);
-    			chatWinPar.find("input").focus();
-    		}
-    	}else{
-    		//Open new window and focus
-    		//TODO: Open additional chat windows in a list contained on a small element, like in facebook.
-    		if (openChatWindows >= openChatWindowsLimit) {console.log("Too many chats."); return;};
-    		openNewChatWindow(targetName, targetID, true);
-    	};
-
-		
+    	openChatWindow(targetName, targetID, true);
 	});
 
 	//Closes chat window, and slide remaining windows in proper position.
@@ -226,7 +230,6 @@ $(document).ready(function(){
     	}
 	});
 
-	//TODO: If minimized, maximize window when trying to open it, instead of focusing input
 	//Min/max chat window
 	$("body").on("click", ".chatWindowHeader", function(event){
 		//Parent of chatWindowHeader is chatWindow
@@ -242,7 +245,6 @@ $(document).ready(function(){
 		};
 		
 	});
-
 
 	//Minimize and maximize contactsBox
 	let contactsMinimized = false;

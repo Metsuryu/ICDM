@@ -231,47 +231,46 @@ $(document).ready(function(){
       optimized:false
     });
 
-    //TODO: Remove this example, and open chatWindow instead.
+    //Open chatWindow
     thisMarker.addListener("click", function() {
       //map.setZoom(8);
-      map.setCenter(thisMarker.getPosition());
-
-      //TODO3: Make a single function of this and use it in all places where it is used 
-      //Check if chatWindow is already open and if not call openNewChatWindow
-      let targetID = newMarker.id;
-      let targetName = newMarker.name;
-      if ( isChatAlreadyOpen(targetID) ) {
-        let chatWinPar = $("#"+targetID).parent();
-        let isMin = chatWinPar.attr("data-min");
-        //If maximized, just focus
-        if (isMin === "false" ) {
-          chatWinPar.find("input").focus();
-        } else if (isMin === "true") {
-          //Maximize and focus
-          maximizeChatWindow(chatWinPar);
-          chatWinPar.find("input").focus();
-        }
-      }else{
-        //Open new window and focus
-        //TODO: Open additional chat windows in a list contained on a small element, like in facebook.
-        if (openChatWindows >= openChatWindowsLimit) {console.log("Too many chats."); return;};
-        openNewChatWindow(targetName, targetID, true);
-      };
-
+      //map.setCenter(thisMarker.getPosition());
+      openChatWindow(newMarker.name, newMarker.id, true);
     });
+    
+    //Email needed to check if the marker is on the map
+    thisMarker.email = newMarker.email;
+    markersOnMap.push(thisMarker);
   }
 
-  //TODO: Add markers only if they are not already on the map
+  //Add markers if they are not already on the map
+  //Removes them if they are offline
   function updateMarkersOnMap () {
-    if (usersOnline.length > 0) {
-
-      let newMarker = usersOnline[0];
-      newMarker.latLng = {lat: defaultLat, lng: defaultLng}; //TODO: Test, change
-      //console.log(newMarker);
+    //Add markers
+    for (let i = usersOnline.length - 1; i >= 0; i--) {
+      //If there are no coordinates, skip it
+      if (! usersOnline[i].lat || ! usersOnline[i].lng) {continue;};
+      let newMarker = usersOnline[i];
+      //If the marker was already added to the map skip it
+      if ( isEmailInArray( markersOnMap, newMarker.email ) ) {continue;};
+      newMarker.latLng = new google.maps.LatLng({
+        lat: usersOnline[i].lat, 
+        lng: usersOnline[i].lng
+      }); 
       addMarker(newMarker)
-      //console.log("Updating...");
     };
-  }
-  let mapUpdateLoop =  setInterval(updateMarkersOnMap, 5000); //TODO: Set to 5000 or 10000
 
+    //Remove markers
+    for (let i = markersOnMap.length - 1; i >= 0; i--) {
+      let markerToRemove = markersOnMap[i];
+      //If the marker is not online anymore
+      if ( ! isEmailInArray( usersOnline, markerToRemove.email ) ) {
+        removeMarker (markerToRemove);
+        //Remove the marker from the array
+        markersOnMap.splice(i, 1);
+      };
+    };
+  };
+
+  let mapUpdateLoop =  setInterval(updateMarkersOnMap, 1000); //TODO: Set to 5000 or 10000
 })
