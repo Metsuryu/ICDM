@@ -16,13 +16,14 @@
 <body>
 
 <div id="header">
-	About | FAQ | Contacts 
+  <button type="button" class="btn btn-primary"> <span class="glyphicon glyphicon-info-sign"></span> About</button>
+  <button type="button" class="btn btn-primary"> <span class="glyphicon glyphicon-question-sign"></span> FAQ</button>
+  <button type="button" class="btn btn-primary"> <span class="glyphicon glyphicon-envelope"></span> Contacts</button>
 </div>
-
-<div class="container" id="loginCont">
-	<div class="jumbotron text-center">
+<div class="container-fluid" id="loginContainer">
+	<div class="jumbotron text-center"  id="loginJumbotron">
 		<h1> I Cecchini Del Mare  </h1>
-		
+
 		<p>Login or Register with:</p>
 		<a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>  
 		<a href="/auth/google" class="btn btn-danger"><span class="fa fa-google"></span> Google</a>

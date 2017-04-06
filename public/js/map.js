@@ -128,7 +128,7 @@ function eraseLocation(){
   });
 }
 
-//TODO: Get current location of the user, and broadcast them to the server. 
+//Get current location of the user, and broadcast them to the server. 
 //TODO: At first login, show tutorial or link to FAQ (Click this to broadcast your location, or something like that)
 function broadcastLocation(){
   //TODO: Delete Prints

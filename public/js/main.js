@@ -124,6 +124,47 @@ function isEmailInArray (inputArray, email) {
 	return false;
 }
 
+//TODO: Put these on a separate .js file later ## Contacts managment ##
+//TODO: addContact
+function addContact(){
+	//TODO: Get contact data of the contact that was clicked on
+
+	//TODO: Do ajax to add this contact to the user's contacts	
+    $.ajax({
+    	type: "PUT",
+        url: "/addContact",
+        data: {
+        	userID: user._id,
+          	contact: contactData //TODO: this
+        },
+        success: function() {
+          console.log("Contact added.");
+        },
+        error: function(err){
+          console.log("Error: " , err);
+        },
+        complete: function(){
+        }
+    });
+}
+//TODO: removeContact
+function removeContact(){
+	//TODO: Get contact data of the contact that was clicked on
+	//TODO: Do ajax 
+}
+//TODO: blockUser
+function blockUser(){
+	//TODO: Get contact data of the contact that was clicked on
+	//TODO: Do ajax 
+}
+//TODO: unblockUser
+function unblockUser(){
+	//TODO: Get contact data of the contact that was clicked on
+	//TODO: Do ajax 
+}
+
+
+
 let app = angular.module("ICDM", [])
 .filter("isContact", function() {
 	return function(input,contactsArray,polarity) {

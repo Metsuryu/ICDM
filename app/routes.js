@@ -37,6 +37,22 @@ module.exports = function(app, passport, Contact){
 		const userID = req.body.userID;
 		const newLat = req.body.lat;
 		const newLng = req.body.lng;
+
+		User.update(
+			{ "_id" : userID },
+			{
+			$set: {	lat: newLat, lng: newLng }, //TODO: contacts test, remove
+			}, function(err, results) {
+				if (err) {console.log(err);};
+				});
+		res.send("");
+		res.end();
+		});
+
+	//TODO: Make this add a contact to user's contacts
+	app.put("/addContact", urlencodedParser, function(req,res){
+		const userID = req.body.userID;
+		//TODO: const contactToAdd = req.body.contact;
 		//TODO: contacts test, remove
 		const contactsTest = [
 		{"id":"2jhtRobmdDUFZhCtAAAF","name":"Mario Cannistrà","picture":"https://lh5.googleusercontent.com/","email":"bagea@gmail.com"},
@@ -46,7 +62,7 @@ module.exports = function(app, passport, Contact){
 		User.update(
 			{ "_id" : userID },
 			{
-			$set: {	lat: newLat, lng: newLng, contacts:contactsTest }, //TODO: contacts test, remove
+			$set: {	contacts:contactsTest }, //TODO: contacts test, remove
 			}, function(err, results) {
 				if (err) {console.log(err);};
 				});
