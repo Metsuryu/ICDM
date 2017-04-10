@@ -91,6 +91,16 @@ module.exports = function(app, passport, Contact){
     		});
     	});
 
+	app.get("/privacypolicy", function(req, res){
+		res.render("privacypolicy.ejs");
+	});
+
+	app.get("/ToS", function(req, res){
+		res.render("ToS.ejs");
+	});
+
+
+
 	app.get("/logout", function(req, res){
 		req.logout();
 		res.redirect("/");

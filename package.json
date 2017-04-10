@@ -1,10 +1,11 @@
 {
   "name": "ICecchiniDelMare",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "I Cecchini Del Mare",
   "main": "app.js",
   "scripts": {
-    "build": "babel --presets es2015 src -d outputbuild"
+    "build": "babel --presets es2015 src -d outputbuild",
+    "start": "node app.js"
   },
   "author": "Mario Cannistrà",
   "license": "MIT",
