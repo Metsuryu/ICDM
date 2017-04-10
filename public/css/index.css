@@ -1,0 +1,63 @@
+* {
+	margin: 0;
+	padding: 0; 
+	box-sizing: border-box; 
+}
+
+body {
+	word-wrap:break-word;
+	/*TODO: Adjust colors*/
+	/*Previous: #f4f4f4*/ 
+	background-color: #F0EDE5;
+	font: 13px Helvetica, Arial; 
+}
+
+a {
+	color: white; 
+}
+
+#header {
+	background-color: #4980F4;
+	text-align: left;	
+	padding: .5em;
+	padding-left: 4em;
+}
+
+@media screen and (max-width: 480px) {
+	#header {
+		padding-left: 0em;
+	}
+	#loginJumbotron img {
+		width: 150px;
+		height: 150px;
+	}
+}
+
+#header a {
+	background-color: #4980F4;
+	color: white;
+	font-weight: bold;
+	font-size: 1em;
+	text-align: center;
+	margin-left: .2em;
+}
+
+
+#footer {
+	background-color: #4980F4;
+	color: white;
+	font-size: 1em;
+	padding-left: 1em;
+	width: 100%;
+	position: fixed;
+	bottom: 0%;
+}
+
+#loginContainer {
+	background-color: #A3CCFF;
+}
+#loginJumbotron {
+	background-color: #A3CCFF;
+	color: black;
+}
+

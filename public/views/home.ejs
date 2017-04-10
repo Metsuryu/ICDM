@@ -2,28 +2,42 @@
 <!doctype html>
 <html>
 <head>
-
-<style type="text/css">
-    
-</style>
-
     <html lang="en"> <!--TODO: Change to it, and set to en when translated-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<title>ICDM Home</title>
+	<title>I Cecchini Del Mare</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" 
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" 
     crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <link rel="icon" type="image/png" href="img/favicon.ico"/>
-    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
 
+    <script type="text/javascript" src="js/main.js"></script>
 </head>
 <body data-ng-app="ICDM" data-ng-controller="ctrl">
+
+
+<div id="header">
+
+  <a target="_blank" href="" class="btn btn-primary btn-sm">
+    <span class="glyphicon glyphicon-info-sign"></span> About </a>
+  <a target="_blank" href="" class="btn btn-primary btn-sm">
+    <span class="glyphicon glyphicon-question-sign"></span> FAQ </a>
+  <a target="_blank" href="" class="btn btn-primary btn-sm">
+    <span class="glyphicon glyphicon-envelope"></span> Contacts </a>
+  <a target="_blank" href="https://www.facebook.com/groups/cecchinidelmare/" class="btn btn-primary btn-sm">
+    <span class="fa fa-facebook"></span> Facebook page </a>
+
+  <a id="logout" href="/logout" class="btn btn-danger btn-sm">
+    <span class="fa fa-power-off"></span> Logout </a>
+
+</div>
+
+
+
 <div class="container">
 
 <script>
@@ -31,23 +45,30 @@
 var user = <%- JSON.stringify(user) %>;
 </script>
 
-    <!--For chat-->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+<!--For chat-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     
-    <script type="text/javascript" src="js/chat.js"></script>
+<script type="text/javascript" src="js/chat.js"></script>
 
+<!--
 	<div class="page-header text-center">
 
-		<h1><span class="fa fa-anchor"></span> ICDM Home</h1>
-		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
+		<h1>ICDM Home</h1>
         <a onclick="moveMap();" class="btn btn-default btn-sm">Change map position</a>
-        <a onclick="eraseLocation()" class="btn btn-default btn-sm">Erase Location</a>
-        <a onclick="broadcastLocation()" class="btn btn-default btn-sm">Broadcast Location</a>
+
 	</div>
+ -->
 
-	<div class="row">
+<div class="row">
 
+<div id="topMap">
+  <a onclick="eraseLocation()" class="btn btn-default btn-sm">
+    <span class="fa fa-ban"></span> Erase Location </a>
+
+  <a onclick="broadcastLocation()" class="btn btn-default btn-sm">
+    <span class="fa fa-map-marker"></span> Broadcast Location </a>
+</div>
 
     <!-- MAP -->
     <div id="map"></div>
@@ -58,17 +79,18 @@ var user = <%- JSON.stringify(user) %>;
 
 
     <!--TODO: Make actual profile page with settings-->
-
 		<!--TODO: Remove FACEBOOK INFORMATION -->
+        <!--
+
         <% if (user.facebook.token) { %>
         <div class="col-sm-6">
             <div class="well">
                 <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
-
-                <p> 
-                <!--
+        -->
+              <!--                  
                 TODO: The src here doesn't match the css rule because of the spaces
-                at the start and at the end-->
+                at the start and at the end
+                <p> 
                 	<strong>Picture in img</strong>: <img src=" <%= user.facebook.picture %> "> <br> 
                     <strong>id</strong>: <%= user.facebook.id %><br>
                     <strong>token</strong>: <%= user.facebook.token %><br>
@@ -80,8 +102,9 @@ var user = <%- JSON.stringify(user) %>;
             </div>
         </div>
         <% } %>
+        -->
 
-        <!--TODO: Remove GOOGLE INFORMATION -->
+        <!--TODO: Remove GOOGLE INFORMATION 
         <% if (user.google.token) { %>
         <div class="col-sm-6">
             <div class="well">
@@ -97,7 +120,7 @@ var user = <%- JSON.stringify(user) %>;
             </div>
         </div>
         <% } %>
-        
+-->
 
 
 	</div>
@@ -139,8 +162,12 @@ var user = <%- JSON.stringify(user) %>;
     </div>
     <!--/Contacts-->
 
-    <!--TODO: Remove -->
+    <!--TODO: Remove 
     Session ID: {{ssID}}
+    -->
+
+
+
 
 </div>
 </body>
