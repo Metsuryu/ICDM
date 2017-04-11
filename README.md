@@ -1,6 +1,6 @@
 # [I Cecchini Del Mare](https://icdm.herokuapp.com/)
 
-This website lets you share your current location through geolocation, and allows you to view other user's location on a map, and chat with them.
+This website lets you share your current location through geolocation, and allows you to view the location of other users on a map, and chat with them.
 
 I Cecchini Del Mare (Snipers of the Sea in Italian) or ICDM was made for the [Facebook group of the same name](https://www.facebook.com/groups/cecchinidelmare/). 
 
