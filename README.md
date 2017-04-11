@@ -4,6 +4,6 @@ This website lets you share your current location through geolocation, and allow
 
 I Cecchini Del Mare (Snipers of the Sea in Italian) or ICDM was made for the [Facebook group of the same name](https://www.facebook.com/groups/cecchinidelmare/). 
 
-The idea is that divers would use the website to find eachother and dive toghether or simply have a chat.
+The idea is that spearfishers would use the website to find eachother and dive toghether or simply have a chat.
 
 It's designed to be simple and lightweight, so once it's finished I won't add any more features, but I plan to keep developing the chat in a separate project.
