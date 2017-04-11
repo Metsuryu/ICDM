@@ -3,16 +3,18 @@
 <html>
 <head>
 	<title>I Cecchini Del Mare</title>
-	<html lang="it">
+	<html lang="en"> <!--TODO: Change to it, and set to en when translated-->
   	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1">
-  	<!--TODO: Probably don't need these on the login-->
   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
 	<link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
-
 	<link rel="stylesheet" type="text/css" href="css/index.css">
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" 
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" 
+    crossorigin="anonymous"></script>
+  <script src="js/js.cookie.js"></script>
+  <script type="text/javascript" src="js/translation.js"></script>
 </head>
 <body>
 
@@ -26,6 +28,8 @@
     <span class="glyphicon glyphicon-envelope"></span> Contacts </a>
   <a target="_blank" href="https://www.facebook.com/groups/cecchinidelmare/" class="btn btn-primary btn-sm">
     <span class="fa fa-facebook"></span> Facebook page </a>
+  <a id="langSelector" class="btn btn-primary btn-sm">
+    <span class="fa fa-language"></span> Language <img src="img/flags/us.gif"> </a>
 </div>
 <div class="container-fluid" id="loginContainer">
 	<div class="jumbotron text-center"  id="loginJumbotron">
@@ -35,9 +39,7 @@
 		<a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>  
 		<a href="/auth/google" class="btn btn-danger"><span class="fa fa-google"></span> Google</a>
 	</div>
-
 </div>
-
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- ICDM Login -->
@@ -49,8 +51,6 @@
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
-
 <div id="footer"> <a href="/privacypolicy">Privacy policy</a> | <a href="/ToS">Terms of service</a></div>
-
 </body>
 </html>

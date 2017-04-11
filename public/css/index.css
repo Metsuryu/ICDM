@@ -61,3 +61,13 @@ a {
 	color: black;
 }
 
+#langSelect {
+	position: absolute;
+	width: 97px;
+	background-color: #4980F4;
+	border: 1px solid black;
+}
+
+#langSelect a{
+	margin: 0.3em;
+}
