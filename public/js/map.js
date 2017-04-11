@@ -243,6 +243,16 @@ $(document).ready(function(){
     markersOnMap.push(thisMarker);
   }
 
+  //Return Boolean if email is in inputArray
+  function isEmailInArray (inputArray, email) {
+    for (let i = inputArray.length - 1; i >= 0; i--) {
+      if (inputArray[i].email === email) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   //Add markers if they are not already on the map
   //Removes them if they are offline
   function updateMarkersOnMap () {

@@ -68,87 +68,16 @@ var user = <%- JSON.stringify(user) %>;
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCa0eg5dlngFtHj19frzBL-3tPDaz67g-U&callback=initMap">
     </script>
 
-
-    <!--TODO: Make actual profile page with settings-->
-		<!--TODO: Remove FACEBOOK INFORMATION -->
-        <!--
-
-        <% if (user.facebook.token) { %>
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
-        -->
-              <!--                  
-                TODO: The src here doesn't match the css rule because of the spaces
-                at the start and at the end
-                <p> 
-                	<strong>Picture in img</strong>: <img src=" <%= user.facebook.picture %> "> <br> 
-                    <strong>id</strong>: <%= user.facebook.id %><br>
-                    <strong>token</strong>: <%= user.facebook.token %><br>
-                    <strong>email</strong>: <%= user.facebook.email %><br>
-                    <strong>name</strong>: <%= user.facebook.name %><br> 
-                    <strong>Position</strong>: Lat: <%= user.lat %> Lng: <%= user.lng %>
-                </p>
-
-            </div>
-        </div>
-        <% } %>
-        -->
-
-        <!--TODO: Remove GOOGLE INFORMATION 
-        <% if (user.google.token) { %>
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
-                <p>
-                	<strong>Picture in img</strong>: <img src=" <%= user.google.picture %> "> <br> 
-                    <strong>id</strong>: <%= user.google.id %><br>
-                    <strong>token</strong>: <%= user.google.token %><br>
-                    <strong>email</strong>: <%= user.google.email %><br>
-                    <strong>name</strong>: <%= user.google.name %><br>
-                    <strong>Position</strong>: Lat: <%= user.lat %> Lng: <%= user.lng %>
-                </p>
-            </div>
-        </div>
-        <% } %>
--->
-
-
 	</div>
 
     <!--Contacts TODO: Maybe have green or Grey circle for Online/Offline status before names-->
-    <!--TODO: Only show friends in online and offline contacts, and everyone else in nearby-->
     <div id="contactsBox">
-        <div id="contactsHandle"> <span id="contactsSpan">Contacts</span> </div>
-        <div><p class="tab" id="onlineTab">Online Contacts</p> 
-            <div id="showOnlineContacts">
-                <!--Online-->
-                <!--ng-repeat-->
-                <ul class="contactsUL">
-                <li data-ng-repeat="contact in contactsListGET | filter:searchNG | filter:'!'+ssID | isContact:localContacts:true" class="contactClass" data-contactID="{{contact.id}}" data-contactPicture="{{contact.picture}}" data-contactEmail="{{contact.email}}"> {{contact.name}} </li>
-                </ul>
-            </div>
-        </div>
-        <div><p class="tab" id="offlineTab">Offline Contacts</p> 
-            <div id="showOfflineContacts">
-                <!--Offline TODO: Remove this section from here and put it in a separate "contacts" tab, like in fb-->
-                <!--ng-repeat-->
-                <ul class="contactsUL">
-                <li data-ng-repeat="contact in localContacts | filter:searchNG | filter:'!'+ssID | isContact:contactsListGET:false" class="contactClass" data-contactID="{{contact.id}}" data-contactPicture="{{contact.picture}}" data-contactEmail="{{contact.email}}"> {{contact.name}} </li>
-                </ul>
-
-                
-            </div>
-        </div>
-        <div><p class="tab" id="nearbyTab">People Nearby</p> 
-            <div id="showNearby">
-                <!--Nearby-->
-                <!--ng-repeat-->
-                <ul class="contactsUL">
-                <li data-ng-repeat="contact in contactsListGET | filter:searchNG | filter:'!'+ssID | isContact:localContacts:false" class="contactClass" data-contactID="{{contact.id}}" data-contactPicture="{{contact.picture}}" data-contactEmail="{{contact.email}}"> {{contact.name}} </li>
-                </ul>
-            </div>
-        </div>
+        <div id="contactsHandle"> <span id="contactsSpan">Snipers</span> </div>
+            <!--All Online Users-->
+            <!--ng-repeat-->
+            <ul>
+                <li data-ng-repeat="contact in contactsListGET | filter:searchNG | filter:'!'+ssID" class="contactClass" data-contactID="{{contact.id}}" data-contactPicture="{{contact.picture}}" data-contactEmail="{{contact.email}}"> {{contact.name}} </li>
+            </ul>
     <input id="searchField" type="text" name="search" placeholder="&#128269; Search" data-ng-model="searchNG"/>
     </div>
     <!--/Contacts-->
@@ -156,7 +85,6 @@ var user = <%- JSON.stringify(user) %>;
     <!--TODO: Remove 
     Session ID: {{ssID}}
     -->
-
 </div>
 </body>
 </html>

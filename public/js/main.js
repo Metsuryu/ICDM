@@ -72,7 +72,7 @@ function openNewChatWindow (targetName, targetID, focusInput) {
     </form>
 </div>	
 	 `);
-	sourceChatWindow.find("#chatUserName").html(targetName + thisChatWindow); //TODO: Test, remove thisChatWindow
+	sourceChatWindow.find("#chatUserName").html(targetName);
 	sourceChatWindow.find("#chatForm").attr("data-pmid", targetID);
 	sourceChatWindow.find(".messages").attr("id",targetID);
 	sourceChatWindow.attr("id",thisChatWindow);
@@ -114,106 +114,10 @@ function openChatWindow(targetName, targetID, focusInput) {
     };
 }
 
-function isEmailInArray (inputArray, email) {
-
-	for (let i = inputArray.length - 1; i >= 0; i--) {
-		if (inputArray[i].email === email) {
-			return true;
-		}
-	}
-	return false;
-}
-
-//TODO: Put these on a separate .js file later ## Contacts managment ##
-//TODO: addContact
-function addContact(){
-	//TODO: Get contact data of the contact that was clicked on
-
-	//TODO: Do ajax to add this contact to the user's contacts	
-    $.ajax({
-    	type: "PUT",
-        url: "/addContact",
-        data: {
-        	userID: user._id,
-          	contact: contactData //TODO: this
-        },
-        success: function() {
-          console.log("Contact added.");
-        },
-        error: function(err){
-          console.log("Error: " , err);
-        },
-        complete: function(){
-        }
-    });
-}
-//TODO: removeContact
-function removeContact(){
-	//TODO: Get contact data of the contact that was clicked on
-	//TODO: Do ajax 
-}
-//TODO: blockUser
-function blockUser(){
-	//TODO: Get contact data of the contact that was clicked on
-	//TODO: Do ajax 
-}
-//TODO: unblockUser
-function unblockUser(){
-	//TODO: Get contact data of the contact that was clicked on
-	//TODO: Do ajax 
-}
-
-
-
-let app = angular.module("ICDM", [])
-.filter("isContact", function() {
-	return function(input,contactsArray,polarity) {
-		input = input || "";
-		contactsArray = contactsArray || [];
-		var out = [];
-		angular.forEach(input, function (value, key) {
-			//Returns -1 if the item is not in the array
-			//If the polarity is true, it returns all the items that are in both arrays
-			//console.log(isEmailInArray( contactsArray, value.email ));
-			if (polarity === true) {
-				if ( isEmailInArray( contactsArray, value.email ) ) {
-					out.push(value);
-				}
-			/*
-				if ( contactsArray.indexOf( input[key].email ) != -1) {
-					console.log(value);
-					out.push(value);
-					}
-			*/		
-			//If the polarity is false, it returns all the items that are only in one array
-			}else if (polarity === false) {
-				if ( ! isEmailInArray( contactsArray, value.email ) ) {
-					out.push(value);
-				}
-				/*
-				if ( contactsArray.indexOf( input[key].email ) === -1) {
-					console.log(value);
-					out.push(value);
-					}
-				*/
-				};
-		});
-		//Array of items in input that are also in contactsArray
-		return out;
-  };
-});
+let app = angular.module("ICDM", []);
 
 
 app.controller("ctrl", function($scope, $http, $interval) {
-	function setLocalContacts () {
-		$scope.localContacts = user.contacts;
-	}
-	if (user.contacts) {
-		setLocalContacts();
-	}else{
-		$interval(setLocalContacts, 1000);
-	}
-
 	function setSessionID () {
 		$scope.ssID = sessionID;
 	}
@@ -222,7 +126,7 @@ app.controller("ctrl", function($scope, $http, $interval) {
 	}else{
 		$interval(setSessionID, 1000);
 	}
-	
+
 	//Gets the online contacts form the server
 	function updateContactsList () {
 		$http({
@@ -306,8 +210,5 @@ $(document).ready(function(){
 			});
 		}
 	});
-
-
-
 
 });

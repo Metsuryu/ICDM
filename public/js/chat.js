@@ -2,9 +2,7 @@
 //TODO: And have a way to decode and display that object message
 let sessionID = null;
 
-//Have option to use custom nickname, if it's available use that first
 function getUserName () {
-  //if (nickname) {return nickname;} else
   if (user.google) {
     return user.google.name;
    } else if (user.facebook) {
@@ -49,6 +47,7 @@ let userEmail = getUserEmail();
       if (session.id) {
         sessionID = session.id;
         socket.emit("updateOnline", {
+          uniqueID: user._id,
           name: userName, 
           picture: userPicture, 
           email: userEmail, 
@@ -91,7 +90,11 @@ let userEmail = getUserEmail();
     socket.on("PMsg", function(msg, sender){
       //TODO: Use "<img src=" + sender.picture + ">" for sender icon
       openChatWindow(sender.name, sender.id, false);
-      //TODO: Notification sound
+      //Notification sound only if the window is not visible.
+      if (document.visibilityState === "hidden") {
+        let notification = new Audio("audio/notification.mp3");
+        notification.play();
+      };
 
       let targetChatWindow = $("#" + sender.id);
       let senderName = $.parseHTML('<p class="receivedMessage">' + "<b>"+ sender.name +"</b>: ");

@@ -160,19 +160,6 @@ form input {
   	vertical-align: middle;  
 }
 
-
-.tab {
-	cursor: pointer;
-	background-color: #4980F4;
-	color: white;
-	font-weight: bold;
-	padding: .1em;
-}
-
-.tab:hover {
-    background-color: #286dff;
-}
-
 #header {
 	background-color: #4980F4;
 	text-align: left;
@@ -233,4 +220,8 @@ form input {
 
 #langSelect a{
 	margin: 0.3em;
+}
+
+#searchField {
+	margin-left: 0.5em;
 }

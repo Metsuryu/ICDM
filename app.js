@@ -52,6 +52,7 @@ function addOnlineContact (userData) {
 			return;
 		else {
 			let newContact = new Contact();
+			newContact.uniqueID = userData.uniqueID;
 			newContact.userID = userData.socketID;
 			newContact.userName = userData.name;
 			newContact.userPicture = userData.picture;
@@ -64,26 +65,26 @@ function addOnlineContact (userData) {
 				return;
 			})
 		}
-		console.log("\x1b[33m%s\x1b[0m:","Contact added.");
+		//console.log("\x1b[33m%s\x1b[0m:","Contact added.");
 	});
 }
 
 function removeOnlineContact (socket) {
 	const idToRemove = socket.id;
-	//Add users to online by using userID, and remove them by userEmail, to avoid duplicates
+	//Add users to online by using userID, and remove them by uniqueID, to avoid duplicates
 	Contact.findOne({"userID": idToRemove}, function(err, contact){
 		if(err)
 			return err;
 		if(contact){
-			/*Remove contact from online by email, to remove all
-			potential duplicates with same email but different sessionID
+			/*Remove contact from online by uniqueID, to remove all
+			potential duplicates with same uniqueID but different sessionID
 			that can remain when the server is restarted*/
-			Contact.remove({"userEmail": contact.userEmail}, function(err, results){
+			Contact.remove({"uniqueID": contact.uniqueID}, function(err, results){
 				if (err) {
 					console.log(err); 
 					return;
 				};
-				console.log("\x1b[33m%s\x1b[0m","Contact removed.");
+				//console.log("\x1b[33m%s\x1b[0m","Contact removed.");
 				return;
 			});
 		}
@@ -95,7 +96,7 @@ function removeOnlineContact (socket) {
 
 //Whenever someone connects this gets executed
 io.on("connection", function(socket){
-	console.log("A user connected");
+	//console.log("A user connected");
 	//TODO: This is emitted to every user. Use it for chatBox updates
 	socket.emit("sessionID", { id: socket.id });
 
@@ -106,8 +107,7 @@ io.on("connection", function(socket){
 
   	socket.on("disconnect", function () {
   		//Removes user from "online" users
-  		console.log("A user disconnected");
-  		//TODO: Contacts are not removed from online, when server disconnects, fix that.
+  		//console.log("A user disconnected");
   		removeOnlineContact(socket);
   		});
 
