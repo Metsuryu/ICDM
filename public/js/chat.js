@@ -30,7 +30,7 @@ let userPicture = getUserPictre();
 
   $(function () {
     let socket = io();
-
+    
     socket.on("sessionID", function (session) {
       if (session.id) {
         sessionID = session.id;
@@ -71,7 +71,7 @@ let userPicture = getUserPictre();
     });
 
 
-    //TODO: Play sound(optional) on message, add notification of unread messages
+    //TODO: Add notification of unread messages
     //Receive PM
     socket.on("PMsg", function(msg, sender){
       //TODO: Use "<img src=" + sender.picture + ">" for sender icon
@@ -90,17 +90,4 @@ let userPicture = getUserPictre();
       //Scroll to bottom
       targetChatWindow.scrollTop(targetChatWindow.prop("scrollHeight"));    
     });
-  });
-
-  $(document).ready(function(){
-    function toggleShowContacts(btn, contacts){
-      $(btn).click(function(){
-        $(contacts).toggle("fast");
-        //TODO: Do something with the style later
-        //$(span).toggleClass("glyphicon glyphicon-collapse-down, glyphicon glyphicon-collapse-up"); 
-        });
-    };
-    toggleShowContacts("#onlineTab", "#showOnlineContacts");
-    toggleShowContacts("#offlineTab", "#showOfflineContacts");
-    toggleShowContacts("#nearbyTab", "#showNearby");
   });

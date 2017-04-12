@@ -68,6 +68,35 @@ function addOnlineContact (userData) {
 	});
 }
 
+function updateOnlineContactCoords (userData) {
+	if (!userData) {
+		console.log("Error: Can't get userData");
+		return;
+	};
+	Contact.findOne({"uniqueID": userData.uniqueID}, function(err, contact){
+		if(err)
+			return err;
+		if(contact){
+			const userID = userData.uniqueID;
+			const newLat = userData.lat;
+			const newLng = userData.lng;
+			console.log(userData.lat);
+			Contact.update(
+				{ "uniqueID" : userID },
+				{
+					$set: {	lat: newLat, lng: newLng },
+				}, function(err, results) {
+					if (err) {console.log(err);};
+					console.log(results);
+				});
+		} else {
+			return;
+		}
+		//console.log("\x1b[33m%s\x1b[0m:","Contact updated.");
+	});
+}
+
+
 function removeOnlineContact (socket) {
 	const idToRemove = socket.id;
 	//Add users to online by using userID, and remove them by uniqueID, to avoid duplicates
@@ -102,6 +131,11 @@ io.on("connection", function(socket){
   	socket.on("updateOnline", function (userData) {
   		//Adds user to "online" users
   		addOnlineContact (userData);
+  		});
+
+  	socket.on("updateOnlineContactCoords", function (userData) {
+  		//Updates user's coordinates
+  		updateOnlineContactCoords (userData);
   		});
 
   	socket.on("disconnect", function () {

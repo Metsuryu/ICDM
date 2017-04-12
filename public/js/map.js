@@ -1,7 +1,7 @@
 let map;
 let infoWindow;
 //TODO: Adjust. Italy: lat: 42.733, lng: 13.304 
-const defaultLat = 42.733;
+const defaultLat = 41.500;
 const defaultLng = 13.304;
 
 let usersOnline = [];
@@ -10,7 +10,7 @@ let markersOnMap = [];
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: {lat: defaultLat, lng: defaultLng}, 
-          zoom: 7 //TODO: Adjust
+          zoom: 5 //TODO: Adjust
           /*
           1: World
           5: Landmass/continent
@@ -19,12 +19,8 @@ function initMap() {
           20: Buildings
           */
         });
+  //TODO: Do something with this
   infoWindow = new google.maps.InfoWindow({map: map});
-        /*
-        TODO: Show image and name for every person online on map. 
-        This doesn't work: is not fixed on map:
-        let infoContent = "<div><img src=\"" + user.facebook.picture + "\"></div>"; 
-        */
         let infoContent = "Test";
         infoWindow.setContent(infoContent);
         /* Disabled automatic prompt for geolocation for now
@@ -69,7 +65,7 @@ function setNewPosition(pos){
 function deg2rad(deg) {
   return deg * (Math.PI/180)
 }
-
+//TODO: Show distance in km of users (Maybe at start of chat)
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   let R = 6371; // Radius of the earth in km
   let dLat = deg2rad(lat2-lat1);  // deg2rad above
@@ -99,16 +95,23 @@ setNewPosition(
   });
 }
 
-//TODO: Finish
+
+function emitUpdateCoords (newLat, newLng){
+  let socket = io();
+    if (sessionID) {
+      socket.emit("updateOnlineContactCoords", {
+        uniqueID: user._id,
+        lat: newLat,
+        lng: newLng
+      });
+    }else{
+      //TODO: Handle error better
+      console.log("Error: Could not retrive ID");
+    };
+}
+
+//Sets also user's location to 0, 0 and removes the marker from map
 function eraseLocation(){
-  //Move to Null Island
-  //Set also user's position to 0,0
-  setNewPosition(
-  {
-    lat: 0,
-    lng: 0
-  });
-  
   $.ajax({
     type: "PUT",
     url: "/updateUserCoordinates",
@@ -119,11 +122,16 @@ function eraseLocation(){
     },
     success: function() {
       console.log("Location Erased");
+      emitUpdateCoords(0, 0);
+      user.lat = 0;
+      user.lng = 0;
     },
     error: function(err){
       console.log("Error: " , err);
     },
     complete: function(){
+      removeLocalUserMarker();
+      //TODO: Show success message
     }
   });
 }
@@ -150,6 +158,7 @@ function broadcastLocation(){
       };
 
       infoWindow.setPosition(pos);
+      //TODO: Figure out why the message shows only the first time the function is called
       infoWindow.setContent("Location found."); //TODO: Change text here and at errors
       map.setCenter(pos);
 
@@ -169,11 +178,15 @@ function broadcastLocation(){
         },
         success: function() {
           console.log("Coordinates Updated.");
+          emitUpdateCoords(pos.lat, pos.lng);
+          user.lat = pos.lat;
+          user.lng = pos.lng;
         },
         error: function(err){
           console.log("Error: " , err);
         },
         complete: function(){
+          updateMarkersOnMap ();
         }
       });
 
@@ -186,10 +199,7 @@ function broadcastLocation(){
     }
 }
 
-
-$(document).ready(function(){
-
-  //TODO1: Maybe remove the style element when the marker is removed to free memory. See TODO2
+//TODO1: optimization: remove the style element when the marker is removed to free memory. See TODO2
   //If I decide to remove it, give it an "id" on creation, so I can remove it by "id".
   function styleMarker (markerPicture) {
     //Select any element with picSrc and style it
@@ -197,6 +207,7 @@ $(document).ready(function(){
     let style = document.createElement("style");
     style.type = "text/css";
     //Using backtick with picSrc in expression. TODO: Compile with babel
+    //Selecting "*" with picSrc in case google decides to not use divs anymore.
     style.innerHTML = `
     * [src="${picSrc}"] {
       border-radius:30px; 
@@ -213,10 +224,7 @@ $(document).ready(function(){
     markerToRemove = null;
   }
 
-  let australiaPos = {lat: -25.363, lng: 131.044};
-  let itaPos = {lat: defaultLat, lng: defaultLng};
-
-  //TODO: Pass user as argument
+  //Pass online contact as argument to add marker on map
   function addMarker (newMarker) {
     styleMarker(newMarker.picture);
     let thisMarker = new google.maps.Marker({
@@ -235,7 +243,10 @@ $(document).ready(function(){
         //map.setCenter(thisMarker.getPosition());
         openChatWindow(newMarker.name, newMarker.id, true);
       });
-    }
+    }else{
+      //Used to remove marker when erasing location
+      thisMarker.id = "localUserMarker";
+    };
     //uniqueID needed to check if the marker is on the map
     thisMarker.uniqueID = newMarker.uniqueID;
     markersOnMap.push(thisMarker);
@@ -256,15 +267,17 @@ $(document).ready(function(){
   function updateMarkersOnMap () {
     //Add markers
     for (let i = usersOnline.length - 1; i >= 0; i--) {
-      //If there are no coordinates, skip it
-      if (! usersOnline[i].lat || ! usersOnline[i].lng) {continue;};
       let newMarker = usersOnline[i];
+
+      //If there are no coordinates, skip it
+      if (! newMarker.lat && ! newMarker.lng) {continue;};
       //If the marker was already added to the map skip it
       if ( isUniqueIDInArray( markersOnMap, newMarker.uniqueID ) ) {continue;};
       newMarker.latLng = new google.maps.LatLng({
-        lat: usersOnline[i].lat, 
-        lng: usersOnline[i].lng
-      }); 
+        lat: newMarker.lat, 
+        lng: newMarker.lng
+      });
+      //console.log("Adding");
       addMarker(newMarker)
     };
 
@@ -273,6 +286,7 @@ $(document).ready(function(){
       let markerToRemove = markersOnMap[i];
       //If the marker is not online anymore
       if ( ! isUniqueIDInArray( usersOnline, markerToRemove.uniqueID ) ) {
+        //console.log("Removing");
         removeMarker (markerToRemove);
         //Remove the marker from the array
         markersOnMap.splice(i, 1);
@@ -280,5 +294,30 @@ $(document).ready(function(){
     };
   };
 
+  /*Remove the local user marker from map, and set coords on usersOnline array to 0.
+    Necessary so that updateMarkersOnMap doesn't add it again on the map
+    immediately after it's removed.*/
+  function removeLocalUserMarker() {
+    for (let i = usersOnline.length - 1; i >= 0; i--) {
+      if (usersOnline[i].uniqueID === user._id) {
+        usersOnline[i].lat = 0;
+        usersOnline[i].lng = 0;
+        //console.log("00ing in usersonline");
+      };
+    };
+
+    for (let i = markersOnMap.length - 1; i >= 0; i--) {
+      let markerToRemove = markersOnMap[i];
+      if ( markerToRemove.id === "localUserMarker" ) {
+        //console.log("Removing");
+        removeMarker (markerToRemove);
+        //Remove the marker from the array
+        markersOnMap.splice(i, 1);
+        return;
+      };
+    };
+  }
+
+$(document).ready(function(){
   let mapUpdateLoop =  setInterval(updateMarkersOnMap, 1000); //TODO: Set to 5000 or 10000
 })

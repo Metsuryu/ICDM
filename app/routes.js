@@ -41,7 +41,7 @@ module.exports = function(app, passport, Contact){
 		User.update(
 			{ "_id" : userID },
 			{
-			$set: {	lat: newLat, lng: newLng }, //TODO: contacts test, remove
+			$set: {	lat: newLat, lng: newLng },
 			}, function(err, results) {
 				if (err) {console.log(err);};
 				});
