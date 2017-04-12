@@ -216,28 +216,26 @@ $(document).ready(function(){
   let australiaPos = {lat: -25.363, lng: 131.044};
   let itaPos = {lat: defaultLat, lng: defaultLng};
 
-
   //TODO: Pass user as argument
   function addMarker (newMarker) {
-
     styleMarker(newMarker.picture);
-
     let thisMarker = new google.maps.Marker({
       position: newMarker.latLng,
       map: map,
       title: newMarker.name,
       icon: newMarker.picture,
-      //Make it a discreet DOM element accessible by css:
+      //Makes it a discreet DOM element accessible by css:
       optimized:false
     });
-
-    //Open chatWindow
-    thisMarker.addListener("click", function() {
-      //map.setZoom(8);
-      //map.setCenter(thisMarker.getPosition());
-      openChatWindow(newMarker.name, newMarker.id, true);
-    });
-    
+    //Open chatWindow on click, only if the marker is not yourself
+    if (newMarker.id != sessionID) {
+      thisMarker.addListener("click", function() {
+        //TODO: Add these?
+        //map.setZoom(8);
+        //map.setCenter(thisMarker.getPosition());
+        openChatWindow(newMarker.name, newMarker.id, true);
+      });
+    }
     //uniqueID needed to check if the marker is on the map
     thisMarker.uniqueID = newMarker.uniqueID;
     markersOnMap.push(thisMarker);
