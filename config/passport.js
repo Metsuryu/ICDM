@@ -18,7 +18,7 @@ module.exports = function(passport) {
 	    clientID: configAuth.facebookAuth.clientID,
 	    clientSecret: configAuth.facebookAuth.clientSecret,
 	    callbackURL: configAuth.facebookAuth.callbackURL,
-	    profileFields: ["id", "email", "name", "picture", "displayName"]
+	    profileFields: ["id", "name", "picture", "displayName"]
 	  },
 	  function(accessToken, refreshToken, profile, done) {
 	    	process.nextTick(function(){
@@ -32,7 +32,6 @@ module.exports = function(passport) {
 	    				newUser.facebook.id = profile.id;
 	    				newUser.facebook.token = accessToken;
 	    				newUser.facebook.name = profile.displayName;
-	    				newUser.facebook.email = profile.emails[0].value;
 	    				newUser.facebook.picture = profile.photos[0].value;
 	    				newUser.lat = 0;
 	    				newUser.lng = 0;
@@ -42,7 +41,6 @@ module.exports = function(passport) {
 	    						throw err;
 	    					return done(null, newUser);
 	    				})
-	    				//console.log(profile);
 	    			}
 	    		});
 	    	});
@@ -66,7 +64,6 @@ module.exports = function(passport) {
 	    				newUser.google.id = profile.id;
 	    				newUser.google.token = accessToken;
 	    				newUser.google.name = profile.displayName;
-	    				newUser.google.email = profile.emails[0].value;
 	    				newUser.google.picture = profile.photos[0].value;
 	    				newUser.lat = 0;
 	    				newUser.lng = 0;
@@ -76,7 +73,6 @@ module.exports = function(passport) {
 	    						throw err;
 	    					return done(null, newUser);
 	    				})
-	    				//console.log(profile);
 	    			}
 	    		});
 	    	});
