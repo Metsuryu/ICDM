@@ -151,8 +151,6 @@ $(document).ready(function(){
 		let targetID = targetAttrs.getAttribute("data-contactid");
 		//Use this picture in chat
 		//console.log(targetAttrs.getAttribute("data-contactPicture"));
-		//Display this email if public && !empty
-		//console.log(targetAttrs.getAttribute("data-contactEmail"));
 
     	openChatWindow(targetName, targetID, true);
 	});

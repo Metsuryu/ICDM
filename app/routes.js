@@ -20,13 +20,13 @@ module.exports = function(app, passport, Contact){
 		res.render("home.ejs", { user: req.user });
 	});
 
-	app.get("/auth/facebook", passport.authenticate("facebook", {scope: ["email"]}));
+	app.get("/auth/facebook", passport.authenticate("facebook"));
 
 	app.get("/auth/facebook/callback", 
 	  passport.authenticate("facebook", { successRedirect: "/",
 	                                      failureRedirect: "/login" }));
 
-	app.get("/auth/google", passport.authenticate("google", {scope: ["profile", "email"]}));
+	app.get("/auth/google", passport.authenticate("google", {scope: ["profile"]}));
 
 	app.get("/auth/google/callback", 
 	  passport.authenticate("google", { successRedirect: "/",
@@ -49,27 +49,6 @@ module.exports = function(app, passport, Contact){
 		res.end();
 		});
 
-	//TODO: Make this add a contact to user's contacts
-	app.put("/addContact", urlencodedParser, function(req,res){
-		const userID = req.body.userID;
-		//TODO: const contactToAdd = req.body.contact;
-		//TODO: contacts test, remove
-		const contactsTest = [
-		{"id":"2jhtRobmdDUFZhCtAAAF","name":"Mario Cannistrà","picture":"https://lh5.googleusercontent.com/","email":"bagea@gmail.com"},
-		{"id":"2jhtRobmdAAAZhCtAAAF","name":"Orlumbus Rorar","picture":"https://something.com","email":"fuusx@gmail.com"}
-		]
-
-		User.update(
-			{ "_id" : userID },
-			{
-			$set: {	contacts:contactsTest }, //TODO: contacts test, remove
-			}, function(err, results) {
-				if (err) {console.log(err);};
-				});
-		res.send("");
-		res.end();
-		});
-
 	//Returns the list of online contacts
 	app.get("/contacts",function(req, res){
 		let contactsArray = [];
@@ -79,10 +58,10 @@ module.exports = function(app, passport, Contact){
     		//JSON
     		contacts.forEach(function (contact, i) {
     			contactsArray.push({
+    				uniqueID: contact.uniqueID,
     				id: contact.userID,
     				name: contact.userName,
     				picture: contact.userPicture,
-    				email: contact.userEmail,
     				lat: contact.lat,
     				lng: contact.lng
     				});

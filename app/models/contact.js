@@ -6,7 +6,6 @@ const contactSchema = mongoose.Schema({
 	userID: String,   //Changes each session
 	userName: String,
 	userPicture: String,
-	userEmail: String,
 	lat: Number,
 	lng: Number
 });

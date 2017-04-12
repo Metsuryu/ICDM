@@ -24,21 +24,9 @@ function getUserPictre (){
   };
 }
 
-function getUserEmail (){
-  if (user.google) {
-    return user.google.email;
-  } 
-  else if (user.facebook) {
-    return user.facebook.email;
-  }else{
-    return "";
-  };
-}
-
 //TODO: Send userName and Picture only on connect, and then use them locally from the client-side
 let userName = getUserName();
 let userPicture = getUserPictre();
-let userEmail = getUserEmail();
 
   $(function () {
     let socket = io();
@@ -50,7 +38,6 @@ let userEmail = getUserEmail();
           uniqueID: user._id,
           name: userName, 
           picture: userPicture, 
-          email: userEmail, 
           socketID: sessionID, 
           lat: user.lat,
           lng: user.lng
@@ -68,7 +55,6 @@ let userEmail = getUserEmail();
       let contactID = this.getAttribute("data-pmid");
       let thisChat = "#" + contactID;
       //TODO: let contactPicture = 
-      //TODO: let contactEmail =
 
       socket.emit("PM", contactID, messageToSend, {name: userName, picture: userPicture, id: sessionID});
       //Append sent message to chatWindow

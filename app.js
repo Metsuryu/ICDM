@@ -56,7 +56,6 @@ function addOnlineContact (userData) {
 			newContact.userID = userData.socketID;
 			newContact.userName = userData.name;
 			newContact.userPicture = userData.picture;
-			newContact.userEmail = userData.email;
 			newContact.lat = userData.lat;
 			newContact.lng = userData.lng;
 

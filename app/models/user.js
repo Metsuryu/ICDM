@@ -7,14 +7,12 @@ const userSchema = mongoose.Schema({
 	facebook: {
 		id: String,
 		token: String,
-		email: String,
 		name: String,
 		picture: String
 	},
 	google: {
 		id: String,
 		token: String,
-		email: String,
 		name: String,
 		picture: String
 	}

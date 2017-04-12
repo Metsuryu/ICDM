@@ -238,15 +238,15 @@ $(document).ready(function(){
       openChatWindow(newMarker.name, newMarker.id, true);
     });
     
-    //Email needed to check if the marker is on the map
-    thisMarker.email = newMarker.email;
+    //uniqueID needed to check if the marker is on the map
+    thisMarker.uniqueID = newMarker.uniqueID;
     markersOnMap.push(thisMarker);
   }
 
-  //Return Boolean if email is in inputArray
-  function isEmailInArray (inputArray, email) {
+  //Return Boolean if uniqueID is in inputArray
+  function isUniqueIDInArray (inputArray, uniqueID) {
     for (let i = inputArray.length - 1; i >= 0; i--) {
-      if (inputArray[i].email === email) {
+      if (inputArray[i].uniqueID === uniqueID) {
         return true;
       }
     }
@@ -262,7 +262,7 @@ $(document).ready(function(){
       if (! usersOnline[i].lat || ! usersOnline[i].lng) {continue;};
       let newMarker = usersOnline[i];
       //If the marker was already added to the map skip it
-      if ( isEmailInArray( markersOnMap, newMarker.email ) ) {continue;};
+      if ( isUniqueIDInArray( markersOnMap, newMarker.uniqueID ) ) {continue;};
       newMarker.latLng = new google.maps.LatLng({
         lat: usersOnline[i].lat, 
         lng: usersOnline[i].lng
@@ -274,7 +274,7 @@ $(document).ready(function(){
     for (let i = markersOnMap.length - 1; i >= 0; i--) {
       let markerToRemove = markersOnMap[i];
       //If the marker is not online anymore
-      if ( ! isEmailInArray( usersOnline, markerToRemove.email ) ) {
+      if ( ! isUniqueIDInArray( usersOnline, markerToRemove.uniqueID ) ) {
         removeMarker (markerToRemove);
         //Remove the marker from the array
         markersOnMap.splice(i, 1);
