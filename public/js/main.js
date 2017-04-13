@@ -2,6 +2,28 @@
 const openChatWindowsLimit = 4; //TODO: Adjust depending on screen size.
 let openChatWindows = 0;
 
+/*This function calculates great-circle distances between the two points 
+– that is, the shortest distance over the earth’s surface – using the ‘Haversine’ formula.*/
+function deg2rad(deg) {
+  return deg * (Math.PI/180)
+}
+//TODO: Show distance in km of users (Maybe at start of chat)
+function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+  let R = 6371; // Radius of the earth in km
+  let dLat = deg2rad(lat2-lat1);  // deg2rad above
+  let dLon = deg2rad(lon2-lon1); 
+  let a = 
+  Math.sin(dLat/2) * Math.sin(dLat/2) +
+  Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+  Math.sin(dLon/2) * Math.sin(dLon/2)
+  ; 
+  let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  let d = R * c; // Distance in km (In linea d'aria)
+  //Round to 2 decimals
+  return d;
+}
+/*Haversine formula end*/
+
 function minimizeChatWindow (parentChatWindow) {
 	parentChatWindow.animate({
 		height: "2em",
@@ -55,7 +77,7 @@ function isChatAlreadyOpen (targetID) {
 }
 
 //TODO: Add other parameters as I add other functionality
-function openNewChatWindow (targetName, targetID, focusInput) {
+function openNewChatWindow (targetName, targetID, targetLat, targetLng, focusInput) {
 	let thisChatWindow = openChatWindows + 1;
 	//TODO: Adjust attributes
 	//TODO: Add "options" gear on header, to add/remove/block contact, etc... 
@@ -85,12 +107,21 @@ function openNewChatWindow (targetName, targetID, focusInput) {
     	sourceChatWindow.find("input").focus();
     };
     openChatWindows += 1;
+
+    //If one of the users has no coordinates, show "?" as distance.
+    let distanceInKm = "";
+    if ( (!targetLat && !targetLng) || (!user.lat && !user.lng) ) {
+    	distanceInKm = "Unknown";
+    }else{
+    	distanceInKm = getDistanceFromLatLonInKm(user.lat, user.lng, targetLat, targetLng).toFixed(2) + " Km";
+    }
+    $(sourceChatWindow).find(".messages").append($('<p class="infoMsg">').text("Distance: " + distanceInKm));
 }
 
 //Allow only one chatWindow per contact
 //Checks if chatWindow is already open and if not call openNewChatWindow, 
 //if focusInput is true, puts the cursor on the chat input.
-function openChatWindow(targetName, targetID, focusInput) {
+function openChatWindow(targetName, targetID, targetLat, targetLng, focusInput) {
     if ( isChatAlreadyOpen(targetID) ) {
     	if (focusInput) {
     		let chatWinPar = $("#"+targetID).parent();
@@ -110,7 +141,7 @@ function openChatWindow(targetName, targetID, focusInput) {
     	//TODO: Open additional chat windows in a list contained on a small element, like in facebook.
     	//For now, just return
     	if (openChatWindows >= openChatWindowsLimit) {console.log("Too many chats."); return;};
-    	openNewChatWindow(targetName, targetID, focusInput);
+    	openNewChatWindow(targetName, targetID, targetLat, targetLng, focusInput);
     };
 }
 
@@ -144,15 +175,17 @@ app.controller("ctrl", function($scope, $http, $interval) {
 
 $(document).ready(function(){
 	//Open chat window when clicking on contact
-	$("#contactsBox").on("click", ".contactClass", function(event){		
+	$("#contactsBox").on("click", ".contactClass", function(event){
 		let targetAttrs = event.target;
 		let targetName = targetAttrs.innerText;
 		//Private chat to this ID
 		let targetID = targetAttrs.getAttribute("data-contactid");
 		//Use this picture in chat
 		//console.log(targetAttrs.getAttribute("data-contactPicture"));
+		let targetLat = targetAttrs.getAttribute("data-contactLat");
+		let targetLng = targetAttrs.getAttribute("data-contactLng");
 
-    	openChatWindow(targetName, targetID, true);
+    	openChatWindow(targetName, targetID, targetLat, targetLng, true);
 	});
 
 	//Closes chat window, and slide remaining windows in proper position.

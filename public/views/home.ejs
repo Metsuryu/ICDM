@@ -75,7 +75,7 @@ var user = <%- JSON.stringify(user) %>;
             <!--All Online Users-->
             <!--ng-repeat-->
             <ul>
-                <li data-ng-repeat="contact in contactsListGET | filter:searchNG | filter:'!'+ssID" class="contactClass" data-contactID="{{contact.id}}" data-contactPicture="{{contact.picture}}" data-contactEmail="{{contact.email}}"> {{contact.name}} </li>
+                <li data-ng-repeat="contact in contactsListGET | filter:searchNG | filter:'!'+ssID" class="contactClass" data-contactID="{{contact.id}}" data-contactPicture="{{contact.picture}}" data-contactLat="{{contact.lat}}" data-contactLng="{{contact.lng}}"> {{contact.name}} </li>
             </ul>
     <input id="searchField" type="text" name="search" placeholder="&#128269; Search" data-ng-model="searchNG"/>
     </div>

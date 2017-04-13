@@ -52,6 +52,8 @@ let userPicture = getUserPictre();
     $("body").on("submit", "form", function(event){
       //Can use either "event.target" or "this"
       let messageToSend = $(".m",this).val();
+      //Don't allow empty messages.
+      if (!messageToSend) {return};
       let contactID = this.getAttribute("data-pmid");
       let thisChat = "#" + contactID;
       //TODO: let contactPicture = 
@@ -59,8 +61,9 @@ let userPicture = getUserPictre();
       socket.emit("PM", contactID, messageToSend, {name: userName, picture: userPicture, id: sessionID});
       //Append sent message to chatWindow
       //TODO: Why can't I use (".messages",this) for this?
-      //TODO: close <p> tag
-      $(thisChat).append($('<p class="sentMessage">').text(userName + ": " + messageToSend));
+      //?TODO: close <p> tag
+      //TODO: Add timestamp and sender name that can be seen on mouse hover.
+      $(thisChat).append($('<p class="sentMessage">').text(messageToSend));
       //Scroll to bottom
       let chatWindow = $(thisChat);
       chatWindow.scrollTop(chatWindow.prop("scrollHeight"));
@@ -83,8 +86,9 @@ let userPicture = getUserPictre();
       };
 
       let targetChatWindow = $("#" + sender.id);
-      let senderName = $.parseHTML('<p class="receivedMessage">' + "<b>"+ sender.name +"</b>: ");
-      $( senderName ).appendTo( targetChatWindow );
+      //let senderName = $.parseHTML('<p class="receivedMessage">' + "<b>"+ sender.name +"</b>: ");
+      //$( senderName ).appendTo( targetChatWindow );
+      //TODO: Add timestamp and sender name that can be seen on mouse hover.
       $(targetChatWindow).append($('<p class="receivedMessage">').text(msg));
       //TODO: Adjust way messages are displayed
       //Scroll to bottom

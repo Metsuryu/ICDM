@@ -61,21 +61,37 @@ form input {
 .messages li { 
 	padding: 5px 10px; 
 }
-/*TODO: Remove if I color-code backgrounds for each user*/
-.messages li:nth-child(odd) { 
-	background: #eee; 
+
+.infoMsg {
+	padding: 0.5em;
+	margin: 1em;
+	border-radius: 25px;
+    background: #F0EDE5;
+    color: black;
+    font-weight: bold;
+    width: 80%;
+    text-align: center;
+	margin: 0 auto;
 }
 
 .receivedMessage {
-	/*TODO: Fix style*/
-	padding-right: 5px;
-	padding-left: 5px;
+	padding: 0.5em;
+	margin: .5em;
+	border-radius: 15px;
+    background: #F0EDE5;
+    color: black;
+    width: 70%;
+    float: left;
 }
 
 .sentMessage {
-	/*TODO: Fix style*/
-	padding-right: 5px;
-	padding-left: 5px;
+	padding: 0.5em;
+	margin: .5em;
+	border-radius: 15px;
+    background: #4980F5;
+    color: white;
+    width: 70%;
+    float: right;
 }
 
 .chatWindowHeader {
@@ -225,3 +241,4 @@ form input {
 #searchField {
 	margin-left: 0.5em;
 }
+

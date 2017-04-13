@@ -1,16 +1,17 @@
 let map;
 let infoWindow;
-//TODO: Adjust. Italy: lat: 42.733, lng: 13.304 
+//Italy: lat: 41.500, lng: 13.304 
 const defaultLat = 41.500;
 const defaultLng = 13.304;
-
 let usersOnline = [];
 let markersOnMap = [];
+//If localUserOnMap === true, update map position when doing broadcast
+let localUserOnMap = false;
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: {lat: defaultLat, lng: defaultLng}, 
-          zoom: 5 //TODO: Adjust
+          zoom: 5
           /*
           1: World
           5: Landmass/continent
@@ -45,6 +46,7 @@ function initMap() {
         */
 }
 
+//TODO: Translate
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.setPosition(pos);
   infoWindow.setContent(browserHasGeolocation ?
@@ -52,7 +54,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     "Error: Your browser doesn't support geolocation.");
 }
 
-
+//TODO: Test, delete.
 function setNewPosition(pos){
   infoWindow.setPosition(pos);
   //infoWindow.setContent("You."); Doesn't work if infoWindow is not set again in this func
@@ -60,26 +62,7 @@ function setNewPosition(pos){
 }
 
 
-/*This function calculates great-circle distances between the two points 
-– that is, the shortest distance over the earth’s surface – using the ‘Haversine’ formula.*/
-function deg2rad(deg) {
-  return deg * (Math.PI/180)
-}
-//TODO: Show distance in km of users (Maybe at start of chat)
-function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
-  let R = 6371; // Radius of the earth in km
-  let dLat = deg2rad(lat2-lat1);  // deg2rad above
-  let dLon = deg2rad(lon2-lon1); 
-  let a = 
-  Math.sin(dLat/2) * Math.sin(dLat/2) +
-  Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-  Math.sin(dLon/2) * Math.sin(dLon/2)
-  ; 
-  let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-  let d = R * c; // Distance in km (In linea d'aria)
-  return d;
-}
-/*Haversine formula end*/
+
 
 //TODO: Just a test function, delete when done
 function moveMap(){
@@ -139,14 +122,9 @@ function eraseLocation(){
 //Get current location of the user, and broadcast them to the server. 
 //TODO: At first login, show tutorial or link to FAQ (Click this to broadcast your location, or something like that)
 function broadcastLocation(){
-  //TODO: Delete Prints
-  console.log("Lat, Lng:");
-  console.log(user.lat);
-  console.log(user.lng);
-  if (user.google) {
-    console.log(user.google.name);
-  } else if (user.facebook) {
-    console.log(user.facebook.name);
+  //If user's marker is already on map, erase it first, so it can spawn at new location.
+  if (localUserOnMap) {
+    eraseLocation();
   };
   //TODO: Adjust
   // Try HTML5 geolocation. 
@@ -162,12 +140,6 @@ function broadcastLocation(){
       infoWindow.setContent("Location found."); //TODO: Change text here and at errors
       map.setCenter(pos);
 
-      //TODO: Here Set user.lat and .lng to current lat and lng:
-      // console.log(user.lat);
-      // console.log(user.lng);
-      // console.log(pos.lat);
-      // console.log(pos.lng);
-  
       $.ajax({
         type: "PUT",
         url: "/updateUserCoordinates",
@@ -226,26 +198,35 @@ function broadcastLocation(){
 
   //Pass online contact as argument to add marker on map
   function addMarker (newMarker) {
-    styleMarker(newMarker.picture);
+    let nmPic = newMarker.picture;
+    let nmName = newMarker.name;
+    let nmID = newMarker.id;
+    let nmLatLng = newMarker.latLng;
+    let nmLat = nmLatLng.lat();
+    let nmLng = nmLatLng.lng();
+
+    styleMarker(nmPic);
     let thisMarker = new google.maps.Marker({
-      position: newMarker.latLng,
+      position: nmLatLng,
       map: map,
-      title: newMarker.name,
-      icon: newMarker.picture,
+      title: nmName,
+      icon: nmPic,
       //Makes it a discreet DOM element accessible by css:
       optimized:false
     });
     //Open chatWindow on click, only if the marker is not yourself
-    if (newMarker.id != sessionID) {
+    if (nmID != sessionID) {
       thisMarker.addListener("click", function() {
         //TODO: Add these?
         //map.setZoom(8);
         //map.setCenter(thisMarker.getPosition());
-        openChatWindow(newMarker.name, newMarker.id, true);
+
+        openChatWindow(nmName, nmID, nmLat, nmLng, true);
       });
     }else{
       //Used to remove marker when erasing location
       thisMarker.id = "localUserMarker";
+      localUserOnMap = true;
     };
     //uniqueID needed to check if the marker is on the map
     thisMarker.uniqueID = newMarker.uniqueID;
@@ -271,8 +252,11 @@ function broadcastLocation(){
 
       //If there are no coordinates, skip it
       if (! newMarker.lat && ! newMarker.lng) {continue;};
-      //If the marker was already added to the map skip it
+      //If the marker was already added to the map, skip it
       if ( isUniqueIDInArray( markersOnMap, newMarker.uniqueID ) ) {continue;};
+      //If it's the localUser's mark, and it's already on the map, skip it.
+      if (localUserOnMap && newMarker.id === sessionID) {continue;};
+      //Otherwise, add the marker
       newMarker.latLng = new google.maps.LatLng({
         lat: newMarker.lat, 
         lng: newMarker.lng
@@ -313,6 +297,7 @@ function broadcastLocation(){
         removeMarker (markerToRemove);
         //Remove the marker from the array
         markersOnMap.splice(i, 1);
+        localUserOnMap = false;
         return;
       };
     };
