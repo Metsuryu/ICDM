@@ -19,12 +19,12 @@ function getUserPictre (){
   else if (user.facebook) {
     return user.facebook.picture;
   }else{
-    //TODO: Use class="fa fa-user"
+    //?TODO: Use class="fa fa-user"
     return "";
   };
 }
 
-//TODO: Send userName and Picture only on connect, and then use them locally from the client-side
+//?TODO: Send userName and Picture only on connect, and then use them locally from the client-side
 let userName = getUserName();
 let userPicture = getUserPictre();
 
@@ -54,16 +54,26 @@ let userPicture = getUserPictre();
       let messageToSend = $(".m",this).val();
       //Don't allow empty messages.
       if (!messageToSend) {return};
-      let contactID = this.getAttribute("data-pmid");
-      let thisChat = "#" + contactID;
-      //TODO: let contactPicture = 
 
-      socket.emit("PM", contactID, messageToSend, {name: userName, picture: userPicture, id: sessionID});
+      let contactID = this.getAttribute("data-pmid");
+      let contactUID = this.getAttribute("data-pmuid");
+      let thisChat = "#" + contactID;
+      
+      socket.emit("PM", contactID, messageToSend, {
+        name: userName, 
+        picture: userPicture, 
+        id: sessionID, 
+        uniqueID: user._id,
+        lat: user.lat,
+        lng: user.lng
+      });
       //Append sent message to chatWindow
-      //TODO: Why can't I use (".messages",this) for this?
-      //?TODO: close <p> tag
       //TODO: Add timestamp and sender name that can be seen on mouse hover.
       $(thisChat).append($('<p class="sentMessage">').text(messageToSend));
+      //Conversation history
+      let chatHistory = Cookies.get(contactUID) || "";
+      chatHistory += '<p class="sentMessage">' + messageToSend;
+      Cookies.set(contactUID, chatHistory);
       //Scroll to bottom
       let chatWindow = $(thisChat);
       chatWindow.scrollTop(chatWindow.prop("scrollHeight"));
@@ -73,24 +83,30 @@ let userPicture = getUserPictre();
       return false;
     });
 
-
     //TODO: Add notification of unread messages
     //Receive PM
     socket.on("PMsg", function(msg, sender){
-      //TODO: Use "<img src=" + sender.picture + ">" for sender icon
-      openChatWindow(sender.name, sender.id, false);
+      //main.js
+      openChatWindow(
+        sender.name, 
+        sender.picture, 
+        sender.id, 
+        sender.uniqueID, 
+        sender.lat, 
+        sender.lng,
+        false);
+      let targetChatWindow = $("#" + sender.id);
+      //TODO: Add timestamp and sender name that can be seen on mouse hover.
+      $(targetChatWindow).append($('<p class="receivedMessage">').text(msg));
+      //Conversation history
+      let chatHistory = Cookies.get(sender.uniqueID) || "";
+      chatHistory += '<p class="receivedMessage">' + msg;
+      Cookies.set(sender.uniqueID, chatHistory);
       //Notification sound only if the window is not visible.
       if (document.visibilityState === "hidden") {
         let notification = new Audio("audio/notification.mp3");
         notification.play();
       };
-
-      let targetChatWindow = $("#" + sender.id);
-      //let senderName = $.parseHTML('<p class="receivedMessage">' + "<b>"+ sender.name +"</b>: ");
-      //$( senderName ).appendTo( targetChatWindow );
-      //TODO: Add timestamp and sender name that can be seen on mouse hover.
-      $(targetChatWindow).append($('<p class="receivedMessage">').text(msg));
-      //TODO: Adjust way messages are displayed
       //Scroll to bottom
       targetChatWindow.scrollTop(targetChatWindow.prop("scrollHeight"));    
     });

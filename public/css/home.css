@@ -63,6 +63,7 @@ form input {
 }
 
 .infoMsg {
+	clear: both;
 	padding: 0.5em;
 	margin: 1em;
 	border-radius: 25px;
@@ -72,6 +73,7 @@ form input {
     width: 80%;
     text-align: center;
 	margin: 0 auto;
+
 }
 
 .receivedMessage {
@@ -242,3 +244,7 @@ form input {
 	margin-left: 0.5em;
 }
 
+.profilePic {
+	border-radius:30px; 
+    border:1px solid #000 !important; 
+}

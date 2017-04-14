@@ -7,7 +7,8 @@ let openChatWindows = 0;
 function deg2rad(deg) {
   return deg * (Math.PI/180)
 }
-//TODO: Show distance in km of users (Maybe at start of chat)
+//TODO: Use google's API instead
+//Show distance in km of users (Maybe at start of chat)
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   let R = 6371; // Radius of the earth in km
   let dLat = deg2rad(lat2-lat1);  // deg2rad above
@@ -77,9 +78,8 @@ function isChatAlreadyOpen (targetID) {
 }
 
 //TODO: Add other parameters as I add other functionality
-function openNewChatWindow (targetName, targetID, targetLat, targetLng, focusInput) {
+function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput) {
 	let thisChatWindow = openChatWindows + 1;
-	//TODO: Adjust attributes
 	//TODO: Add "options" gear on header, to add/remove/block contact, etc... 
 	//TODO: Transpile with babel to allow backtick (`)
 	let sourceChatWindow = $(`
@@ -96,6 +96,7 @@ function openNewChatWindow (targetName, targetID, targetLat, targetLng, focusInp
 	 `);
 	sourceChatWindow.find("#chatUserName").html(targetName);
 	sourceChatWindow.find("#chatForm").attr("data-pmid", targetID);
+	sourceChatWindow.find("#chatForm").attr("data-pmuid", targetUniqueID);
 	sourceChatWindow.find(".messages").attr("id",targetID);
 	sourceChatWindow.attr("id",thisChatWindow);
 	sourceChatWindow.attr("data-min","false");
@@ -108,20 +109,31 @@ function openNewChatWindow (targetName, targetID, targetLat, targetLng, focusInp
     };
     openChatWindows += 1;
 
-    //If one of the users has no coordinates, show "?" as distance.
+    //If one of the users has no coordinates, show "unknown" as distance.
+    let profilePic = '<img class="profilePic" src="' + targetPic + '">';
     let distanceInKm = "";
+    //Uses targetUniqueID instead of targetID, so it's permanent across sessions
+    let chatHistory = Cookies.get(targetUniqueID) || "";
     if ( (!targetLat && !targetLng) || (!user.lat && !user.lng) ) {
     	distanceInKm = "Unknown";
     }else{
     	distanceInKm = getDistanceFromLatLonInKm(user.lat, user.lng, targetLat, targetLng).toFixed(2) + " Km";
     }
-    $(sourceChatWindow).find(".messages").append($('<p class="infoMsg">').text("Distance: " + distanceInKm));
+    //Chat history
+    $(sourceChatWindow).find(".messages").html(chatHistory + "<br>");
+    //Profile picture and distance
+    $(sourceChatWindow).find(".messages").append($('<div class="infoMsg">').html(
+    	profilePic 	+ "<p>Distance: " + distanceInKm + "</p>" 
+    	));
+    //Scroll to bottom of chat here.
+    let targetChatWindow = $("#" + targetID);
+    $(targetChatWindow).scrollTop(targetChatWindow.prop("scrollHeight"));
 }
 
 //Allow only one chatWindow per contact
 //Checks if chatWindow is already open and if not call openNewChatWindow, 
 //if focusInput is true, puts the cursor on the chat input.
-function openChatWindow(targetName, targetID, targetLat, targetLng, focusInput) {
+function openChatWindow(targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput) {
     if ( isChatAlreadyOpen(targetID) ) {
     	if (focusInput) {
     		let chatWinPar = $("#"+targetID).parent();
@@ -139,9 +151,11 @@ function openChatWindow(targetName, targetID, targetLat, targetLng, focusInput) 
 	}else{
     	//Open new window
     	//TODO: Open additional chat windows in a list contained on a small element, like in facebook.
+    	//TODO: Or simply leave the limit on number of chats open, 
+    	//  and add notifications near username on pm.
     	//For now, just return
     	if (openChatWindows >= openChatWindowsLimit) {console.log("Too many chats."); return;};
-    	openNewChatWindow(targetName, targetID, targetLat, targetLng, focusInput);
+    	openNewChatWindow(targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput);
     };
 }
 
@@ -178,14 +192,13 @@ $(document).ready(function(){
 	$("#contactsBox").on("click", ".contactClass", function(event){
 		let targetAttrs = event.target;
 		let targetName = targetAttrs.innerText;
-		//Private chat to this ID
 		let targetID = targetAttrs.getAttribute("data-contactid");
-		//Use this picture in chat
-		//console.log(targetAttrs.getAttribute("data-contactPicture"));
+		let targetUniqueID = targetAttrs.getAttribute("data-contactUID");
+		let targetPic = targetAttrs.getAttribute("data-contactPicture");
 		let targetLat = targetAttrs.getAttribute("data-contactLat");
 		let targetLng = targetAttrs.getAttribute("data-contactLng");
 
-    	openChatWindow(targetName, targetID, targetLat, targetLng, true);
+    	openChatWindow(targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, true);
 	});
 
 	//Closes chat window, and slide remaining windows in proper position.

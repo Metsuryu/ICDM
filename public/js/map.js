@@ -201,6 +201,7 @@ function broadcastLocation(){
     let nmPic = newMarker.picture;
     let nmName = newMarker.name;
     let nmID = newMarker.id;
+    let nmUID = newMarker.uniqueID;
     let nmLatLng = newMarker.latLng;
     let nmLat = nmLatLng.lat();
     let nmLng = nmLatLng.lng();
@@ -221,7 +222,7 @@ function broadcastLocation(){
         //map.setZoom(8);
         //map.setCenter(thisMarker.getPosition());
 
-        openChatWindow(nmName, nmID, nmLat, nmLng, true);
+        openChatWindow(nmName, nmPic, nmID, nmUID, nmLat, nmLng, true);
       });
     }else{
       //Used to remove marker when erasing location
@@ -229,7 +230,7 @@ function broadcastLocation(){
       localUserOnMap = true;
     };
     //uniqueID needed to check if the marker is on the map
-    thisMarker.uniqueID = newMarker.uniqueID;
+    thisMarker.uniqueID = nmUID;
     markersOnMap.push(thisMarker);
   }
 
