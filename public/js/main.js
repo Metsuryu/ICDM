@@ -2,13 +2,62 @@
 const openChatWindowsLimit = 4; //TODO: Adjust depending on screen size.
 let openChatWindows = 0;
 
+/*
+  Origin and destination coordinates to calculate the distance, and
+  callback and callerWindowID to update the distance on the target window.
+*/
+function getDistanceGoogleAPI(oriLatLng, destLatLng, callback, callerWindowID){
+	/*Distance API usage
+	  Link: https://maps.googleapis.com/maps/api/distancematrix/json?parameters
+	  Parameters:
+	  origins=lat,lng
+	  &destinations=lat,lng
+	  &key=AIzaSyCr033Rma9_v9mY69z9XOGzqBWkgT3Y_gM
+	  Optional:
+	  &language=
+	  en 	English
+	  it 	Italian
+	*/
+	let origins = oriLatLng;
+	let destinations = destLatLng;
+	let apiUrl = "https://maps.googleapis.com/maps/api/distancematrix/json?";
+	let key = "AIzaSyCr033Rma9_v9mY69z9XOGzqBWkgT3Y_gM";
+	apiUrl += "origins=" + origins + "&destinations=" + destinations + "&key=" + key;
+
+	$.ajax({
+		type: "GET",
+		url: apiUrl,
+		cache: false,
+		success: function(result) {
+			if (! result) {return false;};
+			//Pass "result" to the callback if available
+			//If status is not "OK", it could mean the usage rate was exceeded, 
+			//so the local distance algorithm is used instead
+			if (result.rows[0].elements[0].status === "OK") {
+				let distanceText = result.rows[0].elements[0].distance.text;
+				callback(distanceText, callerWindowID);
+			}else{
+				//Use other algorithm
+				return false;
+			}			
+		},
+		error: function(err){
+			console.log("Error: " , err);
+			return false;
+		},
+		complete: function(){
+			//return false;
+		}
+	});
+}
+
 /*This function calculates great-circle distances between the two points 
 – that is, the shortest distance over the earth’s surface – using the ‘Haversine’ formula.*/
 function deg2rad(deg) {
   return deg * (Math.PI/180)
 }
-//TODO: Use google's API instead
-//Show distance in km of users (Maybe at start of chat)
+/*Use when the Google Distance API fails 
+since Google's API is limited to 2500 requests per day*/
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   let R = 6371; // Radius of the earth in km
   let dLat = deg2rad(lat2-lat1);  // deg2rad above
@@ -23,7 +72,6 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   //Round to 2 decimals
   return d;
 }
-/*Haversine formula end*/
 
 function minimizeChatWindow (parentChatWindow) {
 	parentChatWindow.animate({
@@ -80,6 +128,7 @@ function isChatAlreadyOpen (targetID) {
 //TODO: Add other parameters as I add other functionality
 function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput) {
 	let thisChatWindow = openChatWindows + 1;
+	let jqTargetID = "#" + targetID;
 	//TODO: Add "options" gear on header, to add/remove/block contact, etc... 
 	//TODO: Transpile with babel to allow backtick (`)
 	let sourceChatWindow = $(`
@@ -112,21 +161,35 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
     //If one of the users has no coordinates, show "unknown" as distance.
     let profilePic = '<img class="profilePic" src="' + targetPic + '">';
     let distanceInKm = "";
+    //Chat history
     //Uses targetUniqueID instead of targetID, so it's permanent across sessions
     let chatHistory = Cookies.get(targetUniqueID) || "";
+    $(sourceChatWindow).find(".messages").html(chatHistory + "<br>");
+
     if ( (!targetLat && !targetLng) || (!user.lat && !user.lng) ) {
     	distanceInKm = "Unknown";
     }else{
+    	/*Wait for async getDistanceGoogleAPI to run the callback, and in the meantime use 
+    	  the less precise getDistanceFromLatLonInKm that will be replaced 
+    	  by the callback value if successful.
+    	*/
     	distanceInKm = getDistanceFromLatLonInKm(user.lat, user.lng, targetLat, targetLng).toFixed(2) + " Km";
-    }
-    //Chat history
-    $(sourceChatWindow).find(".messages").html(chatHistory + "<br>");
-    //Profile picture and distance
-    $(sourceChatWindow).find(".messages").append($('<div class="infoMsg">').html(
-    	profilePic 	+ "<p>Distance: " + distanceInKm + "</p>" 
+    	//Profile picture and distance
+    	$(sourceChatWindow).find(".messages").append($('<div class="infoMsg">').html(
+    		profilePic 	+ "<p>Distance: <span id='distanceSpan'>" + distanceInKm + "</span> </p>"
     	));
+    	//Called if getDistanceGoogleAPI is successful, updates the distance to be more accurate.
+    	function updateDistanceCB(result, callerWindowID){
+    		let spanToModify = $(callerWindowID).find("#distanceSpan");
+    		spanToModify.text(result);
+    	};
+    	let origin = user.lat.toString() + "," + user.lng.toString();
+    	let destination = targetLat.toString() + "," + targetLng.toString();
+    	getDistanceGoogleAPI(origin, destination, updateDistanceCB, jqTargetID );
+    }
+    
     //Scroll to bottom of chat here.
-    let targetChatWindow = $("#" + targetID);
+    let targetChatWindow = $(jqTargetID);
     $(targetChatWindow).scrollTop(targetChatWindow.prop("scrollHeight"));
 }
 

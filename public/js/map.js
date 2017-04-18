@@ -108,13 +108,13 @@ function eraseLocation(){
       emitUpdateCoords(0, 0);
       user.lat = 0;
       user.lng = 0;
+      removeLocalUserMarker();
+      //TODO: Show success message
     },
     error: function(err){
       console.log("Error: " , err);
     },
     complete: function(){
-      removeLocalUserMarker();
-      //TODO: Show success message
     }
   });
 }
@@ -153,12 +153,12 @@ function broadcastLocation(){
           emitUpdateCoords(pos.lat, pos.lng);
           user.lat = pos.lat;
           user.lng = pos.lng;
+          updateMarkersOnMap ();
         },
         error: function(err){
           console.log("Error: " , err);
         },
         complete: function(){
-          updateMarkersOnMap ();
         }
       });
 
