@@ -37,8 +37,6 @@
     <span class="fa fa-power-off"></span> Logout </a>
 </div>
 
-
-
 <div class="container">
 
 <script>
@@ -73,10 +71,10 @@ var user = <%- JSON.stringify(user) %>;
     <div id="contactsBox">
         <div id="contactsHandle"> <span id="contactsSpan">Snipers</span> </div>
             <!--All Online Users-->
-            <!--ng-repeat-->
+            <!--Filters out uID so you don't show up in your own online users list-->
             <ul>
                 <li 
-                data-ng-repeat="contact in contactsListGET | filter:searchNG | filter:'!'+ssID" 
+                data-ng-repeat="contact in contactsListGET | filter:searchNG | filter:'!'+uID" 
                 class="contactClass" 
                 data-contactID="{{contact.id}}" 
                 data-contactUID="{{contact.uniqueID}}" 

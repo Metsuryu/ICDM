@@ -216,7 +216,7 @@ function broadcastLocation(){
       optimized:false
     });
     //Open chatWindow on click, only if the marker is not yourself
-    if (nmID != sessionID) {
+    if (nmUID != user._id) {
       thisMarker.addListener("click", function() {
         //TODO: Add these?
         //map.setZoom(8);

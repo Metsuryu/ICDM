@@ -19,8 +19,10 @@ function getDistanceGoogleAPI(oriLatLng, destLatLng, callback, callerWindowID){
 			/*There should only be 1 element, so there
 			is no need for a loop to iterate the results.*/
 			let results = response.rows[0].elements[0];
-    		let distance = results.distance.text;
-    		callback(distance, callerWindowID);
+			if (results.status === "OK") {
+				let distance = results.distance.text;
+    			callback(distance, callerWindowID);
+			};
     	};
     });	
 }
@@ -91,8 +93,8 @@ function slideChatWindows (windowClosed) {
 }
 
 //Check if chat with targetID is already on DOM
-function isChatAlreadyOpen (targetID) {
-	if ($("#"+targetID).length) {
+function isChatAlreadyOpen (targetUniqueID) {
+	if ($("#"+targetUniqueID).length) {
 		return true;
 	}else{
 		return false;
@@ -107,7 +109,7 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
 	//TODO: Transpile with babel to allow backtick (`)
 	let sourceChatWindow = $(`
 <div id="" class="chatWindow" data-min="">
-    <div class="chatWindowHeader">
+    <div id="" class="chatWindowHeader">
         <span id="chatUserName">User</span>
         <span class="chatCloseButton">x</span>
     </div>
@@ -120,6 +122,7 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
 	sourceChatWindow.find("#chatUserName").html(targetName);
 	sourceChatWindow.find("#chatForm").attr("data-pmid", targetID);
 	sourceChatWindow.find("#chatForm").attr("data-pmuid", targetUniqueID);
+	sourceChatWindow.find(".chatWindowHeader").attr("id", targetUniqueID);
 	sourceChatWindow.find(".messages").attr("id",targetID);
 	sourceChatWindow.attr("id",thisChatWindow);
 	sourceChatWindow.attr("data-min","false");
@@ -141,7 +144,11 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
     $(sourceChatWindow).find(".messages").html(chatHistory + "<br>");
 
     if ( (!targetLat && !targetLng) || (!user.lat && !user.lng) ) {
-    	distanceInKm = "Unknown";
+    	distanceInKm = "Unknown <a href=''>(?)</a>"; //TODO: Link to FAQ: "Why am I seeing Distance: Unknown?"
+    	//Profile picture without distance
+    	$(sourceChatWindow).find(".messages").append($('<div class="infoMsg">').html(
+    		profilePic 	+ "<p>Distance: <span id='distanceSpan'>" + distanceInKm + "</span> </p>"
+    	));
     }else{
     	/*Wait for async getDistanceGoogleAPI to run the callback, and in the meantime use 
     	  the less precise getDistanceFromLatLonInKm that will be replaced 
@@ -159,7 +166,7 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
     		spanToModify.text(distance);
     	};
     	let origin = new google.maps.LatLng(user.lat, user.lng);
-		let destination = new google.maps.LatLng(targetLat, targetLng);
+    	let destination = new google.maps.LatLng(targetLat, targetLng);
     	getDistanceGoogleAPI(origin, destination, updateDistanceCB, jqTargetID );
     };    
     //Scroll to bottom of chat here.
@@ -171,7 +178,7 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
 //Checks if chatWindow is already open and if not call openNewChatWindow, 
 //if focusInput is true, puts the cursor on the chat input.
 function openChatWindow(targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput) {
-    if ( isChatAlreadyOpen(targetID) ) {
+    if ( isChatAlreadyOpen(targetUniqueID) ) {
     	if (focusInput) {
     		let chatWinPar = $("#"+targetID).parent();
     		//If maximized, just focus
@@ -200,14 +207,24 @@ let app = angular.module("ICDM", []);
 
 
 app.controller("ctrl", function($scope, $http, $interval) {
+	//Set session and unique ID as soon as they are available
 	function setSessionID () {
-		$scope.ssID = sessionID;
+		if (sessionID) {
+			$scope.ssID = sessionID;
+		}else{
+			$interval(setSessionID, 1000);
+		}
 	}
-	if (sessionID) {
-		setSessionID();
-	}else{
-		$interval(setSessionID, 1000);
+	setSessionID();
+
+	function setUniqueID () {
+		if (user._id) {
+			$scope.uID = user._id;
+		}else{
+			$interval(setUniqueID, 1000);
+		}
 	}
+	setUniqueID();
 
 	//Gets the online contacts form the server
 	function updateContactsList () {
@@ -232,8 +249,8 @@ $(document).ready(function(){
 		let targetID = targetAttrs.getAttribute("data-contactid");
 		let targetUniqueID = targetAttrs.getAttribute("data-contactUID");
 		let targetPic = targetAttrs.getAttribute("data-contactPicture");
-		let targetLat = targetAttrs.getAttribute("data-contactLat");
-		let targetLng = targetAttrs.getAttribute("data-contactLng");
+		let targetLat = Number( targetAttrs.getAttribute("data-contactLat") );
+		let targetLng = Number( targetAttrs.getAttribute("data-contactLng") );
 
     	openChatWindow(targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, true);
 	});
