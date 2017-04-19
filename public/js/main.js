@@ -7,48 +7,22 @@ let openChatWindows = 0;
   callback and callerWindowID to update the distance on the target window.
 */
 function getDistanceGoogleAPI(oriLatLng, destLatLng, callback, callerWindowID){
-	/*Distance API usage
-	  Link: https://maps.googleapis.com/maps/api/distancematrix/json?parameters
-	  Parameters:
-	  origins=lat,lng
-	  &destinations=lat,lng
-	  &key=AIzaSyCr033Rma9_v9mY69z9XOGzqBWkgT3Y_gM
-	  Optional:
-	  &language=
-	  en 	English
-	  it 	Italian
-	*/
-	let origins = oriLatLng;
-	let destinations = destLatLng;
-	let apiUrl = "https://maps.googleapis.com/maps/api/distancematrix/json?";
-	let key = "AIzaSyCr033Rma9_v9mY69z9XOGzqBWkgT3Y_gM";
-	apiUrl += "origins=" + origins + "&destinations=" + destinations + "&key=" + key;
-
-	$.ajax({
-		type: "GET",
-		url: apiUrl,
-		cache: false,
-		success: function(result) {
-			if (! result) {return false;};
-			//Pass "result" to the callback if available
-			//If status is not "OK", it could mean the usage rate was exceeded, 
-			//so the local distance algorithm is used instead
-			if (result.rows[0].elements[0].status === "OK") {
-				let distanceText = result.rows[0].elements[0].distance.text;
-				callback(distanceText, callerWindowID);
-			}else{
-				//Use other algorithm
-				return false;
-			}			
-		},
-		error: function(err){
-			console.log("Error: " , err);
-			return false;
-		},
-		complete: function(){
-			//return false;
-		}
-	});
+	let distanceService = new google.maps.DistanceMatrixService();
+	distanceService.getDistanceMatrix({
+		origins: [oriLatLng],
+		destinations: [destLatLng],
+		travelMode: "DRIVING" //Supposed to be optional, but apparently is required
+	}, function (response, status){
+		/*If status is not "OK", it could mean the usage rate was exceeded, 
+		so the local distance algorithm is used instead*/
+		if (status === "OK") {
+			/*There should only be 1 element, so there
+			is no need for a loop to iterate the results.*/
+			let results = response.rows[0].elements[0];
+    		let distance = results.distance.text;
+    		callback(distance, callerWindowID);
+    	};
+    });	
 }
 
 /*This function calculates great-circle distances between the two points 
@@ -178,22 +152,22 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
     	$(sourceChatWindow).find(".messages").append($('<div class="infoMsg">').html(
     		profilePic 	+ "<p>Distance: <span id='distanceSpan'>" + distanceInKm + "</span> </p>"
     	));
+
     	//Called if getDistanceGoogleAPI is successful, updates the distance to be more accurate.
-    	function updateDistanceCB(result, callerWindowID){
+    	function updateDistanceCB(distance, callerWindowID){
     		let spanToModify = $(callerWindowID).find("#distanceSpan");
-    		spanToModify.text(result);
+    		spanToModify.text(distance);
     	};
-    	let origin = user.lat.toString() + "," + user.lng.toString();
-    	let destination = targetLat.toString() + "," + targetLng.toString();
+    	let origin = new google.maps.LatLng(user.lat, user.lng);
+		let destination = new google.maps.LatLng(targetLat, targetLng);
     	getDistanceGoogleAPI(origin, destination, updateDistanceCB, jqTargetID );
-    }
-    
+    };    
     //Scroll to bottom of chat here.
     let targetChatWindow = $(jqTargetID);
     $(targetChatWindow).scrollTop(targetChatWindow.prop("scrollHeight"));
 }
 
-//Allow only one chatWindow per contact
+//Allow only one chatWindow per contact //TODO: Check if chatWindow is already open by uniqueID, not sessionID
 //Checks if chatWindow is already open and if not call openNewChatWindow, 
 //if focusInput is true, puts the cursor on the chat input.
 function openChatWindow(targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput) {
