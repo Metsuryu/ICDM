@@ -1,12 +1,11 @@
 <!-- views/index.ejs -->
 <!doctype html>
-<html>
+<html lang="en"> <!--TODO: Change to it, and set to en when translated-->
 <head>
-	<title>I Cecchini Del Mare</title>
-	<html lang="en"> <!--TODO: Change to it, and set to en when translated-->
-  	<meta charset="utf-8">
-  	<meta name="viewport" content="width=device-width, initial-scale=1">
-  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <title>I Cecchini Del Mare</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	<link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
 	<link rel="stylesheet" type="text/css" href="css/index.css">
@@ -20,16 +19,16 @@
 
 <div id="header">
   <!--TODO: Maybe open this on the same page, in a pop-up frame or something-->
-  <a href="" class="btn btn-primary btn-sm">
-    <span class="glyphicon glyphicon-info-sign"></span> About </a>
-  <a href="" class="btn btn-primary btn-sm">
-    <span class="glyphicon glyphicon-question-sign"></span> FAQ </a>
-  <a href="" class="btn btn-primary btn-sm">
-    <span class="glyphicon glyphicon-envelope"></span> Contacts </a>
+  <a target="_blank" href="/aboutus" class="btn btn-primary btn-sm">
+    <span class="glyphicon glyphicon-info-sign"></span> About us </a>
   <a target="_blank" href="https://www.facebook.com/groups/cecchinidelmare/" class="btn btn-primary btn-sm">
     <span class="fa fa-facebook"></span> Facebook page </a>
   <a id="langSelector" class="btn btn-primary btn-sm">
     <span class="fa fa-language"></span> Language <img src="img/flags/us.gif"> </a>
+  <a target="_blank" href="/faq" class="btn btn-primary btn-sm">
+    <span class="glyphicon glyphicon-question-sign"></span> FAQ </a>
+  <a target="_blank" href="/contactus" class="btn btn-primary btn-sm">
+    <span class="glyphicon glyphicon-envelope"></span> Contact us </a>
 </div>
 <div class="container-fluid" id="loginContainer">
 	<div class="jumbotron text-center"  id="loginJumbotron">

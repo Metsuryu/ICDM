@@ -7,8 +7,8 @@
 body {
 	word-wrap:break-word;
 	/*TODO: Adjust colors*/
-	/*Previous: #f4f4f4*/ 
-	background-color: #F0EDE5;
+	/*Previous: #f4f4f4 or #F0EDE5*/
+	background-color: #f2f2f2;
 	font: 13px Helvetica, Arial; 
 }
 
@@ -23,7 +23,7 @@ a {
 	padding-left: 4em;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 650px) {
 	#header {
 		padding-left: 0em;
 	}
@@ -54,10 +54,10 @@ a {
 }
 
 #loginContainer {
-	background-color: #A3CCFF;
+	background-color: #f2f2f2;
 }
 #loginJumbotron {
-	background-color: #A3CCFF;
+	background-color: #f2f2f2;
 	color: black;
 }
 

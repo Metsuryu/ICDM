@@ -21,23 +21,21 @@
 <body data-ng-app="ICDM" data-ng-controller="ctrl">
 
 <div id="header">
-  <a target="_blank" href="" class="btn btn-primary btn-sm">
-    <span class="glyphicon glyphicon-info-sign"></span> About </a>
-  <a target="_blank" href="" class="btn btn-primary btn-sm">
-    <span class="glyphicon glyphicon-question-sign"></span> FAQ </a>
-  <a target="_blank" href="" class="btn btn-primary btn-sm">
-    <span class="glyphicon glyphicon-envelope"></span> Contacts </a>
+  <a target="_blank" href="/aboutus" class="btn btn-primary btn-sm">
+    <span class="glyphicon glyphicon-info-sign"></span> About us </a>
   <a target="_blank" href="https://www.facebook.com/groups/cecchinidelmare/" class="btn btn-primary btn-sm">
     <span class="fa fa-facebook"></span> Facebook page </a>
-
   <a id="langSelector" class="btn btn-primary btn-sm">
     <span class="fa fa-language"></span> Language <img src="img/flags/us.gif"> </a>
-
+  <a target="_blank" href="/faq" class="btn btn-primary btn-sm">
+    <span class="glyphicon glyphicon-question-sign"></span> FAQ </a>
+  <a target="_blank" href="/contactus" class="btn btn-primary btn-sm">
+    <span class="glyphicon glyphicon-envelope"></span> Contact us </a>
   <a id="logout" href="/logout" class="btn btn-danger btn-sm">
     <span class="fa fa-power-off"></span> Logout </a>
 </div>
 
-<div class="container">
+<div class="container-fluid">
 
 <script>
 // The chat needs "user" so keep this before chat.js
@@ -49,7 +47,7 @@ var user = <%- JSON.stringify(user) %>;
 <script type="text/javascript" src="js/chat.js"></script>
 
 
-<div class="row">
+<div id="mapContainer">
 
 <div id="topMap">
   <a onclick="eraseLocation()" class="btn btn-default btn-sm">
@@ -59,17 +57,16 @@ var user = <%- JSON.stringify(user) %>;
     <span class="fa fa-map-marker"></span> Broadcast Location </a>
 </div>
 
-    <!-- MAP -->
-    <div id="map"></div>
-    <script type="text/javascript" src="/js/map.js"></script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCa0eg5dlngFtHj19frzBL-3tPDaz67g-U&callback=initMap">
-    </script>
+<!-- MAP -->
+<div id="map"></div>
+<script type="text/javascript" src="/js/map.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCa0eg5dlngFtHj19frzBL-3tPDaz67g-U&callback=initMap">
+</script>
 
-	</div>
+</div>
 
     <div id="contactsBox">
-        <div id="contactsHandle"> <span id="contactsSpan">Snipers</span> </div>
+        <div id="contactsHandle"> <span id="contactsSpan">Spearfishers Online</span> </div>
             <!--All Online Users-->
             <!--Filters out uID so you don't show up in your own online users list-->
             <ul>
@@ -84,7 +81,7 @@ var user = <%- JSON.stringify(user) %>;
                 {{contact.name}} 
                 </li>
             </ul>
-    <input id="searchField" type="text" name="search" placeholder="&#128269; Search" data-ng-model="searchNG"/>
+    <input id="searchField" type="text" name="search" placeholder="&#128269; Search a Spearfisher" data-ng-model="searchNG"/>
     </div>
 </div>
 </body>

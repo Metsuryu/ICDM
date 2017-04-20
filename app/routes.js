@@ -78,7 +78,17 @@ module.exports = function(app, passport, Contact){
 		res.render("ToS.ejs");
 	});
 
+	app.get("/aboutus", function(req, res){
+		res.render("aboutus.ejs");
+	});
 
+	app.get("/faq", function(req, res){
+		res.render("faq.ejs");
+	});
+	
+	app.get("/contactus", function(req, res){
+		res.render("contactus.ejs");
+	});
 
 	app.get("/logout", function(req, res){
 		req.logout();
