@@ -6,9 +6,8 @@
 
 body {
 	word-wrap:break-word;
-	/*TODO: Adjust colors*/
 	/*Previous: #f4f4f4 or #F0EDE5*/ 
-	background-color: #f2f2f2;
+	background-color: white;
 	font: 13px Helvetica, Arial; 
 }
 
@@ -21,9 +20,6 @@ body {
 	height: 300px;
 }
 
-/* TODO: Adjust
-Chat:
-*/
 .chatWindow {
 	background-color: white;
 	float: right;
@@ -39,7 +35,7 @@ Chat:
 form { 
 	background: #4980F5; 
 	padding: .12em; 
-	bottom: -0.1%;
+	bottom: -0.5%;
 	width: 100%;
 	position: relative;
 }

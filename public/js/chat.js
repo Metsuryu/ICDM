@@ -19,12 +19,10 @@ function getUserPictre (){
   else if (user.facebook) {
     return user.facebook.picture;
   }else{
-    //?TODO: Use class="fa fa-user"
     return "";
   };
 }
 
-//?TODO: Send userName and Picture only on connect, and then use them locally from the client-side
 let userName = getUserName();
 let userPicture = getUserPictre();
 

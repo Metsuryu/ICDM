@@ -10,16 +10,13 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-//TODO: Maybe remove flash
-const flash = require("connect-flash");
 const randSecret = require("crypto").randomBytes(8).toString("hex");
 const path = require("path");
 const configDB = require("./config/database.js");
 
 //To fix the deprecated promise issue use native promises here, like so:
-// Can't use it on Cloudnode, global.Promise only supported in ES6
+//global.Promise is only supported in ES6
 mongoose.Promise = global.Promise; 
-
 
 mongoose.connect(configDB.url);
 require("./config/passport")(passport);
@@ -32,7 +29,6 @@ app.use(session({secret: randSecret,
 				 resave: true}));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
 app.use(express.static(path.join(__dirname, "/public")));
 app.set("views", __dirname + "/public/views");
 app.set("view engine", "ejs");
@@ -125,7 +121,6 @@ function removeOnlineContact (socket) {
 //Whenever someone connects this gets executed
 io.on("connection", function(socket){
 	//console.log("A user connected");
-	//TODO: This is emitted to every user. Use it for chatBox updates
 	socket.emit("sessionID", { id: socket.id });
 
   	socket.on("updateOnline", function (userData) {

@@ -105,7 +105,6 @@ function isChatAlreadyOpen (targetUniqueID) {
 function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput) {
 	let thisChatWindow = openChatWindows + 1;
 	let jqTargetID = "#" + targetID;
-	//TODO: Add "options" gear on header, to add/remove/block contact, etc... 
 	//TODO: Transpile with babel to allow backtick (`)
 	let sourceChatWindow = $(`
 <div id="" class="chatWindow" data-min="">
@@ -144,7 +143,7 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
     $(sourceChatWindow).find(".messages").html(chatHistory + "<br>");
 
     if ( (!targetLat && !targetLng) || (!user.lat && !user.lng) ) {
-    	distanceInKm = "Unknown <a href=''>(?)</a>"; //TODO: Link to FAQ: "Why am I seeing Distance: Unknown?"
+    	distanceInKm = "Unknown <a target='_blank' href='/faq#distance'>(?)</a>";
     	//Profile picture without distance
     	$(sourceChatWindow).find(".messages").append($('<div class="infoMsg">').html(
     		profilePic 	+ "<p>Distance: <span id='distanceSpan'>" + distanceInKm + "</span> </p>"

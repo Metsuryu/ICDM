@@ -1,18 +1,16 @@
-* {
-	margin: 0;
-	padding: 0; 
-	box-sizing: border-box; 
-}
-
 body {
 	word-wrap:break-word;
-	/*TODO: Adjust colors*/
 	/*Previous: #f4f4f4 or #F0EDE5*/
-	background-color: #f2f2f2;
-	font: 13px Helvetica, Arial; 
+	background-color: white;
+	font: 13px Helvetica, Arial;
 }
 
-a {
+#bgLogo{
+	width: 100%;
+	margin-top: 2em;
+}
+
+a,a:hover {
 	color: white; 
 }
 
@@ -26,10 +24,6 @@ a {
 @media screen and (max-width: 650px) {
 	#header {
 		padding-left: 0em;
-	}
-	#loginJumbotron img {
-		width: 150px;
-		height: 150px;
 	}
 }
 
@@ -53,11 +47,8 @@ a {
 	bottom: 0%;
 }
 
-#loginContainer {
-	background-color: #f2f2f2;
-}
 #loginJumbotron {
-	background-color: #f2f2f2;
+	background-color: white;
 	color: black;
 }
 

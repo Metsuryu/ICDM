@@ -1,4 +1,3 @@
-<!-- views/index.ejs -->
 <!doctype html>
 <html lang="en"> <!--TODO: Change to it, and set to en when translated-->
 <head>
@@ -18,11 +17,10 @@
 <body>
 
 <div id="header">
-  <!--TODO: Maybe open this on the same page, in a pop-up frame or something-->
   <a target="_blank" href="/aboutus" class="btn btn-primary btn-sm">
     <span class="glyphicon glyphicon-info-sign"></span> About us </a>
   <a target="_blank" href="https://www.facebook.com/groups/cecchinidelmare/" class="btn btn-primary btn-sm">
-    <span class="fa fa-facebook"></span> Facebook page </a>
+    <span class="fa fa-facebook"></span> Facebook group </a>
   <a id="langSelector" class="btn btn-primary btn-sm">
     <span class="fa fa-language"></span> Language <img src="img/flags/us.gif"> </a>
   <a target="_blank" href="/faq" class="btn btn-primary btn-sm">
@@ -30,15 +28,15 @@
   <a target="_blank" href="/contactus" class="btn btn-primary btn-sm">
     <span class="glyphicon glyphicon-envelope"></span> Contact us </a>
 </div>
-<div class="container-fluid" id="loginContainer">
-	<div class="jumbotron text-center"  id="loginJumbotron">
-		<h2>I Cecchini Del Mare</h2>
-		<img src="img/tlogo.gif">
-		<p>Login or Register with:</p>
+
+
+  <img id="bgLogo" src="/img/underwaterLogo.png">
+  <div class="container text-center"  id="loginJumbotron">
+		<h4>Login or Register with:</h4>
 		<a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>  
 		<a href="/auth/google" class="btn btn-danger"><span class="fa fa-google"></span> Google</a>
 	</div>
-</div>
+
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- ICDM Login -->
@@ -50,6 +48,10 @@
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
+
 <div id="footer"> <a href="/privacypolicy">Privacy policy</a> | <a href="/ToS">Terms of service</a></div>
+<!--Cookie banner TODO:  data-message="Add this on the italian translation" -->
+<script type="text/javascript" id="cookiebanner"
+  src="https://cdnjs.cloudflare.com/ajax/libs/cookie-banner/1.0.0/cookiebanner.min.js"></script>
 </body>
 </html>
