@@ -18,25 +18,24 @@
 
 <div id="header">
   <a target="_blank" href="/aboutus" class="btn btn-primary btn-sm">
-    <span class="glyphicon glyphicon-info-sign"></span> About us </a>
+    <span class="glyphicon glyphicon-info-sign"></span> <span id="aboutusLabel">About us</span> </a>
   <a target="_blank" href="https://www.facebook.com/groups/cecchinidelmare/" class="btn btn-primary btn-sm">
-    <span class="fa fa-facebook"></span> Facebook group </a>
+    <span class="fa fa-facebook"></span> <span id="fbGroupLabel">Facebook group</span> </a>
   <a id="langSelector" class="btn btn-primary btn-sm">
-    <span class="fa fa-language"></span> Language <img src="img/flags/us.gif"> </a>
+    <span class="fa fa-language"></span> <span id="langLabel">Language</span> <img id="langFlag" src="img/flags/us.gif"> </a>
   <a target="_blank" href="/faq" class="btn btn-primary btn-sm">
     <span class="glyphicon glyphicon-question-sign"></span> FAQ </a>
   <a target="_blank" href="/contactus" class="btn btn-primary btn-sm">
-    <span class="glyphicon glyphicon-envelope"></span> Contact us </a>
+    <span class="glyphicon glyphicon-envelope"></span> <span id="contLabel">Contact us</span> </a>
 </div>
 
 
-  <img id="bgLogo" src="/img/underwaterLogo.png">
+  <img id="bgLogo" src="/img/underwaterLogoENG.png">
   <div class="container text-center"  id="loginJumbotron">
-		<h4>Login or Register with:</h4>
+		<h4 id="loginLabel">Login or Register with:</h4>
 		<a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>  
 		<a href="/auth/google" class="btn btn-danger"><span class="fa fa-google"></span> Google</a>
 	</div>
-
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- ICDM Login -->
@@ -49,8 +48,8 @@
 </script>
 
 
-<div id="footer"> <a href="/privacypolicy">Privacy policy</a> | <a href="/ToS">Terms of service</a></div>
-<!--Cookie banner TODO:  data-message="Add this on the italian translation" -->
+<div id="footer"> <a id="ppolLabel" href="/privacypolicy">Privacy policy</a> | <a id="tosLabel" href="/ToS">Terms of service</a></div>
+<!--Cookie banner TODO:  data-message="Add this on the italian translation after id attribute" -->
 <script type="text/javascript" id="cookiebanner"
   src="https://cdnjs.cloudflare.com/ajax/libs/cookie-banner/1.0.0/cookiebanner.min.js"></script>
 </body>
