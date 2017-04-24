@@ -77,7 +77,7 @@ var user = <%- JSON.stringify(user) %>;
                 data-contactPicture="{{contact.picture}}" 
                 data-contactLat="{{contact.lat}}" 
                 data-contactLng="{{contact.lng}}"> 
-                {{contact.name}} 
+                {{contact.name}} <span ng-if="contact.unreadMessages" class="glyphicon glyphicon-envelope unread"></span>
                 </li>
             </ul>
     <input id="searchField" type="text" name="search" placeholder="&#128269; Search a Spearfisher" data-ng-model="searchNG"/>

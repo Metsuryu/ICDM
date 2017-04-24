@@ -1,7 +1,26 @@
-//TODO: Limit number of chat windows to how many fit in browser window (3 on fb 4 here on my pc)
-const openChatWindowsLimit = 4; //TODO: Adjust depending on screen size.
+//Is adjusted depending on window width.
+let openChatWindowsLimit = 1;
+//Sets the limit of how many chatWindows can be open at any time. (openChatWindowsLimit)
+function setOpenWindwosLimit (){
+	const screenWidth = $(window).width();
+	const chatWidth = 260;
+    const contactBoxWidth = 200;
+    const gap = 5;
+    const resultLimit = Math.floor( (screenWidth-contactBoxWidth)/(chatWidth+gap) );
+    /*If less than two chatWindows can fit, set the limit to one, 
+    regardless of the actual number since the page will have a different interface anyway.*/
+    if (resultLimit < 2) {
+    	openChatWindowsLimit = 1;
+    //Otherwise use the limit based on screen width
+    }else{
+    	openChatWindowsLimit = resultLimit;
+    };
+}
+setOpenWindwosLimit ();
+//Number of open chatWindows open at any time
 let openChatWindows = 0;
-
+//Users that sent messages not yet read
+let hasUnreadMessages = [];
 /*
   Origin and destination coordinates to calculate the distance, and
   callback and callerWindowID to update the distance on the target window.
@@ -67,6 +86,8 @@ function maximizeChatWindow (parentChatWindow) {
 	});
 }
 
+
+//Places the newly open chatWindow in the correct position
 function positionChatWindow (sourceChatWindow, openChatWindowsContextual) {
 	const chatWidth = 260;
     const contactBoxWidth = 200;
@@ -75,6 +96,7 @@ function positionChatWindow (sourceChatWindow, openChatWindowsContextual) {
     sourceChatWindow.css("right", rightPos + "px"); 
 }
 
+//Slides chatWindows in position when one is closed
 function slideChatWindows (windowClosed) {
 	let windowToSlide = ( parseInt(windowClosed) + 1);
 	let emptyPlace = ( parseInt(windowClosed) - 1 );
@@ -134,6 +156,14 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
     };
     openChatWindows += 1;
 
+    //Remove notification icon if present
+    for (let i = hasUnreadMessages.length - 1; i >= 0; i--) {
+    	if (hasUnreadMessages[i].uniqueID === targetUniqueID ) {
+    		hasUnreadMessages.splice(i, 1);
+		};
+	}
+    $("[data-contactUID="+ targetUniqueID +"]").find($("span")).remove();
+
     //If one of the users has no coordinates, show "unknown" as distance.
     let profilePic = '<img class="profilePic" src="' + targetPic + '">';
     let distanceInKm = "";
@@ -192,18 +222,20 @@ function openChatWindow(targetName, targetPic, targetID, targetUniqueID, targetL
     		};
     	};
 	}else{
-    	//Open new window
-    	//TODO: Open additional chat windows in a list contained on a small element, like in facebook.
-    	//TODO: Or simply leave the limit on number of chats open, 
-    	//  and add notifications near username on pm.
-    	//For now, just return
-    	if (openChatWindows >= openChatWindowsLimit) {console.log("Too many chats."); return;};
+    	//Open new chatWindow
+    	if (openChatWindows >= openChatWindowsLimit) {
+    		/*If there are too many chats open, a message notification gets added next to the
+    		  contact name on the contactsBox, and received messages are added to chat history.
+    		  When a chat with notification is opened, the notification is removed.*/
+    		//console.log("Too many chats."); 
+    		return;
+    	};
     	openNewChatWindow(targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput);
     };
 }
 
-let app = angular.module("ICDM", []);
 
+let app = angular.module("ICDM", []);
 
 app.controller("ctrl", function($scope, $http, $interval) {
 	//Set session and unique ID as soon as they are available
@@ -231,7 +263,17 @@ app.controller("ctrl", function($scope, $http, $interval) {
 			url: "/contacts",
 			method: "GET"
 		}).then(function (response) {
-			$scope.contactsListGET = response.data;
+			let tempContactList = response.data;
+			/*Adds "unreadMessages" property if the contact
+			  is in hasUnreadMessages array*/
+			for (let i = tempContactList.length - 1; i >= 0; i--) {
+				for (let j = hasUnreadMessages.length - 1; j >= 0; j--) {
+					if (tempContactList[i].uniqueID === hasUnreadMessages[j].uniqueID ) {
+						tempContactList[i].unreadMessages = true;
+					};
+				}
+			}
+			$scope.contactsListGET = tempContactList;
 			usersOnline = $scope.contactsListGET;
 		});
 	}

@@ -50,6 +50,7 @@ a,a:hover {
 #loginJumbotron {
 	background-color: white;
 	color: black;
+	margin-bottom: 3em;
 }
 
 #langSelect {

@@ -93,19 +93,36 @@ let userPicture = getUserPictre();
         sender.lat, 
         sender.lng,
         false);
-      let targetChatWindow = $("#" + sender.id);
-      //TODO: Add timestamp and sender name that can be seen on mouse hover.
-      $(targetChatWindow).append($('<p class="receivedMessage">').text(msg));
+      //If the chat is open, get the message normally, otherwise, add a notification next to sender's name
+      if (isChatAlreadyOpen (sender.uniqueID)) {
+        let targetChatWindow = $("#" + sender.id);
+        //TODO: Add timestamp and sender name that can be seen on mouse hover.
+        $(targetChatWindow).append($('<p class="receivedMessage">').text(msg));
+        //Scroll to bottom
+        targetChatWindow.scrollTop(targetChatWindow.prop("scrollHeight")); 
+      }else{
+        //Notification
+        if ( !isUniqueIDInArray (hasUnreadMessages, sender.uniqueID) ) {
+          let unreadSpan = '<span ng-if="contact.unreadMessages" class="glyphicon glyphicon-envelope unread"></span>'
+          $("[data-contactUID="+ sender.uniqueID +"]").append(unreadSpan);
+          /*Uses the object with uniqueID because the function isUniqueIDInArray
+            needs an array of objects with uniqueID*/
+          hasUnreadMessages.push( {"uniqueID" : sender.uniqueID} );
+        };
+        
+      }
+
       //Conversation history
       let chatHistory = Cookies.get(sender.uniqueID) || "";
       chatHistory += '<p class="receivedMessage">' + msg;
       Cookies.set(sender.uniqueID, chatHistory);
       //Notification sound only if the window is not visible.
-      if (document.visibilityState === "hidden") {
+      /*document.visibilityState === "hidden" works only if the document is actually hidden
+        document.hasFocus() is better in this case*/
+      if ( !document.hasFocus() ) {
         let notification = new Audio("audio/notification.mp3");
         notification.play();
-      };
-      //Scroll to bottom
-      targetChatWindow.scrollTop(targetChatWindow.prop("scrollHeight"));    
+      };   
     });
+
   });
