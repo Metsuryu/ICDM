@@ -6,7 +6,7 @@ const io      = require("socket.io").listen(server);
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 //TODO: Remove morgan
-const morgan = require("morgan");
+//const morgan = require("morgan");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
@@ -21,7 +21,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url);
 require("./config/passport")(passport);
 //TODO: Remove morgan on release
-app.use(morgan("dev"));
+//app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({secret: randSecret,

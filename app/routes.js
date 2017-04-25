@@ -96,7 +96,8 @@ module.exports = function(app, passport, Contact){
 	})
 
 	app.get("*", function(req, res){
-		res.send(404);
+		//res.send(404);
+		res.sendStatus(404);
 	})
 
 };

@@ -34,6 +34,8 @@ a,a:hover {
 	font-size: 1em;
 	text-align: center;
 	margin-left: .2em;
+
+	display: inline-block;
 }
 
 
@@ -58,8 +60,20 @@ a,a:hover {
 	width: 97px;
 	background-color: #4980F4;
 	border: 1px solid black;
+	z-index: 9;
 }
 
 #langSelect a{
 	margin: 0.3em;
+}
+
+#menu{
+	padding-left: 1em;
+	font-size: 2em;
+	color:white;
+	cursor: pointer;
+}
+
+#headerButtons{
+	font-size: small;
 }
