@@ -1,5 +1,4 @@
 let map;
-let infoWindow;
 //Italy: lat: 41.500, lng: 13.304 
 const defaultLat = 41.500;
 const defaultLng = 13.304;
@@ -20,64 +19,27 @@ function initMap() {
           20: Buildings
           */
         });
-  //TODO: Do something with this
-  infoWindow = new google.maps.InfoWindow({map: map});
-        let infoContent = "Test";
-        infoWindow.setContent(infoContent);
-        /* Disabled automatic prompt for geolocation for now
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            let pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-
-            infoWindow.setPosition(pos);
-            infoWindow.setContent("Location found."); //TODO: Change text here and at errors
-            map.setCenter(pos);
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
-        }
-        */
 }
 
-//TODO: Translate
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+function showMessageOnMap(message, pos) {
+  if (!pos) {
+    pos = map.getCenter();
+  };
+  let infoWindow = new google.maps.InfoWindow({map: map});
   infoWindow.setPosition(pos);
-  infoWindow.setContent(browserHasGeolocation ?
-    "Error: The Geolocation service failed." :
-    "Error: Your browser doesn't support geolocation.");
+  infoWindow.setContent(message);
 }
 
-//TODO: Test, delete.
-function setNewPosition(pos){
-  infoWindow.setPosition(pos);
-  //infoWindow.setContent("You."); Doesn't work if infoWindow is not set again in this func
-  map.setCenter(pos);
+function handleLocationError(browserHasGeolocation, pos) {
+  let geoFail = "Error: The Geolocation service failed.";
+  let geoNotSup = "Error: Your browser doesn't support geolocation.";
+  if (localLanguage === "Ita") {
+    geoFail = "Errore: Il servizio di geolocazione non ha funzionato.";
+    geoNotSup = "Errore: Il tuo browser non supporta la geolocazione.";
+  }
+
+  showMessageOnMap(browserHasGeolocation ? geoFail : geoNotSup, pos);
 }
-
-
-
-
-//TODO: Just a test function, delete when done
-function moveMap(){
-  let currentLat = map.getCenter().lat();
-  let currentLng = map.getCenter().lng()
-  currentLat += 1;
-  currentLng += 1;
-
-setNewPosition(
-  {
-    lat: currentLat ,
-    lng: currentLng
-  });
-}
-
 
 function emitUpdateCoords (newLat, newLng){
   let socket = io();
@@ -88,8 +50,12 @@ function emitUpdateCoords (newLat, newLng){
         lng: newLng
       });
     }else{
-      //TODO: Handle error better
-      console.log("Error: Could not retrive ID");
+      //console.log("Error: Could not retrive ID");
+      let errorMsg = "Error: Could not retrive ID from server. Try refreshing the page.";
+      if (localLanguage === "Ita") {
+        errorMsg = "Errore: Impossibile ricevere ID dal server. Provare a ricaricare la pagina.";
+      }
+      showMessageOnMap(errorMsg)
     };
 }
 
@@ -104,12 +70,11 @@ function eraseLocation(){
       lng: 0
     },
     success: function() {
-      console.log("Location Erased");
+      //console.log("Location Erased");
       emitUpdateCoords(0, 0);
       user.lat = 0;
       user.lng = 0;
       removeLocalUserMarker();
-      //TODO: Show success message
     },
     error: function(err){
       console.log("Error: " , err);
@@ -120,13 +85,11 @@ function eraseLocation(){
 }
 
 //Get current location of the user, and broadcast them to the server. 
-//TODO: At first login, show tutorial or link to FAQ (Click this to broadcast your location, or something like that)
 function broadcastLocation(){
   //If user's marker is already on map, erase it first, so it can spawn at new location.
   if (localUserOnMap) {
     eraseLocation();
   };
-  //TODO: Adjust
   // Try HTML5 geolocation. 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -134,10 +97,6 @@ function broadcastLocation(){
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-
-      infoWindow.setPosition(pos);
-      //TODO: Figure out why the message shows only the first time the function is called
-      infoWindow.setContent("Location found."); //TODO: Change text here and at errors
       map.setCenter(pos);
 
       $.ajax({
@@ -149,7 +108,7 @@ function broadcastLocation(){
           lng: pos.lng
         },
         success: function() {
-          console.log("Coordinates Updated.");
+          //console.log("Coordinates Updated.");
           emitUpdateCoords(pos.lat, pos.lng);
           user.lat = pos.lat;
           user.lng = pos.lng;
@@ -163,16 +122,18 @@ function broadcastLocation(){
       });
 
     }, function() {
-      handleLocationError(true, infoWindow, map.getCenter());
+      handleLocationError(true, map.getCenter());
     });
   } else {
       // Browser doesn't support Geolocation
-      handleLocationError(false, infoWindow, map.getCenter());
+      handleLocationError(false, map.getCenter());
     }
 }
 
-//TODO1: optimization: remove the style element when the marker is removed to free memory. See TODO2
-  //If I decide to remove it, give it an "id" on creation, so I can remove it by "id".
+/*?TODO1: optimization: remove the style element when the marker is removed to free memory. See TODO2
+  If I decide to remove it, give it an "id" on creation, so I can remove it by "id".
+  Only do if necessary (users reporting slow site) and after profiling.
+  */
   function styleMarker (markerPicture) {
     //Select any element with picSrc and style it
     let picSrc = markerPicture;
@@ -218,10 +179,6 @@ function broadcastLocation(){
     //Open chatWindow on click, only if the marker is not yourself
     if (nmUID != user._id) {
       thisMarker.addListener("click", function() {
-        //TODO: Add these?
-        //map.setZoom(8);
-        //map.setCenter(thisMarker.getPosition());
-
         openChatWindow(nmName, nmPic, nmID, nmUID, nmLat, nmLng, true);
       });
     }else{
@@ -305,5 +262,17 @@ function broadcastLocation(){
   }
 
 $(document).ready(function(){
+  /*When user's coordinates are 0 0, show message explaining how 
+  "Broadcast Location" and "Erase Location" work*/
+  if (!user.lat && !user.lng) {
+    let broadcastMsg = 'Click "Broadcast Location" to show your position on the map to everyone.<br> \
+      You can click "Erase Location" to hide your position.';
+    if (localLanguage === "Ita") {
+      broadcastMsg = 'Clicca su "Trasmetti Posizione" per mostrare a tutti la tua posizione sulla mappa.<br> \
+      Puoi cliccare "Nascondi Posizione" per nascondere la tua posizione.';
+    }
+    showMessageOnMap(broadcastMsg);
+  };
+
   let mapUpdateLoop =  setInterval(updateMarkersOnMap, 1000); //TODO: Set to 5000 or 10000
 })

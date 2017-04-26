@@ -81,7 +81,6 @@ let userPicture = getUserPictre();
       return false;
     });
 
-    //TODO: Add notification of unread messages
     //Receive PM
     socket.on("PMsg", function(msg, sender){
       //main.js

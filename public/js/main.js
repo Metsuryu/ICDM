@@ -123,7 +123,6 @@ function isChatAlreadyOpen (targetUniqueID) {
 	};
 }
 
-//TODO: Add other parameters as I add other functionality
 function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput) {
 	let thisChatWindow = openChatWindows + 1;
 	let jqTargetID = "#" + targetID;
@@ -203,7 +202,7 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
     $(targetChatWindow).scrollTop(targetChatWindow.prop("scrollHeight"));
 }
 
-//Allow only one chatWindow per contact //TODO: Check if chatWindow is already open by uniqueID, not sessionID
+//Allow only one chatWindow per contact
 //Checks if chatWindow is already open and if not call openNewChatWindow, 
 //if focusInput is true, puts the cursor on the chat input.
 function openChatWindow(targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput) {
@@ -224,14 +223,30 @@ function openChatWindow(targetName, targetPic, targetID, targetUniqueID, targetL
 	}else{
     	//Open new chatWindow
     	if (openChatWindows >= openChatWindowsLimit) {
+    		//console.log("Too many chats."); 
     		/*If there are too many chats open, a message notification gets added next to the
     		  contact name on the contactsBox, and received messages are added to chat history.
     		  When a chat with notification is opened, the notification is removed.*/
-    		//console.log("Too many chats."); 
-    		return;
+
+    		/*When the openChatWindowsLimit is met, and the user tries to open a new chat, 
+    		  all currently open chatWindows are closed, and the new one is opened.
+    		  If focusInput is true, it means the user is trying to open a new window, 
+    		  otherwise it means that the window is being opened by a received 
+    		  message, so existing chats shouldn't be closed, and a notification is added instead.*/
+    		if (focusInput) {
+    			closeAllOpenChatWindows();
+    		}else{
+    			return;
+    		};
     	};
     	openNewChatWindow(targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput);
     };
+}
+
+//Closes all open chat windows
+function closeAllOpenChatWindows() {
+	$(".chatWindow").remove();
+	openChatWindows = 0;
 }
 
 
@@ -307,8 +322,6 @@ $(document).ready(function(){
     	If the closed window wasn't the last one open and there are still open windows
     	and slide remaining windows if any.
     	*/
-    	/*TODO: Also check if there are other "minimized" windows that 
-    	need to be added to the chatBar when implemented*/
     	if ( (openChatWindows + 1)  > thisWindowID) {
     		slideChatWindows(thisWindowID);
     	}

@@ -1,4 +1,3 @@
-//TODO: Make separate translation file for home page.
 let localLanguage = "Eng";
 
 function toEn () {
@@ -62,7 +61,15 @@ $(document).ready(function(){
 	//TODO: Also call toIt if navigator's lang is ita and there are no cookies
 	if (localLanguage === "Ita") {
 		toIt();
-	};
+	}else if (localLanguage === "Eng") {
+		toEn();
+	}else{
+		//Detect browser language by navigator if Cookie isn't available, and translate if italian
+  		let userLang = navigator.language || navigator.userLanguage; 
+  		if(userLang == "it-IT" || userLang == "it"){
+  			toIt();
+  		};
+  	};
 
 
 	$("#langSelector").click(function(){
@@ -82,6 +89,7 @@ $(document).ready(function(){
 	});
 
 	$("body").on("click", "#menu", function(event){
+		//TODO: Toggle doesn't work well when selecting language
 		$("#headerButtons").toggle();
 	});
 
