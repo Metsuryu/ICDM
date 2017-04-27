@@ -41,13 +41,13 @@ $(document).ready(function(){
 	if (/Mobi/.test(navigator.userAgent)) {
 		console.log("Is Mobile");
 
-		//Show menu only on mobile
-		let menuDiv = '<div id="menu" class="fa fa-bars" aria-hidden="true"></div>'
+		//Show menu only on mobile. menuButtons is necessary so that when selecting a language, the menu doesn't close.
+		let menuDiv = '<div id="menu" class="fa fa-bars" aria-hidden="true"> </div> <div id="menuButtons"></div>'
 		$("#headerButtons").hide();
 		$("#header").append(menuDiv);
-		$("#menu").append( $("#headerButtons") );
+		$("#menuButtons").append( $("#headerButtons") );
 		$("#header").css("height","3em");
-		$("#menu").css("position","absolute");
+		$("#menuButtons").css("position","absolute");
 		$("#header a").css("display","block");
 		$("#header a").css("border","1px solid black");
   	  }else{
@@ -89,7 +89,6 @@ $(document).ready(function(){
 	});
 
 	$("body").on("click", "#menu", function(event){
-		//TODO: Toggle doesn't work well when selecting language
 		$("#headerButtons").toggle();
 	});
 
