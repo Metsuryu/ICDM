@@ -21,7 +21,7 @@ a,a:hover {
 	padding-left: 4em;
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 750px) {
 	#header {
 		padding-left: 0em;
 	}

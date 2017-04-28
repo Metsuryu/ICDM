@@ -181,13 +181,13 @@ form input {
 	width:100%;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
 	#header {
 		padding-left: 0em;
 	}
 }
 
-@media screen and (min-width: 690px) {
+@media screen and (min-width: 790px) {
 	#logout {
 		float: right;
 	}
@@ -229,6 +229,7 @@ form input {
 	width: 97px;
 	background-color: #4980F4;
 	border: 1px solid black;
+	z-index: 9999;
 }
 
 #langSelect a{
@@ -247,4 +248,16 @@ form input {
 .unread{
 	color: red;
 	margin-left: 2em;
+}
+
+#menu, #menuButtons{
+	padding-left: 1em;
+	font-size: 2em;
+	color:white;
+	cursor: pointer;
+	z-index: 9998;
+}
+
+#headerButtons{
+	font-size: small;
 }

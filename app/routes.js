@@ -90,6 +90,10 @@ module.exports = function(app, passport, Contact){
 		res.render("contactus.ejs");
 	});
 
+	app.get("/donate", function(req, res){
+		res.render("donate.ejs");
+	});
+
 	app.get("/logout", function(req, res){
 		req.logout();
 		res.redirect("/");

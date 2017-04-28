@@ -8,7 +8,14 @@
 <body>
 <div id="header"><a href="/">I Cecchini Del Mare</a></div>
 <style>
-body{margin:1em auto;max-width:40em;padding:0 .62em;font:1.2em/1.62 sans-serif;word-wrap:break-word;}
+body{margin: 0;}
+#mainContent{
+	margin:1em auto;
+	max-width:40em;
+	padding:0 .62em;
+	font:1.2em/1.62 sans-serif;
+	word-wrap:break-word;
+}
 h1{line-height:1.2;}
 #header {
 	background-color: #4980F4;
@@ -24,6 +31,7 @@ h1{line-height:1.2;}
 	text-decoration: none;
 }
 </style>
+<div id="mainContent">
 
 <h1>FAQ</h1>
 
@@ -31,35 +39,42 @@ h1{line-height:1.2;}
 	<p>This website lets you share your current location through geolocation, and allows you to view the location of other users on a map, and chat with them.</p>
 	<p>I Cecchini Del Mare (Snipers of the Sea in Italian) or ICDM was made for the Facebook group of the same name.</p>
 	<p>The idea is that spearfishers would use the website to find eachother and dive toghether or simply have a chat.</p>
-	<p>It's designed to be simple and lightweight, so once it's finished I won't add any more features, but I plan to keep developing the chat in a separate project.</p>
+	<p>It's designed to be simple and lightweight, so it doesn't have many features besides the ones mentioned, but I may continue the development at some point if time and money permit.</p>
 
 <h3>How does it work?</h3>
 	<p>You can press the "Broadcast Location" button to transmit your current location (obtained through GPS or the next best available method) so that you will appear on the map and other users will be able to see your location.</p>
-	<!--Screenshot here-->
+	<img src="/img/faq/broadcastEraseLocation.jpg">
 	<p>Other users can then click on your icon, or on your name in the list of online users on the right, to chat with you.</p>
-	<!--Screenshot here-->
+	<img src="/img/faq/userIcon.jpg">
 	<p>Of course, you can do the same, and chat with any online user.</p>
 	<p>If you want to hide your location, you can press the "Erase Location" button.</p>
-	<!--Screenshot here-->
 
 <h3>Why am I not appearing on the map?</h3>
 	<p>To appear on the map you have to press "Broadcast location" and allow the website to use the geolocation services.</p>
-	<!--Screenshot here-->
+	<img src="/img/faq/broadcastEraseLocation.jpg">
+
+	<p>How to allow geolocation:</p>
+	<a href="https://support.google.com/chrome/answer/142065?co=GENIE.Platform%3DAndroid&hl=en&oco=0">Chrome</a>
+	<a href="https://www.mozilla.org/firefox/geolocation/">Firefox</a>
+
 	<p>If you're still not appearing on the map, it's possible that there is a problem with your geolocation services, or your browser.</p>
 
 <h3 id="distance">Why am I seeing "Distance: Unknown"?</h3>
-	<!--Screenshot here-->
+	<img src="/img/faq/distanceUnknown.jpg">
 	<p>You'll see this message when the distance between you and the user you're chatting with can't be calculated for some reason.
-		Usually it's because you (or the other user) are not sharing your current location.</p>
+		Usually it's because you (or the other user) are not broadcasting your current location.</p>
+	<p>To solve that, both you and the user you're chatting with, must press the "Broadcast Location" button, and allow the website to use the geolocation services.</p>
+	<img src="/img/faq/broadcastEraseLocation.jpg">
 
 <h3>Why can't I send pictures/files or do other things that I can do with the facebook chat?</h3>
-	<p>Because the chat on our website doesn't have those functionalities. It might look similar the the Facebook chat, but it's much simpler.</p>
+	<p>The chat on this website doesn't have those functionalities. It might look similar to the Facebook chat, but it's much simpler.</p>
 
 <h3>Why is the chat history not saved?</h3>
 	<p>To save the chat history you need to have cookies enabled.</p>
 	<p>The chat history is saved on your device, not on the cloud, this means that if you change device (for example by moving from your computer to your smartphone) you won't be able to view your previous chat history on the new device.</p>
 
-<h3>Something doesn't work as it should.</h3>
+<h3>My issue isn't covered in this FAQ.</h3>
 	<p>You can contact us <a href="mailto:amministrazionececchinidelmare@gmail.com">here</a>.</p>
+</div>
 </body>
 </html>

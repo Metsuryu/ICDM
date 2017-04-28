@@ -10,6 +10,7 @@ function toEn () {
 	$("#fbGroupLabel").text("Facebook group");
 	$("#langLabel").text("Language");
 	$("#contLabel").text("Contact us");
+	$("#donateLabel").text("Donate");
 	//Body
 	$( "html" ).attr( "lang", "en" );
 	$("#bgLogo").attr("src","/img/underwaterLogoENG.png");
@@ -28,6 +29,7 @@ function toIt () {
 	$("#fbGroupLabel").text("Gruppo Facebook");
 	$("#langLabel").text("Lingua");
 	$("#contLabel").text("Contattaci");
+	$("#donateLabel").text("Donazione");
 	//Body
 	$( "html" ).attr( "lang", "it" );
 	$("#bgLogo").attr("src","/img/underwaterLogoITA.png");

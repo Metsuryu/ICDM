@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <html lang="en"> <!--TODO: Change to it, and set to en when translated-->
+    <html lang="en">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>I Cecchini Del Mare</title>
@@ -21,19 +21,26 @@
 </head>
 <body data-ng-app="ICDM" data-ng-controller="ctrl">
 
+
 <div id="header">
+
+<div id="headerButtons">
   <a target="_blank" href="/aboutus" class="btn btn-primary btn-sm">
-    <span class="glyphicon glyphicon-info-sign"></span> About us </a>
+    <span class="glyphicon glyphicon-info-sign"></span> <span id="aboutusLabel">About us</span> </a>
   <a target="_blank" href="https://www.facebook.com/groups/cecchinidelmare/" class="btn btn-primary btn-sm">
-    <span class="fa fa-facebook"></span> Facebook group </a>
+    <span class="fa fa-facebook"></span> <span id="fbGroupLabel">Facebook group</span> </a>
   <a id="langSelector" class="btn btn-primary btn-sm">
-    <span class="fa fa-language"></span> Language <img src="img/flags/us.gif"> </a>
+    <span class="fa fa-language"></span> <span id="langLabel">Language</span> <img id="langFlag" src="img/flags/us.gif"> </a>
   <a target="_blank" href="/faq" class="btn btn-primary btn-sm">
     <span class="glyphicon glyphicon-question-sign"></span> FAQ </a>
   <a target="_blank" href="/contactus" class="btn btn-primary btn-sm">
-    <span class="glyphicon glyphicon-envelope"></span> Contact us </a>
+    <span class="glyphicon glyphicon-envelope"></span> <span id="contLabel">Contact us</span> </a>
+  <a target="_blank" href="/donate" class="btn btn-primary btn-sm">
+    <span class="fa fa-paypal"></span> <span id="donateLabel">Donate</span> </a>
+
   <a id="logout" href="/logout" class="btn btn-danger btn-sm">
-    <span class="fa fa-power-off"></span> Logout </a>
+    <span class="fa fa-power-off"></span>  <span id="logoutLabel">Logout</span> </a>
+</div>
 </div>
 
 <div class="container-fluid">
@@ -52,10 +59,10 @@ var user = <%- JSON.stringify(user) %>;
 
 <div id="topMap">
   <a onclick="eraseLocation()" class="btn btn-default btn-sm">
-    <span class="fa fa-ban"></span> Erase Location </a>
+    <span class="fa fa-ban"></span> <span id="eraseLabel">Erase Location</span> </a>
 
   <a onclick="broadcastLocation()" class="btn btn-default btn-sm">
-    <span class="fa fa-map-marker"></span> Broadcast Location </a>
+    <span class="fa fa-map-marker"></span> <span id="broadcastLabel">Broadcast Location</span> </a>
 </div>
 
 <!-- MAP -->
