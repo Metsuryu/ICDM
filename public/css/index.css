@@ -77,3 +77,11 @@ a,a:hover {
 #headerButtons{
 	font-size: small;
 }
+
+#fbButton{
+	background-color: #3b5998;
+}
+
+#googleButton{
+	background-color: #dd4b39;
+}

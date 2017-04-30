@@ -1,6 +1,7 @@
 //TODO
 
 let localLanguage = "Eng";
+let isMobile = false;
 
 function toEn () {
 	console.log("To ENG");
@@ -15,8 +16,14 @@ function toEn () {
 	$("#donateLabel").text("Donate");
 	$("#logoutLabel").text("Logout");
 	//Body
-	$("#eraseLabel").text("Erase Location");
-	$("#broadcastLabel").text("Broadcast Location");
+	if (isMobile) {
+		//Labels are too long for mobile
+		$("#eraseLabel").text("Erase Loc.");
+		$("#broadcastLabel").text("Broadcast Loc.");
+	}else{
+		$("#eraseLabel").text("Erase Location");
+		$("#broadcastLabel").text("Broadcast Location");
+	}
 	$("#contactsSpan").text("Spearfishers Online");
 	$("#searchField").attr("placeholder","🔍 Search a Spearfisher");
 }
@@ -34,27 +41,37 @@ function toIt () {
 	$("#donateLabel").text("Donazione");
 	$("#logoutLabel").text("Esci");
 	//Body
-	$("#eraseLabel").text("Nascondi Posizione");
-	$("#broadcastLabel").text("Trasmetti Posizione");
+	if (isMobile) {
+		//Labels are too long for mobile
+		$("#eraseLabel").text("Nascondi Pos.");
+		$("#broadcastLabel").text("Trasmetti Pos.");
+	}else{
+		$("#eraseLabel").text("Nascondi Posizione");
+		$("#broadcastLabel").text("Trasmetti Posizione");
+	}
 	$("#contactsSpan").text("Cecchini Online");
 	$("#searchField").attr("placeholder","🔍 Cerca Cecchini");
 }
 
 $(document).ready(function(){
-	//TODO: Better Mobile detection
+	//TODO: Better Mobile detection if there are problems. Should be good according to Mozilla.
 	if (/Mobi/.test(navigator.userAgent)) {
+		isMobile = true;
 		console.log("Is Mobile");
-
 		//Show menu only on mobile. menuButtons is necessary so that when selecting a language, the menu doesn't close.
 		let menuDiv = '<div id="menu" class="fa fa-bars" aria-hidden="true"> </div> <div id="menuButtons"></div>'
+		//NOTE: Order of the following is important
 		$("#headerButtons").hide();
+		$("#headerButtons").addClass("headerButtonsMobile");
 		$("#logout").css("float","none");
 		$("#header").append(menuDiv);
 		$("#menuButtons").append( $("#headerButtons") );
 		$("#header").css("height","3em");
 		$("#menuButtons").css("position","absolute");
-		$("#header a").css("display","block");
-		$("#header a").css("border","1px solid black");
+		$("#header a").addClass("headerMobileA");
+
+		$("#contactsBox").addClass("contactsBoxMobile");
+		$("#contactsHandle").addClass("contactsHandleMobile");
   	  }else{
     	console.log("Not Mobile");
     }
@@ -89,6 +106,17 @@ $(document).ready(function(){
       			<a onclick="toIt()" class="btn btn-primary btn-sm">
       			Italiano <img src="img/flags/it.gif"> </a>
     		</div>`;
+    		//Must add the class like this, since the element doesn't exist before it's added programmatically.
+    		if (isMobile) {
+    			menu = `
+			<div id="langSelect" class="langSelectMobile">
+				<a onclick="toEn()" class="btn btn-primary btn-sm">
+      			English <img src="img/flags/us.gif"> </a>
+      		<br>
+      			<a onclick="toIt()" class="btn btn-primary btn-sm">
+      			Italiano <img src="img/flags/it.gif"> </a>
+    		</div>`;
+    		};
     		$("#langSelector").append(menu);
 		};
 	});

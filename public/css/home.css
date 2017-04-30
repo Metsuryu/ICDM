@@ -129,11 +129,22 @@ form input {
 	bottom: 0%;
 }
 
+.contactsBoxMobile{
+	top:0%;
+	margin-top: 1em;
+}
+
 #contactsHandle {
 	cursor: pointer;
 	background-color: #4980F4;
 	padding-bottom: .3em;
 	text-align: center;
+}
+
+.contactsHandleMobile{
+	background-color: #286dff !important;
+	border: 1px solid black;
+
 }
 
 #contactsHandle:hover {
@@ -201,7 +212,17 @@ form input {
 	font-size: 1em;
 	text-align: center;
 	margin-left: .2em;
+
+
 }
+
+.headerMobileA {
+	margin: .5em;
+	margin-top: 1em;
+	border: 1px solid black;
+	display: block;
+} 
+
 
 #logout {
 	background-color: #D9534F !important;
@@ -227,13 +248,20 @@ form input {
 #langSelect {
 	position: absolute;
 	width: 97px;
-	background-color: #4980F4;
+	background-color: #555;
 	border: 1px solid black;
 	z-index: 9999;
 }
 
+.langSelectMobile {
+	margin-left: 86%;
+	margin-top: -18%;
+}
+
 #langSelect a{
 	margin: 0.3em;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
 }
 
 #searchField {
@@ -251,13 +279,22 @@ form input {
 }
 
 #menu, #menuButtons{
-	padding-left: 1em;
+	padding-left: 0.2em;
 	font-size: 2em;
 	color:white;
 	cursor: pointer;
 	z-index: 9998;
 }
+#menu{
+	padding-left: 1em;
+}
 
 #headerButtons{
 	font-size: small;
+}
+
+.headerButtonsMobile{
+	margin-top: 1.5em;
+	background-color: #555;
+	border: 1px solid black;
 }

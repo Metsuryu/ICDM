@@ -90,7 +90,10 @@ function maximizeChatWindow (parentChatWindow) {
 //Places the newly open chatWindow in the correct position
 function positionChatWindow (sourceChatWindow, openChatWindowsContextual) {
 	const chatWidth = 260;
-    const contactBoxWidth = 200;
+    let contactBoxWidth = 200;
+    if (isMobile) {
+    	contactBoxWidth = 0;
+    };
     const gap = 5;
     const rightPos = ((chatWidth + gap) *openChatWindowsContextual) + (contactBoxWidth + gap);
     sourceChatWindow.css("right", rightPos + "px"); 
@@ -347,13 +350,24 @@ $(document).ready(function(){
 	let contactsMinimized = false;
 	$( "#contactsHandle" ).click(function() {
 		if (!contactsMinimized) {
-			$( "#contactsBox" ).animate({
-				height: "1.5em",
-			}, 100, function() {
-				// Animation complete.
-				contactsMinimized = true;
-			});
+			$( "#contactsBox" ).css("overflow","hidden");
+			if (isMobile) {
+				$( "#contactsBox" ).animate({
+					height: "2em",
+				}, 100, function() {
+					// Animation complete.
+					contactsMinimized = true;
+				});
+			}else{
+				$( "#contactsBox" ).animate({
+					height: "1.5em",
+				}, 100, function() {
+					// Animation complete.
+					contactsMinimized = true;
+				});
+			};
 		}else{
+			$( "#contactsBox" ).css("overflow","auto");
 			$( "#contactsBox" ).animate({
 				height: "50%",
 			}, 100, function() {
