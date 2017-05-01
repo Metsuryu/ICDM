@@ -129,6 +129,8 @@ function isChatAlreadyOpen (targetUniqueID) {
 function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput) {
 	let thisChatWindow = openChatWindows + 1;
 	let jqTargetID = "#" + targetID;
+	let distUnknownLabel = "";
+	let distLabel = "";
 	//TODO: Transpile with babel to allow backtick (`)
 	let sourceChatWindow = $(`
 <div id="" class="chatWindow" data-min="">
@@ -149,6 +151,16 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
 	sourceChatWindow.find(".messages").attr("id",targetID);
 	sourceChatWindow.attr("id",thisChatWindow);
 	sourceChatWindow.attr("data-min","false");
+
+	//Translate chatWindow and components
+	if (localLanguage === "Ita") {
+		distLabel = "Distanza"
+		distUnknownLabel = "Sconosciuta <a target='_blank' href='/faqita#distance'>(?)</a>";
+		sourceChatWindow.find("input").attr("placeholder","Digita qualcosa e premi invio.");
+    }else{
+    	distLabel = "Distance";
+    	distUnknownLabel = "Unknown <a target='_blank' href='/faq#distance'>(?)</a>";
+    }
 
     //Open new window here
     positionChatWindow(sourceChatWindow, openChatWindows);
@@ -175,10 +187,12 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
     $(sourceChatWindow).find(".messages").html(chatHistory + "<br>");
 
     if ( (!targetLat && !targetLng) || (!user.lat && !user.lng) ) {
-    	distanceInKm = "Unknown <a target='_blank' href='/faq#distance'>(?)</a>";
+
+    	distanceInKm = distUnknownLabel;
+
     	//Profile picture without distance
     	$(sourceChatWindow).find(".messages").append($('<div class="infoMsg">').html(
-    		profilePic 	+ "<p>Distance: <span id='distanceSpan'>" + distanceInKm + "</span> </p>"
+    		profilePic + "<p>"+distLabel+": <span id='distanceSpan'>" + distanceInKm + "</span> </p>"
     	));
     }else{
     	/*Wait for async getDistanceGoogleAPI to run the callback, and in the meantime use 
@@ -188,7 +202,7 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
     	distanceInKm = getDistanceFromLatLonInKm(user.lat, user.lng, targetLat, targetLng).toFixed(2) + " Km";
     	//Profile picture and distance
     	$(sourceChatWindow).find(".messages").append($('<div class="infoMsg">').html(
-    		profilePic 	+ "<p>Distance: <span id='distanceSpan'>" + distanceInKm + "</span> </p>"
+    		profilePic + "<p>"+distLabel+": <span id='distanceSpan'>" + distanceInKm + "</span> </p>"
     	));
 
     	//Called if getDistanceGoogleAPI is successful, updates the distance to be more accurate.
@@ -300,6 +314,9 @@ app.controller("ctrl", function($scope, $http, $interval) {
 	$interval(updateContactsList, 5000);//TODO: Adjust time
 });
 
+
+
+
 $(document).ready(function(){
 	//Open chat window when clicking on contact
 	$("#contactsBox").on("click", ".contactClass", function(event){
@@ -350,6 +367,9 @@ $(document).ready(function(){
 	let contactsMinimized = false;
 	$( "#contactsHandle" ).click(function() {
 		if (!contactsMinimized) {
+			$( "#searchField").addClass("searchFieldMinimized");
+			//Addclass doesn't work on contactsBox
+			$( "#contactsBox" ).css("padding-bottom","0");
 			$( "#contactsBox" ).css("overflow","hidden");
 			if (isMobile) {
 				$( "#contactsBox" ).animate({
@@ -367,6 +387,8 @@ $(document).ready(function(){
 				});
 			};
 		}else{
+			$( "#searchField").removeClass("searchFieldMinimized");
+			$( "#contactsBox" ).css("padding-bottom","4em");
 			$( "#contactsBox" ).css("overflow","auto");
 			$( "#contactsBox" ).animate({
 				height: "50%",

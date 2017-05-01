@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="/css/home.css">
     <link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
     <script src="js/js.cookie.js"></script>
+    <script src="js/mobileDetection.js" ></script>
     <script type="text/javascript" src="js/translationHome.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
 </head>
@@ -22,17 +23,17 @@
 <div id="header">
 
 <div id="headerButtons">
-  <a target="_blank" href="/aboutus" class="btn btn-primary btn-sm">
+  <a id="aboutusLink" target="_blank" href="/aboutus" class="btn btn-primary btn-sm">
     <span class="glyphicon glyphicon-info-sign"></span> <span id="aboutusLabel">About us</span> </a>
   <a target="_blank" href="https://www.facebook.com/groups/cecchinidelmare/" class="btn btn-primary btn-sm">
     <span class="fa fa-facebook"></span> <span id="fbGroupLabel">Facebook group</span> </a>
   <a id="langSelector" class="btn btn-primary btn-sm">
     <span class="fa fa-language"></span> <span id="langLabel">Language</span> <img id="langFlag" src="img/flags/us.gif"> </a>
-  <a target="_blank" href="/faq" class="btn btn-primary btn-sm">
+  <a id="faqLink" target="_blank" href="/faq" class="btn btn-primary btn-sm">
     <span class="glyphicon glyphicon-question-sign"></span> FAQ </a>
-  <a target="_blank" href="/contactus" class="btn btn-primary btn-sm">
+  <a id="contactusLink" target="_blank" href="/contactus" class="btn btn-primary btn-sm">
     <span class="glyphicon glyphicon-envelope"></span> <span id="contLabel">Contact us</span> </a>
-  <a target="_blank" href="/donate" class="btn btn-primary btn-sm">
+  <a id="donateLink" target="_blank" href="/donate" class="btn btn-primary btn-sm">
     <span class="fa fa-paypal"></span> <span id="donateLabel">Donate</span> </a>
 
   <a id="logout" href="/logout" class="btn btn-danger btn-sm">
@@ -74,6 +75,7 @@ var user = <%- JSON.stringify(user) %>;
         <div id="contactsHandle"> <span id="contactsSpan">Spearfishers Online</span> </div>
             <!--All Online Users-->
             <!--Filters out uID so you don't show up in your own online users list-->
+            <div id="contactsList">
             <ul>
                 <li 
                 data-ng-repeat="contact in contactsListGET | filter:searchNG | filter:'!'+uID" 
@@ -86,6 +88,7 @@ var user = <%- JSON.stringify(user) %>;
                 {{contact.name}} <span ng-if="contact.unreadMessages" class="glyphicon glyphicon-envelope unread"></span>
                 </li>
             </ul>
+            </div>
     <input id="searchField" type="text" name="search" placeholder="&#128269; Search a Spearfisher" data-ng-model="searchNG"/>
     </div>
 </div>

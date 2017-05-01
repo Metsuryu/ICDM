@@ -1,9 +1,19 @@
+/*General*/
+
+* {
+	margin: 0;
+	padding: 0; 
+	box-sizing: border-box; 
+}
+
 body {
 	word-wrap:break-word;
-	/*Previous: #f4f4f4 or #F0EDE5*/
+	/*Previous: #f4f4f4 or #F0EDE5*/ 
 	background-color: white;
-	font: 13px Helvetica, Arial;
+	font: 13px Helvetica, Arial; 
 }
+
+/*Body*/
 
 #bgLogo{
 	width: 100%;
@@ -13,31 +23,6 @@ body {
 a,a:hover {
 	color: white; 
 }
-
-#header {
-	background-color: #4980F4;
-	text-align: left;	
-	padding: .5em;
-	padding-left: 4em;
-}
-
-@media screen and (max-width: 750px) {
-	#header {
-		padding-left: 0em;
-	}
-}
-
-#header a {
-	background-color: #4980F4;
-	color: white;
-	font-weight: bold;
-	font-size: 1em;
-	text-align: center;
-	margin-left: .2em;
-
-	display: inline-block;
-}
-
 
 #footer {
 	background-color: #4980F4;
@@ -55,33 +40,92 @@ a,a:hover {
 	margin-bottom: 3em;
 }
 
-#langSelect {
-	position: absolute;
-	width: 97px;
-	background-color: #4980F4;
-	border: 1px solid black;
-	z-index: 9;
-}
-
-#langSelect a{
-	margin: 0.3em;
-}
-
-#menu, #menuButtons{
-	padding-left: 1em;
-	font-size: 2em;
-	color:white;
-	cursor: pointer;
-}
-
-#headerButtons{
-	font-size: small;
-}
-
 #fbButton{
 	background-color: #3b5998;
 }
 
 #googleButton{
 	background-color: #dd4b39;
+}
+
+/*Header*/
+
+#header {
+	background-color: #4980F4;
+	text-align: left;	
+	padding: .5em;
+	padding-left: 4em;
+	width:100%;
+}
+
+@media screen and (max-width: 750px) {
+	#header {
+		padding-left: 0em;
+	}
+}
+
+#langSelect {
+	position: absolute;
+	width: 97px;
+	background-color: #555;
+	border: 1px solid black;
+	z-index: 9999;
+}
+
+#header a, #langSelect a {
+	background-color: #4980F4;
+	color: white;
+	font-weight: bold;
+	font-size: 1em;
+	text-align: center;
+	margin-left: .2em;
+}
+
+#langSelect {
+	position: absolute;
+	width: 97px;
+	background-color: #555;
+	border: 1px solid black;
+	z-index: 9999;
+}
+
+#langSelect a {
+	margin: 0.3em;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+/*Mobile*/
+.headerMobileA {
+	margin: .5em;
+	margin-top: 1em;
+	border: 1px solid black;
+	display: block;
+}
+
+.langSelectMobile {
+	margin-left: 86%;
+	margin-top: -18%;
+}
+
+#menu, #menuButtons{
+	padding-left: 0.2em;
+	font-size: 2em;
+	color:white;
+	cursor: pointer;
+	z-index: 9998;
+}
+#menu{
+	padding-left: 1em;
+	margin-bottom: 1em; /*TODO: Test*/
+}
+
+#headerButtons{
+	font-size: small;
+}
+
+.headerButtonsMobile{
+	/*margin-top: 1.5em; Trying margin-bottom: on menu instead, to see if it's easier to click on mobile*/
+	background-color: #555;
+	border: 1px solid black;
 }

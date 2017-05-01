@@ -1,11 +1,7 @@
-//TODO
-
 let localLanguage = "Eng";
-let isMobile = false;
 
 function toEn () {
-	console.log("To ENG");
-	//TODO:
+	//console.log("To ENG");
 	Cookies.set("Lang", "Eng");
 	//Header bar
 	$("#langFlag").attr("src","img/flags/us.gif");
@@ -15,11 +11,17 @@ function toEn () {
 	$("#contLabel").text("Contact us");
 	$("#donateLabel").text("Donate");
 	$("#logoutLabel").text("Logout");
+	//Links
+	$("#aboutusLink").attr("href","/aboutus");
+	$("#faqLink").attr("href","/faq");
+	$("#contactusLink").attr("href","/contactus");
+	$("#donateLink").attr("href","/donate");
 	//Body
 	if (isMobile) {
 		//Labels are too long for mobile
-		$("#eraseLabel").text("Erase Loc.");
-		$("#broadcastLabel").text("Broadcast Loc.");
+		$("#topMap").css("height","4.5em");
+		$("#eraseLabel").html("Erase<br>Location");
+		$("#broadcastLabel").html("Broadcast<br>Location");
 	}else{
 		$("#eraseLabel").text("Erase Location");
 		$("#broadcastLabel").text("Broadcast Location");
@@ -29,8 +31,7 @@ function toEn () {
 }
 
 function toIt () {
-	console.log("To ITA");
-	//TODO:
+	//console.log("To ITA");
 	Cookies.set("Lang", "Ita");
 	//Header bar
 	$("#langFlag").attr("src","img/flags/it.gif");
@@ -40,11 +41,17 @@ function toIt () {
 	$("#contLabel").text("Contattaci");
 	$("#donateLabel").text("Donazione");
 	$("#logoutLabel").text("Esci");
+	//Links
+	$("#aboutusLink").attr("href","/chisiamo");
+	$("#faqLink").attr("href","/faqita");
+	$("#contactusLink").attr("href","/contattaci");
+	$("#donateLink").attr("href","/donazione");
 	//Body
 	if (isMobile) {
 		//Labels are too long for mobile
-		$("#eraseLabel").text("Nascondi Pos.");
-		$("#broadcastLabel").text("Trasmetti Pos.");
+		$("#topMap").css("height","4.5em");
+		$("#eraseLabel").html("Nascondi<br>Posizione");
+		$("#broadcastLabel").html("Trasmetti<br>Posizione");
 	}else{
 		$("#eraseLabel").text("Nascondi Posizione");
 		$("#broadcastLabel").text("Trasmetti Posizione");
@@ -53,46 +60,25 @@ function toIt () {
 	$("#searchField").attr("placeholder","🔍 Cerca Cecchini");
 }
 
+
+
 $(document).ready(function(){
-	//TODO: Better Mobile detection if there are problems. Should be good according to Mozilla.
-	if (/Mobi/.test(navigator.userAgent)) {
-		isMobile = true;
-		console.log("Is Mobile");
-		//Show menu only on mobile. menuButtons is necessary so that when selecting a language, the menu doesn't close.
-		let menuDiv = '<div id="menu" class="fa fa-bars" aria-hidden="true"> </div> <div id="menuButtons"></div>'
-		//NOTE: Order of the following is important
-		$("#headerButtons").hide();
-		$("#headerButtons").addClass("headerButtonsMobile");
-		$("#logout").css("float","none");
-		$("#header").append(menuDiv);
-		$("#menuButtons").append( $("#headerButtons") );
-		$("#header").css("height","3em");
-		$("#menuButtons").css("position","absolute");
-		$("#header a").addClass("headerMobileA");
-
-		$("#contactsBox").addClass("contactsBoxMobile");
-		$("#contactsHandle").addClass("contactsHandleMobile");
-  	  }else{
-    	console.log("Not Mobile");
-    }
-
 	//Detect cookie language, and translate if italian
 	localLanguage = Cookies.get("Lang");
 	/*If the cookie is set to "Ita", translate the page to Italian, 
 	in any other case, keep it in english.*/
-	//TODO: Also call toIt if navigator's lang is ita and there are no cookies
+
 	if (localLanguage === "Ita") {
 		toIt();
 	}else if (localLanguage === "Eng") {
 		toEn();
 	}else{
-		//Detect browser language by navigator if Cookie isn't available, and translate if italian
+		//Calls toIt if navigator's lang is ita and there are no cookies
   		let userLang = navigator.language || navigator.userLanguage; 
   		if(userLang == "it-IT" || userLang == "it"){
   			toIt();
   		};
   	};
-
 
 	$("#langSelector").click(function(){
 		if ( $( "#langSelect" ).length ) {
@@ -120,9 +106,4 @@ $(document).ready(function(){
     		$("#langSelector").append(menu);
 		};
 	});
-
-	$("body").on("click", "#menu", function(event){
-		$("#headerButtons").toggle();
-	});
-
 });

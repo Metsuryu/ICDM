@@ -70,6 +70,44 @@ module.exports = function(app, passport, Contact){
     		});
     	});
 
+
+
+	app.get("/aboutus", function(req, res){
+		res.render("aboutus.ejs");
+	});
+
+	app.get("/chisiamo", function(req, res){
+		res.render("chisiamo.ejs");
+	});
+
+	app.get("/faq", function(req, res){
+		res.render("faq.ejs");
+	});
+	
+	app.get("/faqita", function(req, res){
+		res.render("faqita.ejs");
+	});
+
+	app.get("/contactus", function(req, res){
+		res.render("contactus.ejs");
+	});
+
+	app.get("/contattaci", function(req, res){
+		res.render("contattaci.ejs");
+	});
+
+	app.get("/donate", function(req, res){
+		res.render("donate.ejs");
+	});
+
+	app.get("/donazione", function(req, res){
+		res.render("donazione.ejs");
+	});
+
+	app.get("/informativaprivacy", function(req, res){
+		res.render("informativaprivacy.ejs");
+	});
+
 	app.get("/privacypolicy", function(req, res){
 		res.render("privacypolicy.ejs");
 	});
@@ -78,20 +116,8 @@ module.exports = function(app, passport, Contact){
 		res.render("ToS.ejs");
 	});
 
-	app.get("/aboutus", function(req, res){
-		res.render("aboutus.ejs");
-	});
-
-	app.get("/faq", function(req, res){
-		res.render("faq.ejs");
-	});
-	
-	app.get("/contactus", function(req, res){
-		res.render("contactus.ejs");
-	});
-
-	app.get("/donate", function(req, res){
-		res.render("donate.ejs");
+	app.get("/termini", function(req, res){
+		res.render("termini.ejs");
 	});
 
 	app.get("/logout", function(req, res){
