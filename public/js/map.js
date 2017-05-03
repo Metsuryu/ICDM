@@ -274,5 +274,5 @@ $(document).ready(function(){
     showMessageOnMap(broadcastMsg);
   };
 
-  let mapUpdateLoop =  setInterval(updateMarkersOnMap, 1000); //TODO: Set to 5000 or 10000
+  let mapUpdateLoop =  setInterval(updateMarkersOnMap, 10000); //10 Seconds
 })

@@ -5,11 +5,10 @@ const server  = require("http").createServer(app);
 const io      = require("socket.io").listen(server);
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-//TODO: Remove morgan
-//const morgan = require("morgan");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+//Random secret generated at server startup
 const randSecret = require("crypto").randomBytes(8).toString("hex");
 const path = require("path");
 const configDB = require("./config/database.js");
@@ -20,8 +19,6 @@ mongoose.Promise = global.Promise;
 
 mongoose.connect(configDB.url);
 require("./config/passport")(passport);
-//TODO: Remove morgan on release
-//app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({secret: randSecret,
@@ -76,14 +73,13 @@ function updateOnlineContactCoords (userData) {
 			const userID = userData.uniqueID;
 			const newLat = userData.lat;
 			const newLng = userData.lng;
-			console.log(userData.lat);
 			Contact.update(
 				{ "uniqueID" : userID },
 				{
 					$set: {	lat: newLat, lng: newLng },
 				}, function(err, results) {
 					if (err) {console.log(err);};
-					console.log(results);
+					//console.log(results);
 				});
 		} else {
 			return;
@@ -95,7 +91,7 @@ function updateOnlineContactCoords (userData) {
 
 function removeOnlineContact (socket) {
 	const idToRemove = socket.id;
-	//Add users to online by using userID, and remove them by uniqueID, to avoid duplicates
+	//Add users to online by userID, and remove them by uniqueID, to avoid duplicates
 	Contact.findOne({"userID": idToRemove}, function(err, contact){
 		if(err)
 			return err;
@@ -121,6 +117,7 @@ function removeOnlineContact (socket) {
 //Whenever someone connects this gets executed
 io.on("connection", function(socket){
 	//console.log("A user connected");
+	//Gives the connected user their sessionID
 	socket.emit("sessionID", { id: socket.id });
 
   	socket.on("updateOnline", function (userData) {
@@ -143,7 +140,6 @@ io.on("connection", function(socket){
   		// Sends a private message to the socket with the given id
     	socket.broadcast.to(id).emit("PMsg", msg, sender);
     	});
-
   	});
 
 //Do not use app.listen(port);

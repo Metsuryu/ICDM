@@ -1,18 +1,15 @@
 /*General*/
-
 * {
 	margin: 0;
 	padding: 0; 
 	box-sizing: border-box; 
 }
-
 body {
 	word-wrap:break-word;
 	/*Previous: #f4f4f4 or #F0EDE5*/ 
 	background-color: white;
 	font: 13px Helvetica, Arial; 
 }
-
 /*Map*/
 /* Always set the map height explicitly to define the size of the div
 * element that contains the map. */
@@ -22,7 +19,6 @@ body {
 	width: 100%;
 	height: 300px;
 }
-
 /*#A3CCFF for sea color*/
 #topMap {
 	background: #4980F4;
@@ -35,18 +31,14 @@ body {
   	border-top-right-radius: 200px;
   	margin-top: 2em;
 }
-
 #topMap a {
 	margin: 0.5em;
 }
-
 .profilePic {
 	border-radius:30px; 
     border:1px solid #000 !important; 
 }
-
 /*Chat*/
-
 .chatWindow {
 	background-color: white;
 	float: right;
@@ -58,7 +50,6 @@ body {
 	bottom: 0%;
 	right: 205px;
 }
-
 form { 
 	background: #4980F5; 
 	padding: .12em; 
@@ -66,24 +57,17 @@ form {
 	width: 100%;
 	position: relative;
 }
-
 form input { 
 	padding: .1em; 
 	width: 100%; 
 }
-
 .messages {
 	overflow: auto;
 	top: 0;
 	height: 288px;
-	list-style-type: none; 
 	margin: 0; 
 	padding: 0; 
 }
-.messages li { 
-	padding: 5px 10px; 
-}
-
 .infoMsg {
 	clear: both;
 	padding: 0.5em;
@@ -95,9 +79,7 @@ form input {
     width: 80%;
     text-align: center;
 	margin: 0 auto;
-
 }
-
 .receivedMessage {
 	padding: 0.5em;
 	margin: .5em;
@@ -107,7 +89,6 @@ form input {
     width: 70%;
     float: left;
 }
-
 .sentMessage {
 	padding: 0.5em;
 	margin: .5em;
@@ -117,7 +98,6 @@ form input {
     width: 70%;
     float: right;
 }
-
 .chatWindowHeader {
 	cursor: pointer;
 	background-color: #4980F5;
@@ -126,24 +106,19 @@ form input {
 	font-size: 1.1em;
 	padding: 0.2em;
 }
-
 .chatCloseButton {
 	cursor: pointer;
 	float: right;
 	padding-right: 5px;
 	padding-left: 5px;
 }
-
 .chatCloseButton:hover {
     background-color: red;
 }
-
 #chatUserName {
 	cursor: text;
 }
-
 /*Contacts*/
-
 #contactsBox {
 	background-color: #f4f4f4;
 	float: right;
@@ -158,47 +133,39 @@ form input {
 	/*For search bar*/
 	padding-bottom: 4em;
 }
-
 #contactsList{
 	height: 100%;
 	min-height: 3em;
 	overflow: auto;
 }
-
 .contactsBoxMobile{
 	top:0%;
 	margin-top: 1em;
 }
-
 #contactsHandle {
 	cursor: pointer;
 	background-color: #4980F4;
 	padding-bottom: .3em;
 	text-align: center;
 }
-
 .contactsHandleMobile{
 	background-color: #286dff !important;
 	border: 1px solid black;
 }
-
 #contactsHandle:hover {
     background-color: #286dff;
 }
-
 #contactsSpan {
 	color: white;
 	font-weight: bold;
 	font-size: 1.1em;
 	padding: .1em;
 }
-
 #contactsBox li {
 	list-style-type: none;
     margin: 0;
     padding: 0;
 }
-
 #contactsBox li {
 	padding-left: 1em; 
   	text-indent: -.7em;
@@ -207,36 +174,29 @@ form input {
  	background-color: #f4f4f4;
   	color: black;
 }
-
 #contactsBox li:hover {
 	background-color: #A7CDF2;
 }
-
 #contactsBox li::before {
 	font-size: 2em;
 	content: "• ";
   	color: green; /* Color of the dot */
   	vertical-align: middle;  
 }
-
 #searchField {
 	bottom: 5px;
 	/*position: absolute;*/
 	margin-left: 0.5em;
 	min-height: 1.5em;
 }
-
 .searchFieldMinimized{
 	position: relative;
 }
-
 .unread{
 	color: red;
 	margin-left: 2em;
 }
-
 /*Header*/
-
 #header {
 	background-color: #4980F4;
 	text-align: left;
@@ -244,19 +204,16 @@ form input {
 	padding-left: 4em;
 	width:100%;
 }
-
 @media screen and (max-width: 800px) {
 	#header {
 		padding-left: 0em;
 	}
 }
-
 @media screen and (min-width: 790px) {
 	#logout {
 		float: right;
 	}
 }
-
 #header a, #langSelect a {
 	background-color: #4980F4;
 	color: white;
@@ -265,13 +222,9 @@ form input {
 	text-align: center;
 	margin-left: .2em;
 }
-
-
-
 #logout {
 	background-color: #D9534F !important;
 }
-
 #langSelect {
 	position: absolute;
 	width: 97px;
@@ -279,28 +232,22 @@ form input {
 	border: 1px solid black;
 	z-index: 9999;
 }
-
 #langSelect a{
 	margin: 0.3em;
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 }
-
-
 /*Mobile*/
-
 .headerMobileA {
 	margin: .5em;
 	margin-top: 1em;
 	border: 1px solid black;
 	display: block;
 } 
-
 .langSelectMobile {
 	margin-left: 86%;
 	margin-top: -18%;
 }
-
 #menu, #menuButtons{
 	padding-left: 0.2em;
 	font-size: 2em;
@@ -310,15 +257,12 @@ form input {
 }
 #menu{
 	padding-left: 1em;
-	margin-bottom: 1em; /*TODO: Test*/
+	margin-bottom: 1em;
 }
-
 #headerButtons{
 	font-size: small;
 }
-
 .headerButtonsMobile{
-	/*margin-top: 1.5em; Trying margin-bottom: on menu instead, to see if it's easier to click on mobile*/
 	background-color: #555;
 	border: 1px solid black;
 }

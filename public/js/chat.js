@@ -41,11 +41,10 @@ let userPicture = getUserPictre();
           lng: user.lng
         });
       }else{
-        //TODO: Handle error better
+        //TODO: Handle error better (Retry until ID is available)
         console.log("Error: Could not retrive ID");
       }
     });
-
 
     $("body").on("submit", "form", function(event){
       //Can use either "event.target" or "this"
@@ -107,8 +106,7 @@ let userPicture = getUserPictre();
           /*Uses the object with uniqueID because the function isUniqueIDInArray
             needs an array of objects with uniqueID*/
           hasUnreadMessages.push( {"uniqueID" : sender.uniqueID} );
-        };
-        
+        };        
       }
 
       //Conversation history

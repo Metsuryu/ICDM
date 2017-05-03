@@ -86,7 +86,6 @@ function maximizeChatWindow (parentChatWindow) {
 	});
 }
 
-
 //Places the newly open chatWindow in the correct position
 function positionChatWindow (sourceChatWindow, openChatWindowsContextual) {
 	const chatWidth = 260;
@@ -311,7 +310,7 @@ app.controller("ctrl", function($scope, $http, $interval) {
 	}
 	updateContactsList();
 	//Update the list periodically.
-	$interval(updateContactsList, 5000);//TODO: Adjust time
+	$interval(updateContactsList, 10000);//10 Seconds
 });
 
 
@@ -398,5 +397,4 @@ $(document).ready(function(){
 			});
 		}
 	});
-
 });

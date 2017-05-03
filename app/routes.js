@@ -2,14 +2,6 @@ const User = require("./models/user");
 const bodyParser = require("body-parser");
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-
-/*
-function sanitizeString(str){
-  str = str.replace(/([/\\<>"'&])+/g,"");
-  return str.trim();
-};
-*/
-
 module.exports = function(app, passport, Contact){
 
 	app.get("/login", function(req, res){
@@ -69,8 +61,6 @@ module.exports = function(app, passport, Contact){
     		res.json( contactsArray );
     		});
     	});
-
-
 
 	app.get("/aboutus", function(req, res){
 		res.render("aboutus.ejs");
