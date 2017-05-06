@@ -1,3 +1,4 @@
+let contactsMinimized = false;
 //Is adjusted depending on window width.
 let openChatWindowsLimit = 1;
 //Sets the limit of how many chatWindows can be open at any time. (openChatWindowsLimit)
@@ -169,6 +170,7 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
     };
     openChatWindows += 1;
 
+
     //Remove notification icon if present
     for (let i = hasUnreadMessages.length - 1; i >= 0; i--) {
     	if (hasUnreadMessages[i].uniqueID === targetUniqueID ) {
@@ -176,6 +178,10 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
 		};
 	}
     $("[data-contactUID="+ targetUniqueID +"]").find($("span")).remove();
+    //Remove unread icon from contactsBox if hasUnreadMessages is empty
+    if (hasUnreadMessages.length === 0) {
+    	$("#contactsSpan").find($("span")).remove();
+    }    
 
     //If one of the users has no coordinates, show "unknown" as distance.
     let profilePic = '<img class="profilePic" src="' + targetPic + '">';
@@ -265,7 +271,6 @@ function closeAllOpenChatWindows() {
 	openChatWindows = 0;
 }
 
-
 let app = angular.module("ICDM", []);
 
 app.controller("ctrl", function($scope, $http, $interval) {
@@ -313,10 +318,10 @@ app.controller("ctrl", function($scope, $http, $interval) {
 	$interval(updateContactsList, 10000);//10 Seconds
 });
 
-
-
-
 $(document).ready(function(){
+	if (isMobile && !contactsMinimized) {
+		toggleContactsBox();
+	};
 	//Open chat window when clicking on contact
 	$("#contactsBox").on("click", ".contactClass", function(event){
 		let targetAttrs = event.target;
@@ -363,8 +368,7 @@ $(document).ready(function(){
 	});
 
 	//Minimize and maximize contactsBox
-	let contactsMinimized = false;
-	$( "#contactsHandle" ).click(function() {
+	function toggleContactsBox() {
 		if (!contactsMinimized) {
 			$( "#searchField").addClass("searchFieldMinimized");
 			//Addclass doesn't work on contactsBox
@@ -396,5 +400,10 @@ $(document).ready(function(){
 				contactsMinimized = false;
 			});
 		}
+	}
+	
+	$( "#contactsHandle" ).click(function() {
+		toggleContactsBox();
 	});
+
 });

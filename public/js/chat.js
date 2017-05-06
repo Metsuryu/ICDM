@@ -47,6 +47,7 @@ let userPicture = getUserPictre();
     });
 
     $("body").on("submit", "form", function(event){
+      event.preventDefault();
       //Can use either "event.target" or "this"
       let messageToSend = $(".m",this).val();
       //Don't allow empty messages.
@@ -77,7 +78,6 @@ let userPicture = getUserPictre();
       //Clear input bar
       messageToSend = "";
       $(".m",this).val(messageToSend);
-      return false;
     });
 
     //Receive PM
@@ -103,6 +103,7 @@ let userPicture = getUserPictre();
         if ( !isUniqueIDInArray (hasUnreadMessages, sender.uniqueID) ) {
           let unreadSpan = '<span ng-if="contact.unreadMessages" class="glyphicon glyphicon-envelope unread"></span>'
           $("[data-contactUID="+ sender.uniqueID +"]").append(unreadSpan);
+          $("#contactsSpan").append(unreadSpan);
           /*Uses the object with uniqueID because the function isUniqueIDInArray
             needs an array of objects with uniqueID*/
           hasUnreadMessages.push( {"uniqueID" : sender.uniqueID} );

@@ -35,9 +35,13 @@ module.exports = function(app, passport, Contact){
 			{
 			$set: {	lat: newLat, lng: newLng },
 			}, function(err, results) {
-				if (err) {console.log(err);};
-				});
-		res.send("");
+				if (err) {
+					console.log(err);
+					res.sendStatus(500);
+					res.end();
+				};
+			});
+		res.sendStatus(200);
 		res.end();
 		});
 
@@ -46,7 +50,10 @@ module.exports = function(app, passport, Contact){
 		let contactsArray = [];
 
     	Contact.find(function(err, contacts) {
-    		if(err) return console.error(err);
+    		if(err) {
+    			res.sendStatus(500);
+    			return console.error(err)
+    		};
     		//JSON
     		contacts.forEach(function (contact, i) {
     			contactsArray.push({

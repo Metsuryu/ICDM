@@ -231,6 +231,7 @@ form input {
 	background-color: #555;
 	border: 1px solid black;
 	z-index: 9999;
+	margin-top: 1%;
 }
 #langSelect a{
 	margin: 0.3em;
@@ -246,7 +247,6 @@ form input {
 } 
 .langSelectMobile {
 	margin-left: 86%;
-	margin-top: -18%;
 }
 #menu, #menuButtons{
 	padding-left: 0.2em;

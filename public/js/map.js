@@ -8,6 +8,8 @@ var usersOnline = [];
 var markersOnMap = [];
 //If localUserOnMap === true, update map position when doing broadcast
 var localUserOnMap = false;
+var mapUpdateTimer = 2000; //2 Seconds, that is changed to 10 seconds after 30 seconds.
+const tenSeconds = 10000;
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
@@ -113,7 +115,8 @@ function broadcastLocation() {
           emitUpdateCoords(pos.lat, pos.lng);
           user.lat = pos.lat;
           user.lng = pos.lng;
-          //updateMarkersOnMap();
+          setTimerToXSecondsAfterDelay(2000, 0);
+          setTimerToXSecondsAfterDelay(tenSeconds, tenSeconds);
         },
         error: function error(err) {
           console.log("Error: ", err);
@@ -264,6 +267,10 @@ function removeLocalUserMarker() {
   };
 }
 
+function setTimerToXSecondsAfterDelay(time, delay) {
+  setTimeout(function(){ mapUpdateTimer = time; }, delay);
+}
+
 $(document).ready(function () {
   /*When user's coordinates are 0 0, show message explaining how 
   "Broadcast Location" and "Erase Location" work*/
@@ -277,6 +284,8 @@ $(document).ready(function () {
     showMessageOnMap(broadcastMsg);
   };
 
+
   updateMarkersOnMap();
-  var mapUpdateLoop = setInterval(updateMarkersOnMap, 10000); //10 Seconds
+  var mapUpdateLoop = setInterval(updateMarkersOnMap, mapUpdateTimer); //2 Seconds, then 10 seconds
+  setTimerToXSecondsAfterDelay(tenSeconds, tenSeconds);
 });

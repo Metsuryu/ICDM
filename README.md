@@ -1,4 +1,4 @@
-# [I Cecchini Del Mare](https://I Cecchini Del Mare.herokuapp.com/)
+# [I Cecchini Del Mare](https://icecchinidelmare.herokuapp.com)
 
 This website lets you share your current location through geolocation, and allows you to view the location of other users on a map, and chat with them.
 

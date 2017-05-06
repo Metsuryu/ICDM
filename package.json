@@ -1,6 +1,6 @@
 {
   "name": "ICecchiniDelMare",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "I Cecchini Del Mare",
   "main": "app.js",
   "scripts": {
@@ -11,17 +11,14 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "latest",
-    "connect-flash": "latest",
     "cookie-parser": "latest",
     "ejs": "latest",
     "express": "latest",
     "express-session": "latest",
     "mongoose": "latest",
-    "morgan": "latest",
     "passport": "latest",
     "passport-facebook": "latest",
     "passport-google-oauth": "latest",
-    "pusher": "^1.5.1",
     "socket.io": "^1.7.3"
   },
   "devDependencies": {

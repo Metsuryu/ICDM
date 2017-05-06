@@ -107,8 +107,7 @@ function removeOnlineContact (socket) {
 				//console.log("\x1b[33m%s\x1b[0m","Contact removed.");
 				return;
 			});
-		}
-		else {
+		} else {
 			return;
 		}
 	});
