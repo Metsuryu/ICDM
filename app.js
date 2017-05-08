@@ -12,6 +12,7 @@ const passport = require("passport");
 const randSecret = require("crypto").randomBytes(8).toString("hex");
 const path = require("path");
 const configDB = require("./config/database.js");
+const compression = require('compression');
 
 //To fix the deprecated promise issue use native promises here, like so:
 //global.Promise is only supported in ES6
@@ -29,6 +30,9 @@ app.use(passport.session()); // persistent login sessions
 app.use(express.static(path.join(__dirname, "/public")));
 app.set("views", __dirname + "/public/views");
 app.set("view engine", "ejs");
+// compress all requests 
+app.use(compression());
+
 
 const Contact = require("./app/models/contact");
 require("./app/routes.js")(app, passport, Contact);

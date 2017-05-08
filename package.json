@@ -1,6 +1,6 @@
 {
   "name": "ICecchiniDelMare",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "I Cecchini Del Mare",
   "main": "app.js",
   "scripts": {
@@ -26,6 +26,10 @@
     "babel-core": "^6.23.1",
     "babel-preset-env": "^1.2.1",
     "babel-preset-es2015": "^6.22.0",
-    "babel-preset-react": "^6.23.0"
+    "babel-preset-react": "^6.23.0",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.1.1",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-minify": "0.0.15"
   }
 }
