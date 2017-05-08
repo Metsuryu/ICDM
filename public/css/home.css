@@ -247,6 +247,7 @@ form input {
 } 
 .langSelectMobile {
 	margin-left: 86%;
+	margin-top: -15% !important;
 }
 #menu, #menuButtons{
 	padding-left: 0.2em;

@@ -5,6 +5,7 @@ function toEn () {
 	Cookies.set("Lang", "Eng");
 	//Header bar
 	$("#langFlag").attr("src","img/flags/us.gif");
+	$("#langFlag").attr("alt","English/US");
 	$("#aboutusLabel").text("About us");
 	$("#fbGroupLabel").text("Facebook group");
 	$("#langLabel").text("Language");
@@ -30,6 +31,7 @@ function toIt () {
 	Cookies.set("Lang", "Ita");
 	//Header bar
 	$("#langFlag").attr("src","img/flags/it.gif");
+	$("#langFlag").attr("alt","Italiano/IT");
 	$("#aboutusLabel").text("Chi siamo");
 	$("#fbGroupLabel").text("Gruppo Facebook");
 	$("#langLabel").text("Lingua");
