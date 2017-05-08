@@ -1,6 +1,6 @@
 {
   "name": "ICecchiniDelMare",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "I Cecchini Del Mare",
   "main": "app.js",
   "scripts": {
@@ -19,7 +19,8 @@
     "passport": "latest",
     "passport-facebook": "latest",
     "passport-google-oauth": "latest",
-    "socket.io": "^1.7.3"
+    "socket.io": "^1.7.3",
+    "compression": "latest"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",

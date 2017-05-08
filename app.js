@@ -1,3 +1,4 @@
+const compression = require("compression");
 const express = require("express");
 const port = process.env.PORT || 3000;
 const app     = express();
@@ -12,7 +13,6 @@ const passport = require("passport");
 const randSecret = require("crypto").randomBytes(8).toString("hex");
 const path = require("path");
 const configDB = require("./config/database.js");
-const compression = require('compression');
 
 //To fix the deprecated promise issue use native promises here, like so:
 //global.Promise is only supported in ES6
@@ -20,6 +20,7 @@ mongoose.Promise = global.Promise;
 
 mongoose.connect(configDB.url);
 require("./config/passport")(passport);
+app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({secret: randSecret,
@@ -30,8 +31,6 @@ app.use(passport.session()); // persistent login sessions
 app.use(express.static(path.join(__dirname, "/public")));
 app.set("views", __dirname + "/public/views");
 app.set("view engine", "ejs");
-// compress all requests 
-app.use(compression());
 
 
 const Contact = require("./app/models/contact");
