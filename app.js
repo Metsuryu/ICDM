@@ -125,26 +125,34 @@ io.on("connection", function(socket){
   	socket.on("updateOnline", function (userData) {
   		//Adds user to "online" users
   		addOnlineContact (userData);
-  		});
+  	});
 
   	socket.on("updateOnlineContactCoords", function (userData) {
   		//Updates user's coordinates
   		updateOnlineContactCoords (userData);
-  		});
+  	});
 
   	socket.on("disconnect", function () {
   		//Removes user from "online" users
   		//console.log("A user disconnected");
   		removeOnlineContact(socket);
-  		});
-
-  	socket.on("PM", function(id, msg, sender){
-  		// Sends a private message to the socket with the given id
-    	socket.broadcast.to(id).emit("PMsg", msg, sender);
-    	});
   	});
+
+  	socket.on("PM", function(id, msg, sender ) {
+  		// Sends a private message to the socket with the given id
+    	socket.to(id).emit("PMsg", msg, sender );
+    });
+
+  	socket.on("received", function(toID, fromID) {
+  		// Acknowledge received message 
+    	socket.to(toID).emit("receivedOK", fromID);
+    });
+    //TODO: Make another one to check if they are connected.
+
+});
 
 //Do not use app.listen(port);
 server.listen(port);
 
 console.log("Server running on port: " + port);
+

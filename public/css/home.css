@@ -80,23 +80,34 @@ form input {
     text-align: center;
 	margin: 0 auto;
 }
+.sentCheck {
+    color: lightgrey;
+    text-align: center;
+    float: right;
+    margin-left: 0.5em;
+}
 .receivedMessage {
 	padding: 0.5em;
-	margin: .5em;
+	margin: 0.2em;
 	border-radius: 15px;
     background: #F0EDE5;
     color: black;
-    width: 70%;
+    max-width: 70%;
+    width: auto;
     float: left;
+    text-align: left;
 }
 .sentMessage {
+	clear: both;
 	padding: 0.5em;
-	margin: .5em;
+	margin: 0.2em;
 	border-radius: 15px;
     background: #4980F5;
     color: white;
-    width: 70%;
+    max-width: 70%;
+    width: auto;
     float: right;
+    text-align: left;
 }
 .chatWindowHeader {
 	cursor: pointer;
@@ -105,6 +116,7 @@ form input {
 	font-weight: bold;
 	font-size: 1.1em;
 	padding: 0.2em;
+	border-bottom: 1px solid #000;
 }
 .chatCloseButton {
 	cursor: pointer;

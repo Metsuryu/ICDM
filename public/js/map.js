@@ -143,9 +143,9 @@ function styleMarker(markerPicture) {
   var picSrc = markerPicture;
   var style = document.createElement("style");
   style.type = "text/css";
-  //Using backtick with picSrc in expression. TODO: Compile with babel
+  //Using backtick with picSrc in expression.
   //Selecting "*" with picSrc in case google decides to not use divs anymore.
-  style.innerHTML = "\n    * [src=\"" + picSrc + "\"] {\n      border-radius:30px; \n      border:1px solid #000 !important; \n    }";
+  style.innerHTML = "* [src='" + picSrc + "'] {border-radius:30px; border:1px solid #000 !important; }";
   document.getElementsByTagName("head")[0].appendChild(style);
 }
 

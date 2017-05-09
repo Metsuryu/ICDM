@@ -21,6 +21,16 @@ $(document).ready(function(){
 	//?TODO: Better Mobile detection if there are problems. Should be good according to Mozilla.
 	if (/Mobi/.test(navigator.userAgent)) {
 		enableMobileMode();
+  	}else{
+  		const screenWidth = $(window).width();
+		const chatWidth = 260;
+    	const contactBoxWidth = 200;
+    	const gap = 5;
+    	const resultLimit = Math.floor( (screenWidth-contactBoxWidth)/(chatWidth+gap) );
+    	/*If less than one chatWindows can fit, enable mobile mode.*/
+    	if (resultLimit < 1) {
+    		enableMobileMode();
+    	};
   	}
 
   	$("body").on("click", "#menu", function(event){

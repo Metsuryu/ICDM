@@ -271,6 +271,15 @@ function closeAllOpenChatWindows() {
 	openChatWindows = 0;
 }
 
+//Remove #_=_ in url after facebook login
+function removeFBUrlHash() {
+	if (window.location.hash == "#_=_"){
+		history.replaceState
+		? history.replaceState(null, null, window.location.href.split('#')[0])
+        : window.location.hash = "";
+    }
+}
+
 let app = angular.module("ICDM", []);
 
 app.controller("ctrl", function($scope, $http, $interval) {
@@ -322,6 +331,9 @@ $(document).ready(function(){
 	if (isMobile && !contactsMinimized) {
 		toggleContactsBox();
 	};
+
+	removeFBUrlHash();
+	
 	//Open chat window when clicking on contact
 	$("#contactsBox").on("click", ".contactClass", function(event){
 		let targetAttrs = event.target;
