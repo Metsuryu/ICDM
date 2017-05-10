@@ -87,8 +87,10 @@ form input {
     margin-left: 0.5em;
 }
 .receivedMessage {
+	clear: both;
 	padding: 0.5em;
 	margin: 0.2em;
+	margin-left: 0.5em;
 	border-radius: 15px;
     background: #F0EDE5;
     color: black;
@@ -101,6 +103,7 @@ form input {
 	clear: both;
 	padding: 0.5em;
 	margin: 0.2em;
+	margin-right: 0.5em;
 	border-radius: 15px;
     background: #4980F5;
     color: white;

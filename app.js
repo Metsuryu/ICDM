@@ -42,11 +42,12 @@ function addOnlineContact (userData) {
 		return;
 	};
 	Contact.findOne({"userID": userData.socketID}, function(err, contact){
-		if(err)
+		if(err){
 			return err;
-		if(contact)
+		};
+		if(contact){
 			return;
-		else {
+		} else {
 			let newContact = new Contact();
 			newContact.uniqueID = userData.uniqueID;
 			newContact.userID = userData.socketID;
@@ -56,11 +57,22 @@ function addOnlineContact (userData) {
 			newContact.lng = userData.lng;
 
 			newContact.save(function(err){
-				if(err) { console.log(err); }
+				if(err) { console.log(err); };
 				return;
-			})
-		}
+			});
+		};
 		//console.log("\x1b[33m%s\x1b[0m:","Contact added.");
+	});
+}
+
+function findContactSID(contactUID, msg, sender, emitPMsg){
+	Contact.findOne({"uniqueID": contactUID}, function(err, contact){
+		if(err){return err;};
+		if(contact){
+			let foundSID = contact.userID;
+			emitPMsg(foundSID, msg, sender);
+			return;
+		} 
 	});
 }
 
@@ -138,17 +150,21 @@ io.on("connection", function(socket){
   		removeOnlineContact(socket);
   	});
 
-  	socket.on("PM", function(id, msg, sender ) {
-  		// Sends a private message to the socket with the given id
-    	socket.to(id).emit("PMsg", msg, sender );
+  	socket.on("PM", function(uid, msg, sender ) {
+  		findContactSID(uid, msg, sender, emitPMsg); //Is Async
+  		//console.log("SENDING TO:" + sID); 
+  		// Sends a private message to the socket with the given uid
+    	
     });
+    //Invoked when findContactSID executes callback
+    function emitPMsg(sID, msg, sender){
+    	socket.to(sID).emit("PMsg", msg, sender );
+    }
 
-  	socket.on("received", function(toID, fromID) {
+  	socket.on("received", function(toID, fromUID) {
   		// Acknowledge received message 
-    	socket.to(toID).emit("receivedOK", fromID);
+    	socket.to(toID).emit("receivedOK", fromUID);
     });
-    //TODO: Make another one to check if they are connected.
-
 });
 
 //Do not use app.listen(port);

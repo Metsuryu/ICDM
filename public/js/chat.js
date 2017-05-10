@@ -1,57 +1,93 @@
 //TODO: Make "object" messages that contain username, picture, message, and maybe timestamp
 //TODO: And have a way to decode and display that object message
 let sessionID = null;
-let messageSentOK = false;
-let receivedCheckLoop = null;
-let timeoutEndLoop = null;
+let receivedCheckTimer = null;
+let timeoutEndTimer = null;
+let awaitingClientResponse = [];
+let messageTimeout = 5000;
 
-function checkIfReceived(chatID) {
-  if (messageSentOK) {
-    //console.log("received");
-    let checkIcon = '<i class="fa fa-check" aria-hidden="true"></i>';
-    let targetChat = $(chatID);
-    //Message sent check,
+function isUIDInArray(inputArray, targetString) {
+  for (var i = inputArray.length - 1; i >= 0; i--) {
+    if (inputArray[i].UID === targetString) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function removeUIDFromArray(inputArray, targetString) {
+  for (var i = inputArray.length - 1; i >= 0; i--) {
+    if (inputArray[i].UID === targetString) {
+      inputArray.splice(i, 1); //Remove element
+    }
+  }
+}
+
+function clearReceivedCheckTimer() {
+  if (receivedCheckTimer) {
+    clearInterval(receivedCheckTimer);
+    receivedCheckTimer = null;
+  };
+}
+
+function clearTimeoutEndTimer() {
+  if (timeoutEndTimer) {
+    clearTimeout(timeoutEndTimer);
+  };
+}
+
+function clientResponded(clientUID) {
+  removeUIDFromArray(awaitingClientResponse, clientUID);
+}
+
+function awaitClientResponse( UIDToVerify, thisUserID, chatID ) {
+  //If already awaiting response from client, return.
+  if ( isUIDInArray(awaitingClientResponse, UIDToVerify) ) {return};
+
+  awaitingClientResponse.push({ "UID": UIDToVerify });
+  loopCheckIfReceived(chatID, UIDToVerify );
+}
+
+//If the UIDToVerify is not in awaitingClientResponse[], the message was not received by the client.
+function checkIfReceived(chatID, UIDToVerify) {
+  if ( !isUIDInArray(awaitingClientResponse, UIDToVerify) ) {
+    //Received
+    //Clear timers, since there is nothing left to do.
+    clearReceivedCheckTimer();
+    clearTimeoutEndTimer();
+    //Add checkmark to chat, since message was sent.
+    let checkIcon = '<i class="fa fa-check"></i>';
     $(chatID+" p:last").last().append($('<span class="sentCheck">').html(checkIcon));
     //Scroll to bottom
-    targetChat.scrollTop(targetChat.prop("scrollHeight")); 
-    if (receivedCheckLoop) {
-      clearInterval(receivedCheckLoop);
-      receivedCheckLoop = null;
-    };
-    if (timeoutEndLoop) {
-      clearTimeout(timeoutEndLoop);
-    }
+    let targetChat = $(chatID);
+    targetChat.scrollTop(targetChat.prop("scrollHeight"));
     return true;
   }else{
     return false;
   };
 }
 
-function loopCheckIfReceived(chatID) {
-  if (!messageSentOK && !receivedCheckLoop ) {
+//At the end of the check, must remove ID from awaitingClientResponse[]
+function loopCheckIfReceived(chatID, UIDToVerify) {
+  if (!receivedCheckTimer ) {
     //Try again every 500ms for 5 seconds, then return false.
-    receivedCheckLoop = setInterval( function(){ checkIfReceived(chatID); }  , 500);
-    timeoutEndLoop = setTimeout(function() {
-      if (receivedCheckLoop) {
-        clearInterval(receivedCheckLoop);
-        receivedCheckLoop = null;
+    receivedCheckTimer = setInterval( function(){ checkIfReceived(chatID, UIDToVerify); }  , 500);
+    timeoutEndTimer = setTimeout(function() {
+      clearReceivedCheckTimer();
+      if ( !checkIfReceived(chatID, UIDToVerify) ) {
+        
+        removeUIDFromArray(awaitingClientResponse, UIDToVerify);
+        let errorMessage = "Error: Your message couldn't be delivered.";
+        if (localLanguage === "Ita"){
+          errorMessage = "Errore: Impossibile inviare messaggio."
+        };
+
+        let chatWindow = $(chatID);
+        chatWindow.append($('<p class="infoMsg">').text(errorMessage));
+        //Scroll to bottom
+        chatWindow.scrollTop(chatWindow.prop("scrollHeight"));
       };
-      if ( !checkIfReceived() ) {
-        //TODO sentCheck: On timeout, check if the chat is sending the msg to the right sessionID
-        //Make array with all users with same UID and differend SID, check each one with something like 
-        //socket.emit("received", sender.id, user._id); (Use different one)
-/*
-    socket.on("receivedOK", function(sender) {
-      //TODO: Differentiate messages sent to different users
-      // If "sender" responds, use that SID on non-responding chat with same UID. 
-      messageSentOK = true;
-    });
-*/
-        //If it doesn't respond, try next, if it responds, set the current chatwindow SID to that one.
-        //If there is no match, throw error.
-        console.log("Timeout: Message not received.");
-      };
-    }, 5000);
+    }, messageTimeout);
   }
 }
 
@@ -117,10 +153,23 @@ let userPicture = getUserPictre();
       let contactID = this.getAttribute("data-pmid");
       let contactUID = this.getAttribute("data-pmuid");
       let thisChat = "#" + contactID;
-      
-      messageSentOK = false;
 
-      socket.emit("PM", contactID, messageToSend, {
+      //Append sent message to chatWindow
+      //TODO: Add timestamp and sender name that can be seen on mouse hover.
+      $(thisChat).find(".sentCheck").remove();
+      appendMessageToChat(contactID, "sentMessage", messageToSend);
+
+      /* To verify if they received the message:
+        -Push client UID in awaitingClientResponse
+        -The UID gets removed when clientResponded(clientUID) is invoked
+        -Check periodically for "messageTimeout" ms if the message was received by checking if 
+          client UID is still in awaitingClientResponse. 
+        If it's not there anymore, the message was sent successfully. 
+        If it's still there after the messageTimeout, an error is shown.
+      */
+      awaitClientResponse( contactUID, user._id, thisChat );
+
+      socket.emit("PM", contactUID, messageToSend, {
         name: userName, 
         picture: userPicture, 
         id: sessionID, 
@@ -129,17 +178,11 @@ let userPicture = getUserPictre();
         lng: user.lng
       });
 
-      loopCheckIfReceived(thisChat);
-
-
-      //Append sent message to chatWindow
-      //TODO: Add timestamp and sender name that can be seen on mouse hover.
-      $(thisChat).find(".sentCheck").remove();
-      appendMessageToChat(contactID, "sentMessage", messageToSend);
       //Conversation history
       let chatHistory = Cookies.get(contactUID) || "";
       chatHistory += '<p class="sentMessage">' + messageToSend;
       Cookies.set(contactUID, chatHistory);
+
       //Clear input bar
       messageToSend = "";
       $(".m",this).val(messageToSend);
@@ -186,16 +229,11 @@ let userPicture = getUserPictre();
         notification.play();
       };
 
-      //TODO: Maybe add message unique id.
+      //Send message acknowledgement to sender.
       socket.emit("received", sender.id, user._id);
-
     });
 
-
-    socket.on("receivedOK", function(sender) {
-      //TODO: Differentiate messages sent to different users
-      messageSentOK = true;
+    socket.on("receivedOK", function(senderUID) {
+      clientResponded(senderUID);
     });
-
-
 });
