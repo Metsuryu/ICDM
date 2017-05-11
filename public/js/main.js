@@ -282,7 +282,7 @@ function removeFBUrlHash() {
 
 let app = angular.module("ICDM", []);
 
-app.controller("ctrl", function($scope, $http, $interval) {
+app.controller("ctrl", ["$scope", "$http", "$interval", function($scope, $http, $interval) {
 	//Set session and unique ID as soon as they are available
 	function setSessionID () {
 		if (sessionID) {
@@ -325,7 +325,7 @@ app.controller("ctrl", function($scope, $http, $interval) {
 	updateContactsList();
 	//Update the list periodically.
 	$interval(updateContactsList, 10000);//10 Seconds
-});
+}]);
 
 $(document).ready(function(){
 	if (isMobile && !contactsMinimized) {
