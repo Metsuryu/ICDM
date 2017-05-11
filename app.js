@@ -65,6 +65,7 @@ function addOnlineContact (userData) {
 	});
 }
 
+//Find the first valid SID matching the UID, and send the msg there.
 function findContactSID(contactUID, msg, sender, emitPMsg){
 	Contact.findOne({"uniqueID": contactUID}, function(err, contact){
 		if(err){return err;};
@@ -128,9 +129,30 @@ function removeOnlineContact (socket) {
 	});
 }
 
+//Send logoutEveryClient to every client's SID with matching UID.
+function disconnectAllClientsWithSameUID (socket) {
+	const SIDToFind = socket.id;
+	Contact.findOne({"userID": SIDToFind}, function(err, contact){
+		if(err)
+			return err;
+		if(contact){
+			let contactUID = contact.uniqueID;
+			Contact.find({"uniqueID": contactUID}, function(err, users) {
+
+				users.forEach(function(user) {
+					socket.to(user.userID).emit("logoutEveryClient");
+				});
+			});
+		} else {
+			return;
+		}
+	});
+	//Then remove them from online list
+	removeOnlineContact(socket);
+}
+
 //Whenever someone connects this gets executed
 io.on("connection", function(socket){
-	//console.log("A user connected");
 	//Gives the connected user their sessionID
 	socket.emit("sessionID", { id: socket.id });
 
@@ -145,16 +167,15 @@ io.on("connection", function(socket){
   	});
 
   	socket.on("disconnect", function () {
-  		//Removes user from "online" users
-  		//console.log("A user disconnected");
-  		removeOnlineContact(socket);
+  		/*Removes user from "online" users
+  		Also emits logoutEveryClient to all SIDs with matching UID that were online
+  		*/
+  		disconnectAllClientsWithSameUID (socket);
   	});
 
   	socket.on("PM", function(uid, msg, sender ) {
-  		findContactSID(uid, msg, sender, emitPMsg); //Is Async
-  		//console.log("SENDING TO:" + sID); 
-  		// Sends a private message to the socket with the given uid
-    	
+  		//Send a private message to the socket with the given uid
+  		findContactSID(uid, msg, sender, emitPMsg); //Is Async so needs callback emitPMsg   	
     });
     //Invoked when findContactSID executes callback
     function emitPMsg(sID, msg, sender){

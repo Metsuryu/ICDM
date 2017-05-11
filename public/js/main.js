@@ -230,7 +230,7 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
 function openChatWindow(targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput) {
     if ( isChatAlreadyOpen(targetUniqueID) ) {
     	if (focusInput) {
-    		let chatWinPar = $("#"+targetID).parent();
+    		let chatWinPar = $("#"+targetUniqueID).parent();
     		//If maximized, just focus
     		let isMin = chatWinPar.attr("data-min");
     		if (isMin === "false" ) {
@@ -245,7 +245,7 @@ function openChatWindow(targetName, targetPic, targetID, targetUniqueID, targetL
 	}else{
     	//Open new chatWindow
     	if (openChatWindows >= openChatWindowsLimit) {
-    		//console.log("Too many chats."); 
+    		//Too many chat windows. 
     		/*If there are too many chats open, a message notification gets added next to the
     		  contact name on the contactsBox, and received messages are added to chat history.
     		  When a chat with notification is opened, the notification is removed.*/

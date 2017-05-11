@@ -151,6 +151,7 @@ function styleMarker(markerPicture) {
 
 //TODO2: See TODO1
 function removeMarker(markerToRemove) {
+  //console.log(markerToRemove);
   //Remove the marker from the map: 
   markerToRemove.setMap(null);
   //Delete marker:
@@ -225,7 +226,6 @@ function updateMarkersOnMap() {
       lat: newMarker.lat,
       lng: newMarker.lng
     });
-    //console.log("Adding");
     addMarker(newMarker);
   };
 
@@ -234,7 +234,6 @@ function updateMarkersOnMap() {
     var markerToRemove = markersOnMap[_i];
     //If the marker is not online anymore
     if (!isUniqueIDInArray(usersOnline, markerToRemove.uniqueID)) {
-      //console.log("Removing");
       removeMarker(markerToRemove);
       //Remove the marker from the array
       markersOnMap.splice(_i, 1);

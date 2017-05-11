@@ -113,9 +113,9 @@ function getUserPictre() {
 }
 
 //TODO: Add timestamp and sender name that can be seen on mouse hover.
-function appendMessageToChat(chatID, className, message) {
-  let chatWindow = $("#"+chatID);
-  chatWindow.append($('<p class="'+className+'">').text(message));
+function appendMessageToChat(chatUID, className, message) {
+  let chatWindow = $("#"+chatUID).parent().find(".messages");
+  chatWindow.append( $('<p class="'+className+'">').text(message) );
   //Scroll to bottom
   chatWindow.scrollTop(chatWindow.prop("scrollHeight"));
 }
@@ -157,7 +157,7 @@ let userPicture = getUserPictre();
       //Append sent message to chatWindow
       //TODO: Add timestamp and sender name that can be seen on mouse hover.
       $(thisChat).find(".sentCheck").remove();
-      appendMessageToChat(contactID, "sentMessage", messageToSend);
+      appendMessageToChat(contactUID, "sentMessage", messageToSend);
 
       /* To verify if they received the message:
         -Push client UID in awaitingClientResponse
@@ -201,9 +201,9 @@ let userPicture = getUserPictre();
         false);
       //If the chat is open, get the message normally, otherwise, add a notification next to sender's name
       if (isChatAlreadyOpen (sender.uniqueID)) {
-        let targetChatWindow = $("#" + sender.id);
+        //let targetChatWindow = $("#" + sender.id);
         //TODO: Add timestamp and sender name that can be seen on mouse hover.
-        appendMessageToChat(sender.id, "receivedMessage", msg);
+        appendMessageToChat(sender.uniqueID, "receivedMessage", msg);
         //$(targetChatWindow).append($('<p class="receivedMessage">').text(msg));
       }else{
         //Notification
@@ -236,4 +236,34 @@ let userPicture = getUserPictre();
     socket.on("receivedOK", function(senderUID) {
       clientResponded(senderUID);
     });
+
+    socket.on("logoutEveryClient", function() {
+      console.log("logging out");
+      window.location.href = "/logout";
+    });
+
+    /*If you disconnect from another page (By refreshing, or doing logout, 
+    or closing another page) you can get removed from usersOnline instead of being 
+    disconnected with logoutEveryClient (for some reason), but if 
+    you're still in on another page, you are no longer seen by other users, 
+    but are still online. To fix that, emit updateOnline again.
+    */
+    setInterval(
+      function(){
+        if ( !isUniqueIDInArray(usersOnline, user._id) ){
+          //update online users list
+          socket.emit("updateOnline", {
+            uniqueID: user._id,
+            name: userName, 
+            picture: userPicture, 
+            socketID: sessionID, 
+            lat: user.lat,
+            lng: user.lng
+          });
+        }
+      }, 12000); 
+      /*Check every 12 seconds, since usersOnline updates 
+      every 10ish seconds, so give it time to update 
+      before trying to reconnect.*/
+
 });
