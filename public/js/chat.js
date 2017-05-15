@@ -238,7 +238,7 @@ let userPicture = getUserPictre();
     });
 
     socket.on("logoutEveryClient", function() {
-      console.log("logging out");
+      //console.log("logging out");
       window.location.href = "/logout";
     });
 
