@@ -5,7 +5,6 @@ function toEn () {
 	Cookies.set("Lang", "Eng");
 	//Header bar
 	$("#langFlag").attr("src","img/flags/us.gif");
-	$("#langFlag").attr("alt","English/US");
 	$("#aboutusLabel").text("About us");
 	$("#fbGroupLabel").text("Facebook group");
 	$("#langLabel").text("Language");
@@ -20,7 +19,6 @@ function toEn () {
 	$("#tosLabel").attr("href","/ToS");
 	//Body
 	$( "html" ).attr( "lang", "en" );
-	$("#bgLogo").attr("src","/img/underwaterLogoENG.png");
 	$("#loginLabel").text("Login or Register with:");
 	$("#ppolLabel").text("Privacy policy");
 	$("#tosLabel").text("Terms of service");
@@ -31,7 +29,6 @@ function toIt () {
 	Cookies.set("Lang", "Ita");
 	//Header bar
 	$("#langFlag").attr("src","img/flags/it.gif");
-	$("#langFlag").attr("alt","Italiano/IT");
 	$("#aboutusLabel").text("Chi siamo");
 	$("#fbGroupLabel").text("Gruppo Facebook");
 	$("#langLabel").text("Lingua");
@@ -46,7 +43,6 @@ function toIt () {
 	$("#tosLabel").attr("href","/termini");
 	//Body
 	$( "html" ).attr( "lang", "it" );
-	$("#bgLogo").attr("src","/img/underwaterLogoITA.png");
 	$("#loginLabel").text("Entra o Registrati con:");
 	$("#ppolLabel").text("Informativa sulla privacy");
 	$("#tosLabel").text("Termini e condizioni");

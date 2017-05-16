@@ -18,17 +18,19 @@ body {
 }
 /*FISH*/
 #fishContainer{
+	pointer-events:none; /*Makes fishes not clickable,
+	 so they don't interfere with login buttons on mobile*/
 	position: absolute;
 	width: 100%;
+	height: 65%;
 	overflow: hidden;
 }
 .fish{
 	width: 30px;
-	opacity: 0.03;
+	opacity: 0.05;
 	position: relative;
-
 	animation-name: moveFish;
-	animation-duration: 20s;
+	animation-duration: 25s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
 }
@@ -40,10 +42,8 @@ body {
 	transform: scaleX(-1);
 	filter: FlipH;
 	-ms-filter: "FlipH";
-
 	animation-direction: reverse;
 }
-
 .fish1{
 	opacity: 0.1;
 	width: 35px;
@@ -93,66 +93,42 @@ body {
 }
 .aniA{
 	animation-name: moveFishA;
-	animation-duration: 25s;
+	animation-duration: 30s;
 }
 .aniB{
 	animation-name: moveFishB;
-	animation-duration: 30s;
+	animation-duration: 35s;
 }
 .aniC{
 	animation-name: moveFishC;
-	animation-duration: 35s;
+	animation-duration: 40s;
 }
 .aniD{
 	animation-name: moveFishD;
-	animation-duration: 40s;
+	animation-duration: 45s;
 }
 
 @keyframes moveFish {
-    from {left: -50%; }
-    to {left: 150%;}
-}
-@keyframes moveFishA {
-    from {left: -50%; }
-    to {left: 160%;}
-}
-@keyframes moveFishB {
-    from {left: -80%; }
-    to {left: 150%;}
-}
-@keyframes moveFishC {
-    from {left: -100%; }
-    to {left: 150%;}
-}
-@keyframes moveFishD {
     from {left: -60%; }
     to {left: 160%;}
 }
+@keyframes moveFishA {
+    from {left: -60%; }
+    to {left: 170%;}
+}
+@keyframes moveFishB {
+    from {left: -90%; }
+    to {left: 160%;}
+}
+@keyframes moveFishC {
+    from {left: -110%; }
+    to {left: 160%;}
+}
+@keyframes moveFishD {
+    from {left: -70%; }
+    to {left: 170%;}
+}
 
-#sandBottom{
-	width: 100%;
-	height: 50px;
-	position: fixed;
-	bottom: 0%;
-	background-image: url("/img/sand.svg");
-	background-size: 1000px 100%;
-	background-position: right; 
-    background-repeat: repeat-x;
-}
-#orange{
-	height: 50px;
-	position: fixed;
-	bottom: 20px;
-	left:50px;
-	z-index: 999;
-}
-#green{
-	height: 50px;
-	position: fixed;
-	bottom: 20px;
-	right: 80px;
-	z-index: 999;
-}
 #wavesHorizon{
 	margin-top: -20px !important;
 	width: 100%;
@@ -170,7 +146,6 @@ body {
     animation-duration: 80s;
 }
 
-/*TODO: Do smooth animation*/
 @keyframes moveWaves {
     from {background-position: right; background-size: 50px 50px;}
     to {background-position: left; background-size: 55px 55px;}
@@ -181,12 +156,7 @@ body {
 	width: 100%;
 	height: 40px;
 }
-/*
-#bgLogo{
-	width: 100%;
-	margin-top: 2em;
-}
-*/
+
 a,a:hover {
 	color: white; 
 }
@@ -231,6 +201,12 @@ a,a:hover {
 	#loginJumbotron img {
 		width: 250px;
 		height: 250px;
+	}
+	#underwater{
+	height: 15px;
+	}
+	#wavesHorizon{
+    animation-duration: 20s;/*Animation is slower on smaller screens, so make it faster.*/
 	}
 }
 #langSelect {
