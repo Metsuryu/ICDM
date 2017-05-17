@@ -23,15 +23,16 @@ require("./config/passport")(passport);
 app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(session({secret: randSecret,
-				 saveUninitialized: true,
-				 resave: true}));
+app.use(session({
+	secret: randSecret,
+	cookie: { maxAge: 604800000 },// 1 week in ms
+	saveUninitialized: true,
+	resave: false})); //For persistent login when closing browser
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(express.static(path.join(__dirname, "/public")));
 app.set("views", __dirname + "/public/views");
 app.set("view engine", "ejs");
-
 
 const Contact = require("./app/models/contact");
 require("./app/routes.js")(app, passport, Contact);

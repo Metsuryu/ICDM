@@ -152,6 +152,14 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
 	sourceChatWindow.attr("id",thisChatWindow);
 	sourceChatWindow.attr("data-min","false");
 
+	//Add send button on mobile
+	if (isMobile) {
+		let sendButton = '<span id="sendButton" class="fa fa-paper-plane"></span>';
+		sourceChatWindow.find("input").after(sendButton);
+		sourceChatWindow.find("#chatForm").addClass("formMobile");
+		sourceChatWindow.find("input").addClass("inputMobile");
+	}
+
 	//Translate chatWindow and components
 	if (localLanguage === "Ita") {
 		distLabel = "Distanza"
@@ -331,8 +339,13 @@ $(document).ready(function(){
 	if (isMobile && !contactsMinimized) {
 		toggleContactsBox();
 	};
-
 	removeFBUrlHash();
+
+	$("body").on("click", "#sendButton", function(event){
+		let thisInput = $(event.target).parent().find("input");
+		thisInput.focus();
+		thisInput.submit();
+	})
 	
 	//Open chat window when clicking on contact
 	$("#contactsBox").on("click", ".contactClass", function(event){

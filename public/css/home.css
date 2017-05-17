@@ -57,9 +57,21 @@ form {
 	width: 100%;
 	position: relative;
 }
+.formMobile{
+	bottom: 1%;
+}
 form input { 
 	padding: .1em; 
 	width: 100%; 
+}
+.inputMobile{
+	width: 90%;
+}
+#sendButton{
+	margin: 1px;
+	padding: 4px;
+	border: 1px solid white;
+	color: white;
 }
 .messages {
 	overflow: auto;
