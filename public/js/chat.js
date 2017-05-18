@@ -181,7 +181,7 @@ let userPicture = getUserPictre();
       //Conversation history
       let chatHistory = Cookies.get(contactUID) || "";
       chatHistory += '<p class="sentMessage">' + messageToSend;
-      Cookies.set(contactUID, chatHistory);
+      Cookies.set(contactUID, chatHistory, { expires: 7 } );
 
       //Clear input bar
       messageToSend = "";
@@ -220,7 +220,7 @@ let userPicture = getUserPictre();
       //Conversation history
       let chatHistory = Cookies.get(sender.uniqueID) || "";
       chatHistory += '<p class="receivedMessage">' + msg;
-      Cookies.set(sender.uniqueID, chatHistory);
+      Cookies.set(sender.uniqueID, chatHistory, { expires: 7 } );
       //Notification sound only if the window is not visible.
       /*document.visibilityState === "hidden" works only if the document is actually hidden
         document.hasFocus() is better in this case*/

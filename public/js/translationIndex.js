@@ -2,7 +2,7 @@ let localLanguage = "Eng";
 
 function toEn () {
 	//console.log("To ENG");
-	Cookies.set("Lang", "Eng");
+	Cookies.set("Lang", "Eng", { expires: 7 } );
 	//Header bar
 	$("#langFlag").attr("src","img/flags/us.gif");
 	$("#aboutusLabel").text("About us");
@@ -26,7 +26,7 @@ function toEn () {
 
 function toIt () {
 	//console.log("To ITA");
-	Cookies.set("Lang", "Ita");
+	Cookies.set("Lang", "Ita", { expires: 7 } );
 	//Header bar
 	$("#langFlag").attr("src","img/flags/it.gif");
 	$("#aboutusLabel").text("Chi siamo");

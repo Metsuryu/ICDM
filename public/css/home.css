@@ -285,7 +285,10 @@ form input {
 }
 #menu{
 	padding-left: 1em;
-	margin-bottom: 1em;
+	padding-right: 1em;
+	padding-top: 0.1em;
+	padding-bottom: 0.5em;
+	margin-bottom: 0.5em;
 }
 #headerButtons{
 	font-size: small;

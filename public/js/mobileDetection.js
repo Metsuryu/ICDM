@@ -3,7 +3,7 @@ let isMobile = false;
 function enableMobileMode(){
 	isMobile = true;
 	//Show menu only on mobile. menuButtons is necessary so that when selecting a language, the menu doesn't close.
-	let menuDiv = '<div id="menu" class="fa fa-bars" aria-hidden="true"> </div> <div id="menuButtons"></div>'
+	let menuDiv = '<div id="menu" class="fa fa-bars"> </div> <div id="menuButtons"></div>'
 	//NOTE: Order of the following is important
 	$("#headerButtons").hide();
 	$("#headerButtons").addClass("headerButtonsMobile");
