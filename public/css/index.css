@@ -199,6 +199,8 @@ a,a:hover {
 		max-width: 20em;
 	}
 	#loginJumbotron img {
+		margin: 0;
+		margin-left: -10px;
 		width: 250px;
 		height: 250px;
 	}
