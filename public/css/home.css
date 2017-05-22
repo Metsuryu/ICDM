@@ -174,6 +174,8 @@ form input {
 	background-color: #4980F4;
 	padding-bottom: .3em;
 	text-align: center;
+	color: #fff;
+	font-weight: bold;
 }
 .contactsHandleMobile{
 	background-color: #286dff !important;

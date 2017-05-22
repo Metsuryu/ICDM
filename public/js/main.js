@@ -1,4 +1,5 @@
 let contactsMinimized = false;
+let usersOnlineNumber = "";
 //Is adjusted depending on window width.
 let openChatWindowsLimit = 1;
 //Sets the limit of how many chatWindows can be open at any time. (openChatWindowsLimit)
@@ -328,6 +329,7 @@ app.controller("ctrl", ["$scope", "$http", "$interval", function($scope, $http, 
 			}
 			$scope.contactsListGET = tempContactList;
 			usersOnline = $scope.contactsListGET;
+			$scope.usersOnlineNumber = (usersOnline.length).toString();
 		});
 	}
 	updateContactsList();
