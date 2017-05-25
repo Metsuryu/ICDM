@@ -160,10 +160,23 @@ form input {
 	/*For search bar*/
 	padding-bottom: 4em;
 }
-#contactsList{
-	height: 100%;
-	min-height: 3em;
+.tab {
+	cursor: pointer;
+	background-color: #4980F4;
+	color: white;
+	font-weight: bold;
+	padding: .1em;
+}
+.tab:hover {
+	background-color: #286dff;
+}
+#tabs {
 	overflow: auto;
+	height: 100%;
+}
+#contactsList{
+	height: auto;
+	min-height: 3em;
 }
 .contactsBoxMobile{
 	top:0%;
@@ -211,6 +224,9 @@ form input {
 	content: "• ";
   	color: green; /* Color of the dot */
   	vertical-align: middle;  
+}
+#contactsBox #offlineList li::before {
+  	color: grey; /* Color of the dot */
 }
 #searchField {
 	bottom: 5px;

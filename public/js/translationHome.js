@@ -28,6 +28,7 @@ function toEn () {
 		$("#broadcastLabel").text("Broadcast Location");
 	}
 	$("#contactsSpan").text("Spearfishers Online");
+	$("#chatHistorySpan").text("Chat History");
 	$("#searchField").attr("placeholder","🔍 Search a Spearfisher");
 }
 
@@ -59,6 +60,7 @@ function toIt () {
 		$("#broadcastLabel").text("Trasmetti Posizione");
 	}
 	$("#contactsSpan").text("Cecchini Online");
+	$("#chatHistorySpan").text("Cronologia chat");
 	$("#searchField").attr("placeholder","🔍 Cerca Cecchini");
 }
 

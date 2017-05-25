@@ -128,11 +128,13 @@ function isChatAlreadyOpen (targetUniqueID) {
 }
 
 function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput) {
+	if (!targetPic) {
+		targetPic="/img/noPic.jpg";
+	};
 	let thisChatWindow = openChatWindows + 1;
-	let jqTargetID = "#" + targetID;
+	let jqTargetID = "#" + targetUniqueID;
 	let distUnknownLabel = "";
 	let distLabel = "";
-	//TODO: Transpile with babel to allow backtick (`)
 	let sourceChatWindow = $(`
 <div id="" class="chatWindow" data-min="">
     <div id="" class="chatWindowHeader">
@@ -197,7 +199,9 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
     let distanceInKm = "";
     //Chat history
     //Uses targetUniqueID instead of targetID, so it's permanent across sessions
-    let chatHistory = Cookies.get(targetUniqueID) || "";
+    let chatHistoryLabel = "ChatHistoryCookie " + targetUniqueID;
+    let chatHistory = Cookies.getJSON(chatHistoryLabel) || "";
+    chatHistory = chatHistory.history || "";
     $(sourceChatWindow).find(".messages").html(chatHistory + "<br>");
 
     if ( (!targetLat && !targetLng) || (!user.lat && !user.lng) ) {
@@ -229,7 +233,7 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
     	getDistanceGoogleAPI(origin, destination, updateDistanceCB, jqTargetID );
     };    
     //Scroll to bottom of chat here.
-    let targetChatWindow = $(jqTargetID);
+    let targetChatWindow = $(jqTargetID).parent().find(".messages");
     $(targetChatWindow).scrollTop(targetChatWindow.prop("scrollHeight"));
 }
 
@@ -311,6 +315,23 @@ app.controller("ctrl", ["$scope", "$http", "$interval", function($scope, $http, 
 	}
 	setUniqueID();
 
+	function updateChatHistoryList(){
+		//Read all chat histories, and put them in contacts box
+		let chatHistoryList = [];
+		let allCookies = Cookies.get();
+		let startString = "ChatHistoryCookie ";
+		for (var key in allCookies) {
+			if ( key.startsWith(startString) ) {
+				let keyUID = key.substring(startString.length);
+				let keyJson = Cookies.getJSON(key);
+				keyJson.UID = keyUID;
+				chatHistoryList.push(keyJson);
+			};
+		};
+		$scope.historyList = chatHistoryList;
+	}
+
+
 	//Gets the online contacts form the server
 	function updateContactsList () {
 		$http({
@@ -333,8 +354,11 @@ app.controller("ctrl", ["$scope", "$http", "$interval", function($scope, $http, 
 		});
 	}
 	updateContactsList();
-	//Update the list periodically.
+	updateChatHistoryList();
+	//Update the lists periodically.
 	$interval(updateContactsList, 10000);//10 Seconds
+	$interval(updateChatHistoryList, 60000);//60 Seconds
+
 }]);
 
 $(document).ready(function(){
@@ -431,6 +455,14 @@ $(document).ready(function(){
 	
 	$( "#contactsHandle" ).click(function() {
 		toggleContactsBox();
+	});
+
+	$("#onlineTab").click(function() {
+		$("#contactsList").toggle();
+	});
+
+	$("#offlineTab").click(function() {
+		$("#offlineList").toggle();
 	});
 
 });

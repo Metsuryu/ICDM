@@ -152,6 +152,7 @@ let userPicture = getUserPictre();
 
       let contactID = this.getAttribute("data-pmid");
       let contactUID = this.getAttribute("data-pmuid");
+      let thisName = $(this).parent().find("#chatUserName").text();
       let thisChat = "#" + contactID;
 
       //Append sent message to chatWindow
@@ -179,9 +180,11 @@ let userPicture = getUserPictre();
       });
 
       //Conversation history
-      let chatHistory = Cookies.get(contactUID) || "";
+      let chatHistoryLabel = "ChatHistoryCookie " + contactUID;
+      let chatHistory = Cookies.getJSON(chatHistoryLabel) || "";
+      chatHistory = chatHistory.history || "";
       chatHistory += '<p class="sentMessage">' + messageToSend;
-      Cookies.set(contactUID, chatHistory, { expires: 7 } );
+      Cookies.set(chatHistoryLabel, {name: thisName, history: chatHistory }, { expires: 7 } );
 
       //Clear input bar
       messageToSend = "";
@@ -214,13 +217,16 @@ let userPicture = getUserPictre();
           /*Uses the object with uniqueID because the function isUniqueIDInArray
             needs an array of objects with uniqueID*/
           hasUnreadMessages.push( {"uniqueID" : sender.uniqueID} );
-        };        
+        };
       }
 
       //Conversation history
-      let chatHistory = Cookies.get(sender.uniqueID) || "";
+      let chatHistoryLabel = "ChatHistoryCookie " + sender.uniqueID;
+      let chatHistory = Cookies.getJSON(chatHistoryLabel) || "";
+      chatHistory = chatHistory.history || "";
       chatHistory += '<p class="receivedMessage">' + msg;
-      Cookies.set(sender.uniqueID, chatHistory, { expires: 7 } );
+      Cookies.set(chatHistoryLabel, {name: sender.name, history: chatHistory }, { expires: 7 } );
+
       //Notification sound only if the window is not visible.
       /*document.visibilityState === "hidden" works only if the document is actually hidden
         document.hasFocus() is better in this case*/
