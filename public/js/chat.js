@@ -152,7 +152,7 @@ let userPicture = getUserPictre();
 
       let contactID = this.getAttribute("data-pmid");
       let contactUID = this.getAttribute("data-pmuid");
-      let thisName = $(this).parent().find("#chatUserName").text();
+      let thisName = $(this).parent().find(".chatUserName").text();
       let thisChat = "#" + contactID;
 
       //Append sent message to chatWindow
@@ -201,7 +201,9 @@ let userPicture = getUserPictre();
         sender.uniqueID, 
         sender.lat, 
         sender.lng,
-        false);
+        false,//isHistory
+        false//Focus
+        );
       //If the chat is open, get the message normally, otherwise, add a notification next to sender's name
       if (isChatAlreadyOpen (sender.uniqueID)) {
         //let targetChatWindow = $("#" + sender.id);

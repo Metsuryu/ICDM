@@ -251,11 +251,8 @@ a,a:hover {
 	z-index: 9998;
 }
 #menu{
-	padding-left: 1em;
-	padding-right: 1em;
-	padding-top: 0.1em;
-	padding-bottom: 0.5em;
-	margin-bottom: 0.5em;
+	padding: 0.1em 1em 0.5em 1em;
+	margin-bottom: 0.1em;
 }
 #headerButtons{
 	font-size: small;

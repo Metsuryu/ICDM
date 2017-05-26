@@ -78,7 +78,7 @@ form input {
 	top: 0;
 	height: 288px;
 	margin: 0; 
-	padding: 0; 
+	padding: 0;
 }
 .infoMsg {
 	clear: both;
@@ -91,6 +91,7 @@ form input {
     width: 80%;
     text-align: center;
 	margin: 0 auto;
+	margin-bottom: 5%;
 }
 .sentCheck {
     color: lightgrey;
@@ -129,21 +130,51 @@ form input {
 	background-color: #4980F5;
 	color: white;
 	font-weight: bold;
-	font-size: 1.1em;
+	font-size: 1em;
 	padding: 0.2em;
 	border-bottom: 1px solid #000;
+}
+.chatUserName {
+	cursor: text;
+	display: inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: auto;
+	max-width: 70%;
 }
 .chatCloseButton {
 	cursor: pointer;
 	float: right;
-	padding-right: 5px;
-	padding-left: 5px;
+	padding: 1px 10px 1px 10px;
 }
 .chatCloseButton:hover {
     background-color: red;
 }
-#chatUserName {
-	cursor: text;
+.chatSettings {
+	cursor: pointer;
+	float: right;
+	padding: 2px 10px 1px 10px;
+	margin-right: 2px;
+	font-size: 1.1em;
+}
+.chatSettings:hover {
+    background-color: #286dff;
+}
+.settings{
+	margin-left: -6em;
+	white-space: nowrap;
+	position: absolute;
+	margin-top: 0.8em;
+}
+.settings p {
+	padding: 0.5em;
+	border: 1px solid black;
+	background-color: #fff;
+    color: #000;
+}
+.settings p:hover {
+    background-color: #eee;
 }
 /*Contacts*/
 #contactsBox {
@@ -285,7 +316,7 @@ form input {
 }
 /*Mobile*/
 .headerMobileA {
-	margin: .5em;
+	margin: 0.5em;
 	margin-top: 1em;
 	border: 1px solid black;
 	display: block;
@@ -302,11 +333,8 @@ form input {
 	z-index: 9998;
 }
 #menu{
-	padding-left: 1em;
-	padding-right: 1em;
-	padding-top: 0.1em;
-	padding-bottom: 0.5em;
-	margin-bottom: 0.5em;
+	padding: 0.1em 1em 0.5em 1em;
+	margin-bottom: 0.1em;
 }
 #headerButtons{
 	font-size: small;

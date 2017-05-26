@@ -77,6 +77,7 @@ function minimizeChatWindow (parentChatWindow) {
 		// Animation complete.
 		parentChatWindow.attr("data-min","true");
 	});
+	parentChatWindow.find(".chatSettings").toggle();
 }
 
 function maximizeChatWindow (parentChatWindow) {
@@ -86,6 +87,7 @@ function maximizeChatWindow (parentChatWindow) {
 		// Animation complete.
 		parentChatWindow.attr("data-min","false");
 	});
+	parentChatWindow.find(".chatSettings").toggle();
 }
 
 //Places the newly open chatWindow in the correct position
@@ -127,7 +129,7 @@ function isChatAlreadyOpen (targetUniqueID) {
 	};
 }
 
-function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput) {
+function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, isHistory, focusInput) {
 	if (!targetPic) {
 		targetPic="/img/noPic.jpg";
 	};
@@ -136,30 +138,34 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
 	let distUnknownLabel = "";
 	let distLabel = "";
 	let sourceChatWindow = $(`
-<div id="" class="chatWindow" data-min="">
+<div id="" class="chatWindow" data-min="false">
     <div id="" class="chatWindowHeader">
-        <span id="chatUserName">User</span>
+        <span class="chatUserName">User</span>
         <span class="chatCloseButton">x</span>
+        <span class="fa fa-cog chatSettings"></span>
     </div>
-    <ul class="messages" id="selectedMessagesWindow"></ul>
-    <form id="chatForm" action="">
+    <ul class="messages"></ul>
+    <form class="chatForm" action="">
         <input class="m" autocomplete="off" placeholder="Type something and press enter." />
     </form>
 </div>	
 	 `);
-	sourceChatWindow.find("#chatUserName").html(targetName);
-	sourceChatWindow.find("#chatForm").attr("data-pmid", targetID);
-	sourceChatWindow.find("#chatForm").attr("data-pmuid", targetUniqueID);
+	sourceChatWindow.find(".chatUserName").html(targetName);
+	sourceChatWindow.find(".chatForm").attr("data-pmid", targetID);
+	sourceChatWindow.find(".chatForm").attr("data-pmuid", targetUniqueID);
 	sourceChatWindow.find(".chatWindowHeader").attr("id", targetUniqueID);
 	sourceChatWindow.find(".messages").attr("id",targetID);
 	sourceChatWindow.attr("id",thisChatWindow);
-	sourceChatWindow.attr("data-min","false");
+
+	if (isHistory) {
+		sourceChatWindow.find(".m").attr("disabled", "disabled");
+	}
 
 	//Add send button on mobile
 	if (isMobile) {
 		let sendButton = '<span id="sendButton" class="fa fa-paper-plane"></span>';
 		sourceChatWindow.find("input").after(sendButton);
-		sourceChatWindow.find("#chatForm").addClass("formMobile");
+		sourceChatWindow.find(".chatForm").addClass("formMobile");
 		sourceChatWindow.find("input").addClass("inputMobile");
 	}
 
@@ -209,9 +215,11 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
     	distanceInKm = distUnknownLabel;
 
     	//Profile picture without distance
-    	$(sourceChatWindow).find(".messages").append($('<div class="infoMsg">').html(
-    		profilePic + "<p>"+distLabel+": <span id='distanceSpan'>" + distanceInKm + "</span> </p>"
-    	));
+    	if (!isHistory) {
+    		$(sourceChatWindow).find(".messages").append($('<div class="infoMsg">').html(
+    			profilePic + "<p>"+distLabel+": <span id='distanceSpan'>" + distanceInKm + "</span> </p>"
+    		));
+    	};
     }else{
     	/*Wait for async getDistanceGoogleAPI to run the callback, and in the meantime use 
     	  the less precise getDistanceFromLatLonInKm that will be replaced 
@@ -219,10 +227,11 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
     	*/
     	distanceInKm = getDistanceFromLatLonInKm(user.lat, user.lng, targetLat, targetLng).toFixed(2) + " Km";
     	//Profile picture and distance
-    	$(sourceChatWindow).find(".messages").append($('<div class="infoMsg">').html(
-    		profilePic + "<p>"+distLabel+": <span id='distanceSpan'>" + distanceInKm + "</span> </p>"
-    	));
-
+    	if (!isHistory) {
+    		$(sourceChatWindow).find(".messages").append($('<div class="infoMsg">').html(
+    			profilePic + "<p>"+distLabel+": <span id='distanceSpan'>" + distanceInKm + "</span> </p>"
+    		));
+    	};
     	//Called if getDistanceGoogleAPI is successful, updates the distance to be more accurate.
     	function updateDistanceCB(distance, callerWindowID){
     		let spanToModify = $(callerWindowID).find("#distanceSpan");
@@ -240,7 +249,7 @@ function openNewChatWindow (targetName, targetPic, targetID, targetUniqueID, tar
 //Allow only one chatWindow per contact
 //Checks if chatWindow is already open and if not call openNewChatWindow, 
 //if focusInput is true, puts the cursor on the chat input.
-function openChatWindow(targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput) {
+function openChatWindow(targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, isHistory, focusInput) {
     if ( isChatAlreadyOpen(targetUniqueID) ) {
     	if (focusInput) {
     		let chatWinPar = $("#"+targetUniqueID).parent();
@@ -274,7 +283,7 @@ function openChatWindow(targetName, targetPic, targetID, targetUniqueID, targetL
     			return;
     		};
     	};
-    	openNewChatWindow(targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, focusInput);
+    	openNewChatWindow(targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, isHistory, focusInput);
     };
 }
 
@@ -383,7 +392,9 @@ $(document).ready(function(){
 		let targetLat = Number( targetAttrs.getAttribute("data-contactLat") );
 		let targetLng = Number( targetAttrs.getAttribute("data-contactLng") );
 
-    	openChatWindow(targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, true);
+		let isHistory = targetAttrs.getAttribute("data-history");
+
+    	openChatWindow(targetName, targetPic, targetID, targetUniqueID, targetLat, targetLng, isHistory, true);
 	});
 
 	//Closes chat window, and slide remaining windows in proper position.
@@ -400,6 +411,48 @@ $(document).ready(function(){
     	if ( (openChatWindows + 1)  > thisWindowID) {
     		slideChatWindows(thisWindowID);
     	}
+	});
+
+	//Open settings menu
+	$("body").on("click", ".chatSettings", function(event){
+		let target = $(event.target);
+
+		let deleteLabel = "Delete chat history";
+		if (localLanguage === "Ita") {
+			deleteLabel = "Elimina cronologia";
+		};
+		let settingsMenu = $('\
+			<div class="settings">\
+			<p> <span class="fa fa-trash-o"></span> '+deleteLabel+'</p> </div>');
+		if (target.find(".settings").length ) {
+			target.find(".settings").remove();
+		}else{
+			target.append(settingsMenu);
+		};
+	});
+	//Confirm to delete chat history
+	$("body").on("click", ".settings", function(event){
+		/*parent's parent is needed to ensure the next 
+		click on the cog icon opens the settings properly*/
+		let cog = $(event.target).parent().parent();
+		cog.find(".settings").remove();
+		let confirmMessage = "Delete chat history?\n\
+By doing so, you will only delete the chat history saved on this device.";
+		if (localLanguage === "Ita") {
+			confirmMessage = "Eliminare la cronologia?\n\
+La cronologia verrà eliminata solo sul tuo dispositivo.";
+		}
+		//Confirm
+		let conf = confirm(confirmMessage);
+		if (conf) {
+			let thisWindow = cog.parent().parent();
+			let thisWindowUID = thisWindow.find(".chatForm").attr("data-pmuid");
+			let cookieToRemove = "ChatHistoryCookie " + thisWindowUID;
+			//Delete chat history
+			Cookies.remove(cookieToRemove);
+			//Empty messages.
+			thisWindow.find(".messages").empty();
+		};
 	});
 
 	//Min/max chat window

@@ -3,6 +3,7 @@ let localLanguage = "Eng";
 function toEn () {
 	//console.log("To ENG");
 	Cookies.set("Lang", "Eng", { expires: 7 } );
+	localLanguage = "Eng";
 	//Header bar
 	$("#langFlag").attr("src","img/flags/us.gif");
 	$("#langFlag").attr("alt","English/US");
@@ -35,6 +36,7 @@ function toEn () {
 function toIt () {
 	//console.log("To ITA");
 	Cookies.set("Lang", "Ita", { expires: 7 } );
+	localLanguage = "Ita";
 	//Header bar
 	$("#langFlag").attr("src","img/flags/it.gif");
 	$("#langFlag").attr("alt","Italiano/IT");
