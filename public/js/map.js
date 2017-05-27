@@ -180,7 +180,7 @@ function addMarker(newMarker) {
   //Open chatWindow on click, only if the marker is not yourself
   if (nmUID != user._id) {
     thisMarker.addListener("click", function () {
-      openChatWindow(nmName, nmPic, nmID, nmUID, nmLat, nmLng, true);
+      openChatWindow(nmName, nmPic, nmID, nmUID, nmLat, nmLng, false, true);
     });
   } else {
     //Used to remove marker when erasing location
