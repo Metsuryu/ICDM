@@ -496,7 +496,7 @@ La cronologia verrà eliminata solo sul tuo dispositivo.";
 		}else{
 			$( "#searchField").removeClass("searchFieldMinimized");
 			$( "#contactsBox" ).css("padding-bottom","4em");
-			$( "#contactsBox" ).css("overflow","auto");
+			$( "#contactsBox" ).css("overflow","initial");
 			$( "#contactsBox" ).animate({
 				height: "50%",
 			}, 100, function() {

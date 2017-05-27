@@ -6,7 +6,6 @@
 }
 body {
 	word-wrap:break-word;
-	/*Previous: #f4f4f4 or #F0EDE5 or white*/
 	font: 1.3em Helvetica, Arial;
 	background-color: #3D9CF9;
 }
@@ -14,7 +13,14 @@ body {
 #sky{
 	background-color: #A3CDFF;
 	width: 100%;
-	height: 70px;
+	height: 50px;
+}
+img{
+	user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
 }
 /*FISH*/
 #fishContainer{
@@ -24,6 +30,12 @@ body {
 	width: 100%;
 	height: 65%;
 	overflow: hidden;
+
+	user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
 }
 .fish{
 	width: 30px;
@@ -147,8 +159,8 @@ body {
 }
 
 @keyframes moveWaves {
-    from {background-position: right; background-size: 50px 50px;}
-    to {background-position: left; background-size: 55px 55px;}
+    from {background-position: right;}
+    to {background-position: left;}
 }
 
 #underwater{
