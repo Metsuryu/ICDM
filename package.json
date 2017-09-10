@@ -1,6 +1,9 @@
 {
   "name": "ICecchiniDelMare",
   "version": "1.0.3",
+  "engines": {
+    "node": "6.11.1"
+  },
   "description": "I Cecchini Del Mare",
   "main": "app.js",
   "scripts": {
