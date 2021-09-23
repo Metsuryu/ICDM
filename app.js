@@ -14,11 +14,14 @@ const randSecret = require("crypto").randomBytes(8).toString("hex");
 const path = require("path");
 const configDB = require("./config/database.js");
 
+// mongoose.set('useUnifiedTopology', true);
+
 //To fix the deprecated promise issue use native promises here, like so:
 //global.Promise is only supported in ES6
-mongoose.Promise = global.Promise; 
+mongoose.Promise = global.Promise;
 
-mongoose.connect(configDB.url);
+
+mongoose.connect(configDB.url, {useNewUrlParser: true});
 require("./config/passport")(passport);
 app.use(compression());
 app.use(cookieParser());
@@ -74,7 +77,7 @@ function findContactSID(contactUID, msg, sender, emitPMsg){
 			let foundSID = contact.userID;
 			emitPMsg(foundSID, msg, sender);
 			return;
-		} 
+		}
 	});
 }
 
@@ -105,7 +108,6 @@ function updateOnlineContactCoords (userData) {
 	});
 }
 
-
 function removeOnlineContact (socket) {
 	const idToRemove = socket.id;
 	//Add users to online by userID, and remove them by uniqueID, to avoid duplicates
@@ -118,7 +120,7 @@ function removeOnlineContact (socket) {
 			that can remain when the server is restarted*/
 			Contact.remove({"uniqueID": contact.uniqueID}, function(err, results){
 				if (err) {
-					console.log(err); 
+					console.log(err);
 					return;
 				};
 				//console.log("\x1b[33m%s\x1b[0m","Contact removed.");
@@ -176,7 +178,7 @@ io.on("connection", function(socket){
 
   	socket.on("PM", function(uid, msg, sender ) {
   		//Send a private message to the socket with the given uid
-  		findContactSID(uid, msg, sender, emitPMsg); //Is Async so needs callback emitPMsg   	
+  		findContactSID(uid, msg, sender, emitPMsg); //Is Async so needs callback emitPMsg
     });
     //Invoked when findContactSID executes callback
     function emitPMsg(sID, msg, sender){
@@ -184,7 +186,7 @@ io.on("connection", function(socket){
     }
 
   	socket.on("received", function(toID, fromUID) {
-  		// Acknowledge received message 
+  		// Acknowledge received message
     	socket.to(toID).emit("receivedOK", fromUID);
     });
 });

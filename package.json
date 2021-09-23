@@ -1,5 +1,5 @@
 {
-  "name": "ICecchiniDelMare",
+  "name": "i_cecchini_del_mare",
   "version": "1.0.4",
   "engines": {
     "node": "6.11.1"
@@ -7,23 +7,23 @@
   "description": "I Cecchini Del Mare",
   "main": "app.js",
   "scripts": {
-    "build": "babel --presets es2015 src -d outputbuild",
+    "build": "babel --presets es2015 dist -d dist",
     "start": "node app.js"
   },
   "author": "Mario Cannistrà",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "latest",
-    "cookie-parser": "latest",
-    "ejs": "latest",
-    "express": "latest",
-    "express-session": "latest",
-    "mongoose": "latest",
-    "passport": "latest",
-    "passport-facebook": "latest",
-    "passport-google-oauth": "latest",
-    "socket.io": "^1.7.3",
-    "compression": "latest"
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.5",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "mongoose": "^5.13.9",
+    "passport": "^0.4.1",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth": "^2.0.0",
+    "socket.io": "^1.7.3"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",

@@ -1,345 +1,333 @@
-/*General*/
-* {
-	margin: 0;
-	padding: 0; 
-	box-sizing: border-box; 
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box
 }
-body {
-	word-wrap:break-word;
-	/*Previous: #f4f4f4 or #F0EDE5*/ 
-	background-color: white;
-	font: 13px Helvetica, Arial; 
+body{
+    word-wrap:break-word;
+    background-color:#fff;
+    font:13px Helvetica,Arial
 }
-/*Map*/
-/* Always set the map height explicitly to define the size of the div
-* element that contains the map. */
-#map {
-	margin: 0 auto;
-	height: 100%;
-	width: 100%;
-	height: 300px;
+#map{
+    margin:0 auto;
+    height:100%;
+    width:100%;
+    height:300px
 }
-/*#A3CCFF for sea color*/
-#topMap {
-	background: #4980F4;
-  	display: inline-block;
- 	margin: 0 0em 0em 0;
- 	text-align: center;
- 	height: 3.5em;
-  	width: 100%;
-    border-top-left-radius: 200px;
-  	border-top-right-radius: 200px;
-  	margin-top: 2em;
+#topMap{
+    background:#4980f4;
+    display:inline-block;
+    margin:0;
+    text-align:center;
+    height:3.5em;
+    width:100%;
+    border-top-left-radius:200px;
+    border-top-right-radius:200px;
+    margin-top:2em
 }
-#topMap a {
-	margin: 0.5em;
+#topMap a{
+    margin:.5em
 }
-.profilePic {
-	border-radius:30px; 
-    border:1px solid #000 !important; 
+.profilePic{
+    border-radius:30px;
+    border:1px solid #000!important
 }
-/*Chat*/
-.chatWindow {
-	background-color: white;
-	float: right;
-	overflow: hidden;
-	border: solid 2px #4980F5;
-	width: 260px;
-	height: 340px;
-	position: fixed;
-	bottom: 0%;
-	right: 205px;
+.chatWindow{
+    background-color:#fff;
+    float:right;
+    overflow:hidden;
+    border:solid 2px #4980f5;
+    width:260px;
+    height:340px;
+    position:fixed;
+    bottom:0;
+    right:205px
 }
-form { 
-	background: #4980F5; 
-	padding: .12em; 
-	bottom: -0.5%;
-	width: 100%;
-	position: relative;
+form{
+    background:#4980f5;
+    padding:.12em;
+    bottom:-.5%;
+    width:100%;
+    position:relative
 }
 .formMobile{
-	bottom: 1%;
+    bottom:1%
 }
-form input { 
-	padding: .1em; 
-	width: 100%; 
+form input{
+    padding:.1em;
+    width:100%
 }
 .inputMobile{
-	width: 90%;
+    width:90%
 }
 #sendButton{
-	margin: 1px;
-	padding: 4px;
-	border: 1px solid white;
-	color: white;
+    margin:1px;
+    padding:4px;
+    border:1px solid #fff;
+    color:#fff
 }
-.messages {
-	overflow: auto;
-	top: 0;
-	height: 288px;
-	margin: 0; 
-	padding: 0;
+.messages{
+    overflow:auto;
+    top:0;
+    height:288px;
+    margin:0;
+    padding:0
 }
-.infoMsg {
-	clear: both;
-	padding: 0.5em;
-	margin: 1em;
-	border-radius: 25px;
-    background: #F0EDE5;
-    color: black;
-    font-weight: bold;
-    width: 80%;
-    text-align: center;
-	margin: 0 auto;
-	margin-bottom: 5%;
+.infoMsg{
+    clear:both;
+    padding:.5em;
+    margin:1em;
+    border-radius:25px;
+    background:#f0ede5;
+    color:#000;
+    font-weight:700;
+    width:80%;
+    text-align:center;
+    margin:0 auto;
+    margin-bottom:5%
 }
-.sentCheck {
-    color: lightgrey;
-    text-align: center;
-    float: right;
-    margin-left: 0.5em;
+.sentCheck{
+    color:#d3d3d3;
+    text-align:center;
+    float:right;
+    margin-left:.5em
 }
-.receivedMessage {
-	clear: both;
-	padding: 0.5em;
-	margin: 0.2em;
-	margin-left: 0.5em;
-	border-radius: 15px;
-    background: #F0EDE5;
-    color: black;
-    max-width: 70%;
-    width: auto;
-    float: left;
-    text-align: left;
+.receivedMessage{
+    clear:both;
+    padding:.5em;
+    margin:.2em;
+    margin-left:.5em;
+    border-radius:15px;
+    background:#f0ede5;
+    color:#000;
+    max-width:70%;
+    width:auto;
+    float:left;
+    text-align:left
 }
-.sentMessage {
-	clear: both;
-	padding: 0.5em;
-	margin: 0.2em;
-	margin-right: 0.5em;
-	border-radius: 15px;
-    background: #4980F5;
-    color: white;
-    max-width: 70%;
-    width: auto;
-    float: right;
-    text-align: left;
+.sentMessage{
+    clear:both;
+    padding:.5em;
+    margin:.2em;
+    margin-right:.5em;
+    border-radius:15px;
+    background:#4980f5;
+    color:#fff;
+    max-width:70%;
+    width:auto;
+    float:right;
+    text-align:left
 }
-.chatWindowHeader {
-	cursor: pointer;
-	background-color: #4980F5;
-	color: white;
-	font-weight: bold;
-	font-size: 1em;
-	padding: 0.2em;
-	border-bottom: 1px solid #000;
+.chatWindowHeader{
+    cursor:pointer;
+    background-color:#4980f5;
+    color:#fff;
+    font-weight:700;
+    font-size:1em;
+    padding:.2em;
+    border-bottom:1px solid #000
 }
-.chatUserName {
-	cursor: text;
-	display: inline-block;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	width: auto;
-	max-width: 70%;
+.chatUserName{
+    cursor:text;
+    display:inline-block;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    width:auto;
+    max-width:70%
 }
-.chatCloseButton {
-	cursor: pointer;
-	float: right;
-	padding: 1px 10px 1px 10px;
+.chatCloseButton{
+    cursor:pointer;
+    float:right;
+    padding:1px 10px 1px 10px
 }
-.chatCloseButton:hover {
-    background-color: red;
+.chatCloseButton:hover{
+    background-color:red
 }
-.chatSettings {
-	cursor: pointer;
-	float: right;
-	padding: 2px 10px 1px 10px;
-	margin-right: 2px;
-	font-size: 1.1em;
+.chatSettings{
+    cursor:pointer;
+    float:right;
+    padding:2px 10px 1px 10px;
+    margin-right:2px;
+    font-size:1.1em
 }
-.chatSettings:hover {
-    background-color: #286dff;
+.chatSettings:hover{
+    background-color:#286dff
 }
 .settings{
-	margin-left: -7em;
-	white-space: nowrap;
-	position: absolute;
-	margin-top: 0.8em;
+    margin-left:-7em;
+    white-space:nowrap;
+    position:absolute;
+    margin-top:.8em
 }
-.settings p {
-	padding: 0.5em;
-	border: 1px solid black;
-	background-color: #fff;
-    color: #000;
+.settings p{
+    padding:.5em;
+    border:1px solid #000;
+    background-color:#fff;
+    color:#000
 }
-.settings p:hover {
-    background-color: #eee;
+.settings p:hover{
+    background-color:#eee
 }
-/*Contacts*/
-#contactsBox {
-	background-color: #f4f4f4;
-	float: right;
-	border: solid 2px #4980F4;
-	width: 200px;
-	height: 50%;
-	padding-left: 0px;
-	padding-top: 0px;
-	position: fixed;
-	right: 0;
-	bottom: 0%;
-	/*For search bar*/
-	padding-bottom: 4em;
+#contactsBox{
+    background-color:#f4f4f4;
+    float:right;
+    border:solid 2px #4980f4;
+    width:200px;
+    height:50%;
+    padding-left:0;
+    padding-top:0;
+    position:fixed;
+    right:0;
+    bottom:0;
+    padding-bottom:4em
 }
-.tab {
-	cursor: pointer;
-	background-color: #4980F4;
-	color: white;
-	font-weight: bold;
-	padding: .1em;
+.tab{
+    cursor:pointer;
+    background-color:#4980f4;
+    color:#fff;
+    font-weight:700;
+    padding:.1em
 }
-.tab:hover {
-	background-color: #286dff;
+.tab:hover{
+    background-color:#286dff
 }
-#tabs {
-	overflow: auto;
-	height: 100%;
+#tabs{
+    overflow:auto;
+    height:100%
 }
 #contactsList{
-	height: auto;
-	min-height: 3em;
+    height:auto;
+    min-height:3em
 }
 .contactsBoxMobile{
-	top:0%;
-	margin-top: 1em;
+    top:0;
+    margin-top:1em
 }
-#contactsHandle {
-	cursor: pointer;
-	background-color: #4980F4;
-	padding-bottom: .3em;
-	text-align: center;
-	color: #fff;
-	font-weight: bold;
+#contactsHandle{
+    cursor:pointer;
+    background-color:#4980f4;
+    padding-bottom:.3em;
+    text-align:center;
+    color:#fff;
+    font-weight:700
 }
 .contactsHandleMobile{
-	background-color: #286dff !important;
-	border: 1px solid black;
+    background-color:#286dff!important;
+    border:1px solid #000
 }
-#contactsHandle:hover {
-    background-color: #286dff;
+#contactsHandle:hover{
+    background-color:#286dff
 }
-#contactsSpan {
-	color: white;
-	font-weight: bold;
-	font-size: 1.1em;
-	padding: .1em;
+#contactsSpan{
+    color:#fff;
+    font-weight:700;
+    font-size:1.1em;
+    padding:.1em
 }
-#contactsBox li {
-	list-style-type: none;
-    margin: 0;
-    padding: 0;
+#contactsBox li{
+    list-style-type:none;
+    margin:0;
+    padding:0
 }
-#contactsBox li {
-	padding-left: 1em; 
-  	text-indent: -.7em;
-  	margin:.1em;
-  	cursor: pointer;
- 	background-color: #f4f4f4;
-  	color: black;
+#contactsBox li{
+    padding-left:1em;
+    text-indent:-.7em;
+    margin:.1em;
+    cursor:pointer;
+    background-color:#f4f4f4;
+    color:#000
 }
-#contactsBox li:hover {
-	background-color: #A7CDF2;
+#contactsBox li:hover{
+    background-color:#a7cdf2
 }
-#contactsBox li::before {
-	font-size: 2em;
-	content: "• ";
-  	color: green; /* Color of the dot */
-  	vertical-align: middle;  
+#contactsBox li::before{
+    font-size:2em;
+    content:"• ";
+    color:green;
+    vertical-align:middle
 }
-#contactsBox #offlineList li::before {
-  	color: grey; /* Color of the dot */
+#contactsBox #offlineList li::before{
+    color:grey
 }
-#searchField {
-	bottom: 5px;
-	/*position: absolute;*/
-	margin-left: 0.5em;
-	min-height: 1.5em;
+#searchField{
+    bottom:5px;
+    margin-left:.5em;
+    min-height:1.5em
 }
 .searchFieldMinimized{
-	position: relative;
+    position:relative
 }
 .unread{
-	color: red;
-	margin-left: 2em;
+    color:red;
+    margin-left:2em
 }
-/*Header*/
-#header {
-	background-color: #4980F4;
-	text-align: left;
-	padding: .5em;
-	padding-left: 4em;
-	width:100%;
+#header{
+    background-color:#4980f4;
+    text-align:left;
+    padding:.5em;
+    padding-left:4em;
+    width:100%
 }
-@media screen and (max-width: 800px) {
-	#header {
-		padding-left: 0em;
-	}
+@media screen and (max-width:800px){
+    #header{
+        padding-left:0
+    }
 }
-@media screen and (min-width: 790px) {
-	#logout {
-		float: right;
-	}
+@media screen and (min-width:790px){
+    #logout{
+        float:right
+    }
 }
-#header a, #langSelect a {
-	background-color: #4980F4;
-	color: white;
-	font-weight: bold;
-	font-size: 1em;
-	text-align: center;
-	margin-left: .2em;
+#header a,#langSelect a{
+    background-color:#4980f4;
+    color:#fff;
+    font-weight:700;
+    font-size:1em;
+    text-align:center;
+    margin-left:.2em
 }
-#logout {
-	background-color: #D9534F !important;
+#logout{
+    background-color:#d9534f!important
 }
-#langSelect {
-	position: absolute;
-	width: 97px;
-	background-color: #555;
-	border: 1px solid black;
-	z-index: 9999;
-	margin-top: 1%;
+#langSelect{
+    position:absolute;
+    width:97px;
+    background-color:#555;
+    border:1px solid #000;
+    z-index:9999;
+    margin-top:1%
 }
 #langSelect a{
-	margin: 0.3em;
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
+    margin:.3em;
+    margin-top:.5em;
+    margin-bottom:.5em
 }
-/*Mobile*/
-.headerMobileA {
-	margin: 0.5em;
-	margin-top: 1em;
-	border: 1px solid black;
-	display: block;
-} 
-.langSelectMobile {
-	margin-left: 86%;
-	margin-top: -15% !important;
+.headerMobileA{
+    margin:.5em;
+    margin-top:1em;
+    border:1px solid #000;
+    display:block
 }
-#menu, #menuButtons{
-	padding-left: 0.2em;
-	font-size: 2em;
-	color:white;
-	cursor: pointer;
-	z-index: 9998;
+.langSelectMobile{
+    margin-left:86%;
+    margin-top:-15%!important
+}
+#menu,#menuButtons{
+    padding-left:.2em;
+    font-size:2em;
+    color:#fff;
+    cursor:pointer;
+    z-index:9998
 }
 #menu{
-	padding: 0.1em 1em 0.5em 1em;
-	margin-bottom: 0.1em;
+    padding:.1em 1em .5em 1em;
+    margin-bottom:.1em
 }
 #headerButtons{
-	font-size: small;
+    font-size:small
 }
 .headerButtonsMobile{
-	background-color: #555;
-	border: 1px solid black;
+    background-color:#555;
+    border:1px solid #000
 }

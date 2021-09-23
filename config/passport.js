@@ -22,12 +22,13 @@ module.exports = function(passport) {
 	  },
 	  function(accessToken, refreshToken, profile, done) {
 	    	process.nextTick(function(){
-	    		User.findOne({"facebook.id": profile.id}, function(err, user){
-	    			if(err)
+					User.findOrCreate({"facebook.id": profile.id}, function(err, user){
+	    			if(err){
 	    				return done(err);
-	    			if(user)
-	    				return done(null, user);
-	    			else {
+	    			}
+	    			if(user){
+	    				done(null, user);
+	    			} else {
 	    				let newUser = new User();
 	    				newUser.facebook.id = profile.id;
 	    				newUser.facebook.token = accessToken;
@@ -37,8 +38,9 @@ module.exports = function(passport) {
 	    				newUser.lng = 0;
 
 	    				newUser.save(function(err){
-	    					if(err)
+	    					if(err){
 	    						throw err;
+	    					}
 	    					return done(null, newUser);
 	    				})
 	    			}
@@ -55,10 +57,12 @@ module.exports = function(passport) {
 	  function(accessToken, refreshToken, profile, done) {
 	    	process.nextTick(function(){
 	    		User.findOne({"google.id": profile.id}, function(err, user){
-	    			if(err)
+	    			if(err){
 	    				return done(err);
-	    			if(user)
+	    			}
+	    			if(user){
 	    				return done(null, user);
+	    			}
 	    			else {
 	    				let newUser = new User();
 	    				newUser.google.id = profile.id;
@@ -69,8 +73,9 @@ module.exports = function(passport) {
 	    				newUser.lng = 0;
 
 	    				newUser.save(function(err){
-	    					if(err)
+	    					if(err){
 	    						throw err;
+	    					}
 	    					return done(null, newUser);
 	    				})
 	    			}

@@ -12,7 +12,7 @@ My github: https://github.com/Metsuryu
   <meta name="author" content="Mario Cannistrà"/>
   <meta name="description" content="I Cecchini Del Mare - Geolocation-based social network for spearfishing"/>
   <meta name="keywords" content="I,Cecchini,Del,Mare,I Cecchini Del Mare,ICDM,spearfishing,pesca subacquea,pesca,subacquea,social network,social,network,diving,immersione,Italia,Italiano,chat,posizione,geolocazione,geolocalizzazione,geolocation,position,gps,node,friends,help,fucile,arpione,SCUBA,muta,sub,login"/>
-  <meta http-equiv="Cache-Control" content="max-age=300"/> 
+  <meta http-equiv="Cache-Control" content="max-age=300"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	<link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
@@ -36,12 +36,19 @@ My github: https://github.com/Metsuryu
 </div>
 </div>
 
-<div id="sky"></div>
+<div id="sky" class="skyAlert">
+
+<!-- <div class="alert alert-danger">
+  Login with Google is temporarily disabled while we investigate an issue.
+</div> -->
+
+</div>
+
 <div id="wavesHorizon"></div>
 <div id="underwater"></div>
 
 <div id="fishContainer">
-<img class="fish fishReverse mt5 aniB" src="/img/fishT.png" alt="fish"> 
+<img class="fish fishReverse mt5 aniB" src="/img/fishT.png" alt="fish">
 <img class="fish fish1 mt10 aniB fishReverse" src="/img/fishT.png" alt="fish">
 <img class="fish fish2 mt-15 aniA fishReverse" src="/img/fishT.png" alt="fish">
 <img class="fish fish1 mt15 fishReverse" src="/img/fishT.png" alt="fish">
@@ -70,15 +77,15 @@ My github: https://github.com/Metsuryu
   <img src="/img/logo.svg" alt="Logo" height="400px" width="400px">
 
     <h4 id="loginLabel">Login or Register with:</h4>
-    <a id="fbButton" href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span>acebook</a> 
+    <a id="fbButton" href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span>acebook</a>
     <a id="googleButton" href="/auth/google" class="btn btn-danger"><span class="fa fa-google"></span>oogle</a>
 
   </div>
 
-<div id="footer"> <a id="ppolLabel" href="/privacypolicy">Privacy policy</a> | <a id="tosLabel" href="/ToS">Terms of service</a></div>
+<div id="footer"> <a id="ppolLabel" href="/privacypolicy">Privacy policy</a> | <a id="tosLabel" href="/ToS">Terms of service</a> | v1.0.4</div>
 
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" 
-    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" 
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
     crossorigin="anonymous"></script>
 <script src="js/js.cookie.js"></script>
 <script src="js/mobileDetection.js"></script>

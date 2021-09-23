@@ -1,0 +1,20 @@
+https://github.com/mishoo/UglifyJS2
+
+	uglifyjs [input files] [options]
+
+
+https://www.npmjs.com/package/uglifyjs-folder
+
+	uglifyjs-folder outputbuild -o minified -e
+
+
+uglifyjs src/main.js -o new/main.js
+uglifyjs src/js.cookie.js -o new/js.cookie.js
+uglifyjs src/map.js -o new/map.js
+uglifyjs src/mobileDetection.js -o new/mobileDetection.js
+uglifyjs src/translationHome.js -o new/translationHome.js
+uglifyjs src/translationIndex.js -o new/translationIndex.js
+
+
+//Done ng-annotate -a main.js > main2.js before, to fix angular then:
+do    gulp compress   to automate it.

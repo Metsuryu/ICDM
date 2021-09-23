@@ -23,6 +23,7 @@ function toEn () {
 	$("#loginLabel").text("Login or Register with:");
 	$("#ppolLabel").text("Privacy policy");
 	$("#tosLabel").text("Terms of service");
+	$(".alert-danger").text("Login with Facebook is temporarily disabled while we investigate an issue.");
 }
 
 function toIt () {
@@ -48,6 +49,7 @@ function toIt () {
 	$("#loginLabel").text("Entra o Registrati con:");
 	$("#ppolLabel").text("Informativa sulla privacy");
 	$("#tosLabel").text("Termini e condizioni");
+	$(".alert-danger").text("Il login con Facebook è temporaneamente disattivato a causa di problemi.");
 }
 
 $(document).ready(function(){
